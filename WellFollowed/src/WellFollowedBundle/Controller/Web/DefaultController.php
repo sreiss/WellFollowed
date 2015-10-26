@@ -1,11 +1,12 @@
 <?php
 
-namespace WellFollowedBundle\Controller;
+namespace WellFollowedBundle\Controller\Web;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowedBundle\Base\BaseController;
+use WellFollowedBundle\Entity\User;
 
 class DefaultController extends BaseController
 {
@@ -14,7 +15,8 @@ class DefaultController extends BaseController
      */
     public function indexAction(Request $request)
     {
-        // replace this example code with whatever you need
-        return $this->render('@WellFollowed/default/index.html.twig');
+        return $this->render('@WellFollowed/default/index.html.twig', array(
+
+        ));
     }
 }

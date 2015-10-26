@@ -1,0 +1,45 @@
+{% extends '@WellFollowed/base.html.twig' %}
+
+{% block body %}
+<div class="row" data-wf-form>
+    <div class="col-md-4">
+    {{ form_start(userForm) }}
+        {{ form_row(userForm.login) }}
+    {{ form_end(userForm) }}
+    </div>
+</div>
+{% endblock %}
+
+
+{% block javascripts %}
+<script>
+    (function($) {
+        var wfForms = $('[data-wf-form]');
+
+        wfForms.each(function() {
+            var $form = $(this).find('form');
+
+            $form.on('submit', function (e) {
+                e.preventDefault();
+
+                var action = $form.attr('action');
+                var method = $form.attr('method');
+
+                var $inputs = $form.find('input,textarea');
+
+                var data = {};
+                $inputs.each(function(index, element) {
+                    var $element = $(element);
+                    data[$element.attr('name')] = $element.val();
+                });
+
+                debugger;
+
+                $.post(action, data, function(result) {
+                    debugger;
+                }, 'json');
+            });
+        });
+    })($);
+</script>
+{% endblock %}

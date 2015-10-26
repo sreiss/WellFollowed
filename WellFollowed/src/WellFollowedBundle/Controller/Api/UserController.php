@@ -6,7 +6,7 @@
  * Time: 22:31
  */
 
-namespace WellFollowedBundle\Controller;
+namespace WellFollowedBundle\Controller\Api;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -15,12 +15,16 @@ use WellFollowedBundle\Base\BaseController;
 
 class UserController extends BaseController {
     /**
-     * @Route("api/user", name="get_user")
+     * @Route("api/user", name="get_users")
      * @Method({"GET"})
      */
     public function getUser() {
+        $users = $this->getDoctrine()
+            ->getRepository('WellFollowedBundle:User')
+            ->findUsers();
+
         return $this->jsonResponse(array(
-           'ok' => 'ok'
+           'users' => $users
         ));
     }
 
@@ -30,6 +34,7 @@ class UserController extends BaseController {
      */
     public function addUser(Request $request) {
         $body = $this->jsonRequest($request);
+
         return $this->jsonResponse($body);
     }
 

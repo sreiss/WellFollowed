@@ -23,6 +23,7 @@ class BaseController extends Controller {
      * @return array Un tableau associatif contenant la version déserialisée du corps de la requête.
      */
     public function jsonRequest(Request $request) {
+        $body = $request->getContent();
         return json_decode($request->getContent());
     }
 }

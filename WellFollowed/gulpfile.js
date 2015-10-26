@@ -16,7 +16,7 @@ var bundlesRoot = "src";
 var bundles = {
     "WellFollowedBundle": {
         "js": {
-            "src": "Resources/src/js/**.js",
+            "src": "Resources/src/js/**/*.js",
             "dest": "Resources/public/js",
             "fileName": "app.min.js"
         },
@@ -94,7 +94,7 @@ gulp.task('bower', ['cleanLib'], function() {
 
         gulp.src(bowerFiles())
             .pipe(jsFilter)
-            .pipe(uglify())
+            //.pipe(uglify())
             .pipe(concat(bowerResouces.js.fileName))
             .pipe(gulp.dest(jsPath))
             .pipe(jsFilter.restore)
