@@ -10,10 +10,27 @@ namespace WellFollowedBundle\Entity;
  */
 class EventRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findEvents($criteria = null) {
-        if (!is_null($criteria)) {
-            return $this->findBy($criteria);
+    public function findEvents($filter = null) {
+        if (!is_null($filter)) {
+            return $this->findBy($filter);
         }
         return $this->findAll();
+    }
+
+    public function createEvent(\StdClass $data) {
+        $event = new Event();
+
+        $event->setDescription($data->description);
+        $event->setEndDate($data->endDate);
+        $event->setName($data->name);
+        $event->setStartDate($data->startDate);
+        $event->setUser($data->user);
+
+        $entityManager = $this->getEntityManager();
+
+        $entityManager->persist($event);
+        $entityManager->flush();
+
+        return $event;
     }
 }

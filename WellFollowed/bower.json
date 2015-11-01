@@ -15,6 +15,40 @@
   "dependencies": {
     "jquery": "~2.1.4",
     "bootstrap": "~3.3.5",
-    "fullcalendar": "~2.4.0"
+    "fullcalendar": "~2.4.0",
+    "angular": "~1.4.7",
+    "angular-route": "~1.4.7",
+    "angular-ui-calendar": "~1.0.1",
+    "angular-ui-bootstrap": "~0.14.3",
+    "d3": "~3.5.6",
+    "moment": "~2.10.6",
+    "angular-local-storage": "~0.2.3"
+  },
+  "overrides": {
+    "bootstrap": {
+      "main": [
+        "less/bootstrap.less",
+        "dist/css/bootstrap-theme.css",
+        "dist/js/bootstrap.js"
+      ]
+    },
+    "angular-ui-bootstrap": {
+      "main": [
+        "src/modal/modal.js",
+        "src/stackedMap/stackedMap.js",
+        "template/modal/**.html"
+      ]
+    },
+    "angular-ui-calendar": {
+      "main": [
+        "src/calendar.js"
+      ]
+    },
+    "fullcalendar": {
+      "main": [
+        "dist/fullcalendar.js",
+        "dist/fullcalendar.css"
+      ]
+    }
   }
 }

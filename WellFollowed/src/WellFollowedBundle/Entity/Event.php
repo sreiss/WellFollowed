@@ -38,16 +38,16 @@ class Event
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="start_date", type="datetime")
+     * @ORM\Column(name="start", type="datetime")
      */
-    private $startDate;
+    private $start;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="end_date", type="datetime")
+     * @ORM\Column(name="end", type="datetime")
      */
-    private $endDate;
+    private $end;
 
     /**
      * @var WellFollowedBundle\Entity\User

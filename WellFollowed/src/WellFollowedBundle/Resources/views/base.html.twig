@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="wellFollowed">
 <head>
     <meta charset="UTF-8" />
     <title>{% block title %}Welcome!{% endblock %}</title>
@@ -11,13 +11,16 @@
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
 </head>
 <body>
-    <div class="container">
+    {#
     {% block navbar %}
         {%  include '@WellFollowed/menu/main-menu.html.twig' %}
     {% endblock %}
-    {% block body %}{% endblock %}
-    </div>
+    #}
+    <wf-app></wf-app>
     <script src="bundles/wellfollowed/lib/js/lib.min.js"></script>
+    <script src="bundles/wellfollowed/js/scripts.min.js"></script>
+    <script src="bundles/wellfollowed/lib/js/templates.js"></script>
+    <script src="bundles/wellfollowed/js/templates.js"></script>
     <script src="bundles/wellfollowed/js/app.min.js"></script>
     {% block javascripts %}{% endblock %}
 </body>

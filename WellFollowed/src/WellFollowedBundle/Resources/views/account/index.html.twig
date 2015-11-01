@@ -33,10 +33,9 @@
                     data[$element.attr('name')] = $element.val();
                 });
 
-                debugger;
-
+                data = JSON.stringify(data);
                 $.post(action, data, function(result) {
-                    debugger;
+
                 }, 'json');
             });
         });

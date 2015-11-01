@@ -8,6 +8,8 @@ var gulp = require('gulp'),
     minify = require('gulp-minify-css'),
     uglify = require('gulp-uglify'),
     bowerFiles = require('main-bower-files'),
+    ngAnnotate = require('gulp-ng-annotate'),
+    templateCache = require('gulp-angular-templatecache'),
     shell = require('gulp-shell'),
     es = require('event-stream');
 
@@ -18,12 +20,23 @@ var bundles = {
         "js": {
             "src": "Resources/src/js/**/*.js",
             "dest": "Resources/public/js",
-            "fileName": "app.min.js"
+            "fileName": "scripts.min.js"
         },
         "less": {
             "src": "Resources/src/less/**.less",
             "dest": "Resources/public/css",
             "fileName": "app.min.css"
+        },
+        "appTemplates": {
+            "src": "Resources/src/app/**/*.html",
+            "dest": "Resources/public/js",
+            "module": "wfTemplates",
+            "standalone": true
+        },
+        "appJs": {
+            "src": ["Resources/src/app/**/*.js", "Resources/src/app/**.js"],
+            "dest": "Resources/public/js",
+            "fileName": "app.min.js"
         }
     }
 };
@@ -37,11 +50,23 @@ var bowerConfig = {
         "css": {
             "dest": "Resources/public/lib/css",
             "fileName": "lib.min.css"
+        },
+        "templates": {
+            "dest": "Resources/public/lib/js",
+            "module": "wfLibTemplates",
+            "standalone": true
         }
     }
 };
 
 var getPath = function(bundleName, directory) {
+    if (Array.isArray(directory)) {
+        var srcs = [];
+        directory.forEach(function(dir) {
+            srcs.push(path.join(bundlesRoot, bundleName, dir));
+        });
+        return srcs;
+    }
     return path.join(bundlesRoot, bundleName, directory);
 };
 
@@ -51,6 +76,14 @@ var getJsFilter = function() {
 
 var getLessFilter = function() {
     return filter('**.less', {restore: true});
+};
+
+var getCssFilter = function() {
+    return filter('**.css', {restore: true});
+};
+
+var getHtmlFilter = function () {
+    return filter('**.html', {restore: true});
 };
 
 gulp.task('clean', function() {
@@ -91,19 +124,36 @@ gulp.task('bower', ['cleanLib'], function() {
 
         var jsFilter = getJsFilter();
         var lessFilter = getLessFilter();
+        var cssFilter = getCssFilter();
+        var htmlFilter = getHtmlFilter();
 
-        gulp.src(bowerFiles())
+        return gulp.src(bowerFiles())
             .pipe(jsFilter)
+            .pipe(print())
             //.pipe(uglify())
             .pipe(concat(bowerResouces.js.fileName))
             .pipe(gulp.dest(jsPath))
             .pipe(jsFilter.restore)
             .pipe(lessFilter)
+            .pipe(print())
             .pipe(less())
             .pipe(minify())
             .pipe(concat(bowerResouces.css.fileName))
+            .pipe(lessFilter.restore)
+            .pipe(cssFilter)
+            .pipe(print())
+            .pipe(minify())
+            .pipe(concat(bowerResouces.css.fileName))
             .pipe(gulp.dest(cssPath))
-            .pipe(lessFilter.restore);
+            .pipe(cssFilter.restore)
+            .pipe(htmlFilter)
+            .pipe(print())
+            .pipe(templateCache({
+                module: bowerResouces.templates.module,
+                standalone: bowerResouces.templates.standalone
+            }))
+            .pipe(gulp.dest(jsPath))
+            .pipe(htmlFilter.restore);
     }
 });
 
@@ -119,23 +169,45 @@ gulp.task('resources', ['clean'], function() {
                 var destPath = getPath(bundleName, options.dest);
 
                 var jsFilter = getJsFilter();
+                var htmlFilter = getHtmlFilter();
                 var lessFilter = getLessFilter();
 
-                stream = gulp.src(srcPath)
-                    .pipe(print())
-                    .pipe(jsFilter)
-                    .pipe(uglify())
-                    .pipe(jsFilter.restore)
-                    .pipe(lessFilter)
-                    .pipe(less())
-                    .pipe(minify())
-                    .pipe(lessFilter.restore)
-                    .pipe(concat(options.fileName))
-                    .pipe(gulp.dest(destPath));
+                if (resourceType == 'appJs') {
+                    stream = gulp.src(srcPath)
+                        .pipe(print())
+                        .pipe(jsFilter)
+                        .pipe(ngAnnotate())
+                        .pipe(jsFilter.restore)
+                        .pipe(concat(options.fileName))
+                        .pipe(gulp.dest(destPath));
+                } else if (resourceType == 'appTemplates') {
+                    stream = gulp.src(srcPath)
+                        .pipe(print())
+                        .pipe(templateCache({
+                            module: options.module,
+                            standalone: options.standalone
+                        }))
+                        .pipe(gulp.dest(destPath));
+                } else {
+                    stream = gulp.src(srcPath)
+                        .pipe(print())
+                        .pipe(jsFilter)
+                        //.pipe(uglify())
+                        .pipe(jsFilter.restore)
+                        .pipe(lessFilter)
+                        .pipe(less())
+                        .pipe(minify())
+                        .pipe(lessFilter.restore)
+                        .pipe(concat(options.fileName))
+                        .pipe(gulp.dest(destPath));
+                }
             }
         }
     }
+    return;
 });
+
+gulp.task('bowerAssetic', ['bower'], shell.task('php app/console assets:install'));
 
 gulp.task('assetic', ['resources'], shell.task('php app/console assets:install'));
 
