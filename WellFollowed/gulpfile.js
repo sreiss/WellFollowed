@@ -54,7 +54,13 @@ var bowerConfig = {
         "templates": {
             "dest": "Resources/public/lib/js",
             "module": "wfLibTemplates",
-            "standalone": true
+            "standalone": true,
+            "transformUrl": function(url) {
+                return "template/" + url;
+            },
+            "filePaths": [
+                "bower_components/angular-ui-bootstrap/template/**/*.html"
+            ]
         }
     }
 };
@@ -127,6 +133,16 @@ gulp.task('bower', ['cleanLib'], function() {
         var cssFilter = getCssFilter();
         var htmlFilter = getHtmlFilter();
 
+        gulp.src(bowerResouces.templates.filePaths)
+            .pipe(print())
+            .pipe(templateCache({
+                module: bowerResouces.templates.module,
+                standalone: bowerResouces.templates.standalone,
+                transformUrl: bowerResouces.templates.transformUrl
+                //templateBody: bowerResouces.templates.templateBody
+            }))
+            .pipe(gulp.dest(jsPath));
+
         return gulp.src(bowerFiles())
             .pipe(jsFilter)
             .pipe(print())
@@ -145,15 +161,7 @@ gulp.task('bower', ['cleanLib'], function() {
             .pipe(minify())
             .pipe(concat(bowerResouces.css.fileName))
             .pipe(gulp.dest(cssPath))
-            .pipe(cssFilter.restore)
-            .pipe(htmlFilter)
-            .pipe(print())
-            .pipe(templateCache({
-                module: bowerResouces.templates.module,
-                standalone: bowerResouces.templates.standalone
-            }))
-            .pipe(gulp.dest(jsPath))
-            .pipe(htmlFilter.restore);
+            .pipe(cssFilter.restore);
     }
 });
 

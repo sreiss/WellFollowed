@@ -35,8 +35,7 @@
     "angular-ui-bootstrap": {
       "main": [
         "src/modal/modal.js",
-        "src/stackedMap/stackedMap.js",
-        "template/modal/**.html"
+        "src/stackedMap/stackedMap.js"
       ]
     },
     "angular-ui-calendar": {

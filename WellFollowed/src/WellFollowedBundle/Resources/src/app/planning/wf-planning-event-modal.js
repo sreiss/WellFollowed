@@ -1,6 +1,6 @@
 angular.module('wellFollowed').directive('wfPlanningEventModal', function() {
    return {
        restrict: 'E',
-       template: 'planning/wf-planning-event-modal.html'
+       templateUrl: 'planning/wf-planning-event-modal.html'
    }
 });
