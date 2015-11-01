@@ -3,12 +3,14 @@
 namespace WellFollowedBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation as JMS;
 
 /**
  * Event
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="WellFollowedBundle\Entity\EventRepository")
+ * @JMS\ExclusionPolicy("none")
  */
 class Event
 {
@@ -31,7 +33,7 @@ class Event
     /**
      * @var string
      *
-     * @ORM\Column(name="description", type="text")
+     * @ORM\Column(name="description", type="text", nullable=true)
      */
     private $description;
 
@@ -119,51 +121,51 @@ class Event
     }
 
     /**
-     * Set startDate
+     * Set start
      *
-     * @param \DateTime $startDate
+     * @param \DateTime $start
      *
      * @return Event
      */
-    public function setStartDate($startDate)
+    public function setStart($start)
     {
-        $this->startDate = $startDate;
+        $this->start = $start;
 
         return $this;
     }
 
     /**
-     * Get startDate
+     * Get start
      *
      * @return \DateTime
      */
     public function getStartDate()
     {
-        return $this->startDate;
+        return $this->start;
     }
 
     /**
-     * Set endDate
+     * Set end
      *
-     * @param \DateTime $endDate
+     * @param \DateTime $end
      *
      * @return Event
      */
-    public function setEndDate($endDate)
+    public function setEnd($end)
     {
-        $this->endDate = $endDate;
+        $this->end = $end;
 
         return $this;
     }
 
     /**
-     * Get endDate
+     * Get end
      *
      * @return \DateTime
      */
-    public function getEndDate()
+    public function getEnd()
     {
-        return $this->endDate;
+        return $this->end;
     }
 
     /**

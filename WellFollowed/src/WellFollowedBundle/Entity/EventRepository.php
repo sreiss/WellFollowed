@@ -1,6 +1,7 @@
 <?php
 
 namespace WellFollowedBundle\Entity;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
  * EventRepository
@@ -17,16 +18,12 @@ class EventRepository extends \Doctrine\ORM\EntityRepository
         return $this->findAll();
     }
 
-    public function createEvent(\StdClass $data) {
-        $event = new Event();
-
-        $event->setDescription($data->description);
-        $event->setEndDate($data->endDate);
-        $event->setName($data->name);
-        $event->setStartDate($data->startDate);
-        $event->setUser($data->user);
-
+    public function createEvent(Event $event) {
         $entityManager = $this->getEntityManager();
+
+        $event->setStart(new \DateTime());
+        $event->setEnd(new \DateTime());
+        $event->setName("ok");
 
         $entityManager->persist($event);
         $entityManager->flush();

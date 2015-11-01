@@ -1,4 +1,4 @@
-angular.module('wellFollowed', ['ngRoute', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal']).config(function($routeProvider) {
+angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal']).config(function($routeProvider) {
 
     // Enregistrement des routes de l'application.
     // Si un attribut "name" est renseigné, l'élément sera ajouté automatiquement au menu.
@@ -21,6 +21,7 @@ angular.module('wellFollowed', ['ngRoute', 'wfTemplates', 'wfLibTemplates', 'ui.
         });
 
 })
-.run(function($wfAuth) {
+.run(function($wfAuth, $rootScope, wfCrudTypes) {
+    $rootScope.wfCrudTypes = wfCrudTypes;
     $wfAuth.fillAuthData();
 });

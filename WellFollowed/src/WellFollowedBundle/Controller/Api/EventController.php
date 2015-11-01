@@ -25,9 +25,7 @@ class EventController extends BaseController
             ->getRepository('WellFollowedBundle:Event')
             ->findEvents();
 
-        return $this->jsonResponse(array(
-            'events' => $events
-        ));
+        return $this->jsonResponse($events);
     }
 
     /**
@@ -38,7 +36,7 @@ class EventController extends BaseController
     {
         $event = $this->getDoctrine()
             ->getRepository('WellFollowedBundle:Event')
-            ->createEvent($this->jsonRequest($request));
+            ->createEvent($this->jsonRequest($request, 'WellFollowedBundle\Entity\Event'));
 
         return $this->jsonResponse(array(
             'events' => $event

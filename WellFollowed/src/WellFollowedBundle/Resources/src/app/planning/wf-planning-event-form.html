@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-6">
+        <div class="form-group has-feedback" ng-class="{'has-error': eventForm.start.$invalid}">
+            <label class="control-label">Date de début</label>
+            <input type="datetime-local" class="form-control"
+                   name="start" ng-model="event.start"
+                   ng-disabled="readOnly"
+                   required>
+            <div class="red form-error-message" ng-messages="eventForm.start.$error">
+                <span ng-message="required">Ce champ est requis</span>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group has-feedback" ng-class="{'has-error': eventForm.end.$invalid}">
+            <label class="control-label">Date de fin</label>
+            <input type="datetime-local" class="form-control"
+                   name="end" ng-model="event.end"
+                   ng-disabled="readOnly"
+                   required>
+            <div class="red form-error-message" ng-messages="eventForm.end.$error">
+                <span ng-message="required">Ce champ est requis</span>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-12">
+        <div class="form-group">
+            <label class="control-label">Description (Facultatif)</label>
+                <textarea class="form-control" ng-model="event.description"
+                          ng-disabled="readOnly">
+
+                </textarea>
+        </div>
+    </div>
+</div>

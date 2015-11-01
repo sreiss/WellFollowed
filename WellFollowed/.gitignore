@@ -10,5 +10,6 @@
 /vendor/
 /web/bundles/
 /src/*/Resources/dist
+/src/*/Resources/public
 /bower_components/
 /node_modules/
