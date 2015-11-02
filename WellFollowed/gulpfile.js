@@ -61,6 +61,9 @@ var bowerConfig = {
             "filePaths": [
                 "bower_components/angular-ui-bootstrap/template/**/*.html"
             ]
+        },
+        "fonts": {
+            "dest": "/Resources/public/lib/fonts"
         }
     }
 };
@@ -90,6 +93,10 @@ var getCssFilter = function() {
 
 var getHtmlFilter = function () {
     return filter('**.html', {restore: true});
+};
+
+var getFontFilter = function () {
+    return filter('**.{eot,svg,ttf,woff,woff2}', {restore: true});
 };
 
 gulp.task('clean', function() {
@@ -127,11 +134,12 @@ gulp.task('bower', ['cleanLib'], function() {
 
         var jsPath = getPath(bundleName, bowerResouces.js.dest);
         var cssPath = getPath(bundleName, bowerResouces.css.dest);
+        var fontPath = getPath(bundleName, bowerResouces.fonts.dest);
 
         var jsFilter = getJsFilter();
         var lessFilter = getLessFilter();
         var cssFilter = getCssFilter();
-        var htmlFilter = getHtmlFilter();
+        var fontFilter = getFontFilter();
 
         gulp.src(bowerResouces.templates.filePaths)
             .pipe(print())
@@ -161,7 +169,11 @@ gulp.task('bower', ['cleanLib'], function() {
             .pipe(minify())
             .pipe(concat(bowerResouces.css.fileName))
             .pipe(gulp.dest(cssPath))
-            .pipe(cssFilter.restore);
+            .pipe(cssFilter.restore)
+            .pipe(fontFilter)
+            .pipe(print())
+            .pipe(gulp.dest(fontPath))
+            .pipe(fontFilter.restore);
     }
 });
 
