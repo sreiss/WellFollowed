@@ -166,10 +166,10 @@ gulp.task('bower', ['cleanLib'], function() {
 });
 
 gulp.task('resources', ['clean'], function() {
+    var stream;
     for (var bundleName in bundles) {
         var resources = bundles[bundleName];
         for (var resourceType in resources) {
-            var stream;
             var options = resources[resourceType];
 
             if (!!options.src && !!options.dest) {
@@ -212,7 +212,7 @@ gulp.task('resources', ['clean'], function() {
             }
         }
     }
-    return;
+    return stream;
 });
 
 gulp.task('bowerAssetic', ['bower'], shell.task('php app/console assets:install'));
