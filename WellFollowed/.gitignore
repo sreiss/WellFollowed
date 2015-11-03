@@ -17,3 +17,7 @@ bower_components/
 node_modules/
 composer.lock
 npm-debug.log
+start.sh
+stop.sh
+kill.sh
+go.sh
