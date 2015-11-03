@@ -17,7 +17,7 @@ angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTe
             name: 'Compte'
         })
         .otherwise({
-            redirectTo: '/'
+            redirectTo: '/sensor'
         });
 
 })

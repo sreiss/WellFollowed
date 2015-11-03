@@ -9,6 +9,7 @@ angular.module('wellFollowed').directive('wfPlanningEventModal', function($wfEve
         },
         link: function(scope, element, attributes) {
 
+            debugger;
             scope.event = scope.data.event || {};
 
             scope.createEvent = function() {

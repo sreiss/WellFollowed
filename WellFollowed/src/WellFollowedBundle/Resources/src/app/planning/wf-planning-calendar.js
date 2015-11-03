@@ -20,6 +20,11 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
 
             $scope.uiConfig = {
                 calendar: {
+                    header: {
+                        left: 'prev,next today',
+                        center: 'title',
+                        right: 'month,agendaWeek,agendaDay'
+                    },
                     lang: 'fr',
                     dayClick: function(date, jsEvent, view) {
                         $wfModal.open(angular.extend(commonModalOptions, {

@@ -26,13 +26,6 @@
     "angular-messages": "~1.4.7"
   },
   "overrides": {
-    "bootstrap": {
-      "main": [
-        "less/bootstrap.less",
-        "dist/css/bootstrap-theme.css",
-        "dist/js/bootstrap.js"
-      ]
-    },
     "angular-ui-bootstrap": {
       "main": [
         "src/modal/modal.js",
@@ -48,6 +41,18 @@
       "main": [
         "dist/fullcalendar.js",
         "dist/fullcalendar.css"
+      ]
+    },
+    "bootstrap":{
+      "main": [
+        "less/bootstrap.less",
+        "dist/js/bootstrap.js",
+        "dist/css/bootstrap-theme.css",
+        "fonts/glyphicons-halflings-regular.eot",
+        "fonts/glyphicons-halflings-regular.svg",
+        "fonts/glyphicons-halflings-regular.ttf",
+        "fonts/glyphicons-halflings-regular.woff",
+        "fonts/glyphicons-halflings-regular.woff2"
       ]
     }
   }
