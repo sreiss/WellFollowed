@@ -1,4 +1,4 @@
-angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal']).config(function($routeProvider, $httpProvider) {
+angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal', 'angular-loading-bar']).config(function($routeProvider, $httpProvider, cfpLoadingBarProvider) {
 
     var formatDate = function(data) {
         if (!!data) {
@@ -37,6 +37,7 @@ angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTe
             redirectTo: '/sensor'
         });
 
+    cfpLoadingBarProvider.includeSpinner = false;
 })
 .run(function($wfAuth, $rootScope, wfCrudTypes) {
     $rootScope.wfCrudTypes = wfCrudTypes;
