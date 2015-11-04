@@ -23,7 +23,7 @@ angular.module('wellFollowed').factory('$wfModal', function($uibModal) {
                 };
 
             },
-            template: '<' + options.directiveName + ' close="close()" cancel="cancel()" data="data"></' + options.directiveName + '>',
+            template: '<' + options.directiveName + ' close="close" cancel="cancel()" data="data"></' + options.directiveName + '>',
             size: 'modal-lg'
         });
 

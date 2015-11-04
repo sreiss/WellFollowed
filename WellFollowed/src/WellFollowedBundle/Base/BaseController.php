@@ -27,6 +27,7 @@ class BaseController extends Controller {
      */
     public function jsonRequest(Request $request, $entity) {
         $body = $request->getContent();
+
         //$object = json_decode($request->getContent());
 
         $serializer = $this->get('jms_serializer');

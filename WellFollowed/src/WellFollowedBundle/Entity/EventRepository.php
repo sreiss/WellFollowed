@@ -11,9 +11,21 @@ use Symfony\Component\Validator\Constraints\DateTime;
  */
 class EventRepository extends \Doctrine\ORM\EntityRepository
 {
-    public function findEvents($filter = null) {
+    public function findEvents(array $filter = null) {
         if (!is_null($filter)) {
-            return $this->findBy($filter);
+            $qb = $this->createQueryBuilder('e');
+
+            // We take into account the end of the first event matched and the end of the last one
+            // in order to be consistent.
+            if (!is_null($filter['start']))
+                $qb->andWhere('e.end > :start')
+                    ->setParameter('start', $filter['start']);
+            if (!is_null($filter['end']))
+                $qb->andWhere('e.end < :end')
+                    ->setParameter('end', $filter['end']);
+
+            return $qb->getQuery()
+                ->getResult();
         }
         return $this->findAll();
     }
@@ -21,9 +33,9 @@ class EventRepository extends \Doctrine\ORM\EntityRepository
     public function createEvent(Event $event) {
         $entityManager = $this->getEntityManager();
 
-        $event->setStart(new \DateTime());
-        $event->setEnd(new \DateTime());
-        $event->setName("ok");
+        //$event->setStart(new \DateTime());
+        //$event->setEnd(new \DateTime());
+        //$event->setName("ok");
 
         $entityManager->persist($event);
         $entityManager->flush();

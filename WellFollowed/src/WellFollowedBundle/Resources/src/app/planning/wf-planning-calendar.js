@@ -6,12 +6,17 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
 
             $scope.events = [];
 
-            $wfEvent.getEvents()
-                .then(function(result) {
-                    angular.merge($scope.events, result.data);
-                });
+            $scope.eventsF = function (start, end, timezone, callback) {
+                var filter = {
+                    start: start.toDate(),
+                    end: end.toDate()
+                };
 
-            $scope.eventSources = [$scope.events];
+                $wfEvent.getEvents(filter)
+                    .then(function (result) {
+                        callback(result.data);
+                    });
+            };
 
             var commonModalOptions = {
                 scope: $scope,
@@ -28,27 +33,40 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
                     lang: 'fr',
                     dayClick: function(date, jsEvent, view) {
                         $wfModal.open(angular.extend(commonModalOptions, {
-                            data: {
-                                date: date,
-                                jsEvent: jsEvent,
-                                view: view,
-                                type: wfCrudTypes.create
-                            }
-                        }));
+                                data: {
+                                    event: {
+                                        start: date,
+                                        end: date.add(2, 'hour'),
+                                        title: 'Réservation'
+                                    },
+                                    jsEvent: jsEvent,
+                                    view: view,
+                                    type: wfCrudTypes.create
+                                }
+                            }))
+                            .then(function(event) {
+                                $scope.events.push(event);
+                            });
                     },
                     eventClick: function(event, jsEvent, view) {
                         $wfModal.open(angular.extend(commonModalOptions, {
                             data: {
+                                event: {
+                                    start: event.start,
+                                    end: event.start.add(2, 'hour'),
+                                    title: event.title
+                                },
                                 jsEvent: jsEvent,
                                 view: view,
-                                event: event,
-                                type: wfCrudTypes.read
+                                type: wfCrudTypes.read,
+                                title: 'Réservation'
                             }
                         }));
                     }
                 }
             };
 
+            $scope.eventSources = [$scope.eventsF, $scope.events];
         }
     };
 });

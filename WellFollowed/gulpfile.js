@@ -231,7 +231,7 @@ gulp.task('bowerAssetic', ['bower'], shell.task('php app/console assets:install'
 
 gulp.task('assetic', ['resources'], shell.task('php app/console assets:install'));
 
-gulp.task('default', ['resources'], function() {
+gulp.task('default', ['assetic'], function() {
     for (var bundleName in bundles) {
         var resources = bundles[bundleName];
         for (var resourceType in resources) {

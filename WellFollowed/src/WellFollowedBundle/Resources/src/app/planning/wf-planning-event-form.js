@@ -10,7 +10,6 @@ angular.module('wellFollowed').directive('wfPlanningEventForm', function() {
         require: '^form',
         link: function(scope, element, attributes, form) {
 
-            debugger;
             scope.readOnly = scope.readOnly || false;
 
         }

@@ -21,9 +21,15 @@ class EventController extends BaseController
      */
     public function getEvents(Request $request)
     {
+        $filter = [];
+        if (!is_null($start = $request->query->get('start')))
+            $filter['start'] = new \DateTime($start);
+        if (!is_null($end = $request->query->get('end')))
+            $filter['end'] = new \DateTime($end);
+
         $events = $this->getDoctrine()
             ->getRepository('WellFollowedBundle:Event')
-            ->findEvents();
+            ->findEvents($filter);
 
         return $this->jsonResponse($events);
     }
@@ -38,9 +44,7 @@ class EventController extends BaseController
             ->getRepository('WellFollowedBundle:Event')
             ->createEvent($this->jsonRequest($request, 'WellFollowedBundle\Entity\Event'));
 
-        return $this->jsonResponse(array(
-            'events' => $event
-        ));
+        return $this->jsonResponse($event);
     }
 
 }

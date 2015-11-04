@@ -3,7 +3,7 @@ angular.module('wellFollowed').factory('$wfEvent', function($http, wfAuthSetting
     var _baseUrl = wfAuthSettings.apiUrl + '/api/event';
 
     var _getEvents = function(filter) {
-        return $http.get(_baseUrl, { param: filter });
+        return $http.get(_baseUrl, { params: filter });
     };
 
     var _createEvent = function(event) {

@@ -1,4 +1,21 @@
-angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal']).config(function($routeProvider) {
+angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal']).config(function($routeProvider, $httpProvider) {
+
+    var formatDate = function(data) {
+        if (!!data) {
+            for (var key in data) {
+                if (data[key] instanceof Date)
+                    data[key] = moment(data[key]);
+
+                if (!!data[key].format)
+                    data[key] = data[key].format('YYYY-MM-DD[T]HH:mm:ssZZ');
+                else if (typeof data[key] === 'object')
+                    formatDate(data[key]);
+            }
+        }
+        return data;
+    };
+
+    $httpProvider.defaults.transformRequest.unshift(formatDate);
 
     // Enregistrement des routes de l'application.
     // Si un attribut "name" est renseigné, l'élément sera ajouté automatiquement au menu.
