@@ -47,4 +47,15 @@ class EventController extends BaseController
         return $this->jsonResponse($event);
     }
 
+    /**
+     * @Route("/api/event/{id}", name="delete_event", requirements={"id" = "\d+"}))
+     * @Method({"DELETE"})
+     */
+    public function deleteEvent(Request $request, $id) {
+        $this->getDoctrine()
+            ->getRepository('WellFollowedBundle:Event')
+            ->deleteEvent($id);
+
+        return $this->jsonResponse($id);
+    }
 }

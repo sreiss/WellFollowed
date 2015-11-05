@@ -2,17 +2,22 @@ angular.module('wellFollowed').factory('$wfEvent', function($http, wfAuthSetting
 
     var _baseUrl = wfAuthSettings.apiUrl + '/api/event';
 
-    var _getEvents = function(filter) {
-        return $http.get(_baseUrl, { params: filter });
-    };
-
     var _createEvent = function(event) {
         return $http.post(_baseUrl, event);
     };
 
+    var _getEvents = function(filter) {
+        return $http.get(_baseUrl, { params: filter });
+    };
+
+    var _deleteEvent = function(id) {
+        return $http.delete(_baseUrl + '/' + id);
+    };
+
     return {
         getEvents: _getEvents,
-        createEvent: _createEvent
+        createEvent: _createEvent,
+        deleteEvent: _deleteEvent
     };
 
 });

@@ -11,7 +11,7 @@ use Symfony\Component\Serializer\Serializer;
 
 class BaseController extends Controller {
     /**
-     * @param array $data Un tableau associatif représentant l'objet à sérialiser.
+     * @param mixed $data Un tableau associatif représentant l'objet à sérialiser.
      * @return JsonResponse @see JsonResponse
      * @throws \Exception
      */

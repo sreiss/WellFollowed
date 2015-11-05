@@ -1,6 +1,7 @@
 <?php
 
 namespace WellFollowedBundle\Entity;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Validator\Constraints\DateTime;
 
 /**
@@ -31,15 +32,28 @@ class EventRepository extends \Doctrine\ORM\EntityRepository
     }
 
     public function createEvent(Event $event) {
-        $entityManager = $this->getEntityManager();
+        $em = $this->getEntityManager();
 
-        //$event->setStart(new \DateTime());
-        //$event->setEnd(new \DateTime());
-        //$event->setName("ok");
-
-        $entityManager->persist($event);
-        $entityManager->flush();
+        $em->persist($event);
+        $em->flush();
 
         return $event;
+    }
+
+    public function deleteEvent($id) {
+        $id = (int) $id;
+
+        if ($id > 0) {
+            $qb = $this->createQueryBuilder('e');
+
+            $qb->delete('WellFollowedBundle\Entity\Event', 'e')
+                ->where('e.id = :id')
+                ->setParameter('id', $id);
+
+            return $qb->getQuery()
+                ->execute();
+        }
+
+        throw new NotFoundHttpException();
     }
 }

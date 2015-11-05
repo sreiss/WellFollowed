@@ -1,4 +1,4 @@
-angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent, $wfModal, wfCrudTypes) {
+angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent, $wfModal, wfCrudTypes, uiCalendarConfig) {
     return {
         restrict: 'E',
         templateUrl: 'planning/wf-planning-calendar.html',
@@ -14,7 +14,10 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
 
                 $wfEvent.getEvents(filter)
                     .then(function (result) {
-                        callback(result.data);
+                        angular.merge($scope.events, result.data);
+                        uiCalendarConfig.calendars
+                            .eventsCalendar
+                            .fullCalendar('refresh');
                     });
             };
 
@@ -50,18 +53,25 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
                     },
                     eventClick: function(event, jsEvent, view) {
                         $wfModal.open(angular.extend(commonModalOptions, {
-                            data: {
-                                event: {
-                                    start: event.start,
-                                    end: event.start.add(2, 'hour'),
-                                    title: event.title
-                                },
-                                jsEvent: jsEvent,
-                                view: view,
-                                type: wfCrudTypes.read,
-                                title: 'Réservation'
-                            }
-                        }));
+                                data: {
+                                    event: {
+                                        id: event.id,
+                                        start: event.start,
+                                        end: event.start.add(2, 'hour'),
+                                        title: event.title
+                                    },
+                                    jsEvent: jsEvent,
+                                    view: view,
+                                    type: wfCrudTypes.read,
+                                    title: 'Réservation'
+                                }
+                            }))
+                            .then(function(deletedId) {
+                                $scope.events.splice(_.findIndex({id: deletedId}), 1);
+                                uiCalendarConfig.calendars
+                                    .eventsCalendar
+                                    .fullCalendar('refresh');
+                            });
                     }
                 }
             };
