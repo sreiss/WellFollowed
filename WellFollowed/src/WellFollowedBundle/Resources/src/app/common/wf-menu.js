@@ -14,7 +14,9 @@ angular.module('wellFollowed').directive('wfMenu', function($route) {
                 }
             });
 
-
+            scope.$on('$routeChangeSuccess', function(angularEvent, current, previous) {
+                debugger;
+            });
         }
     };
 });
