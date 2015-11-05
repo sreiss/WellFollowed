@@ -1,5 +1,6 @@
-angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStorageService) {
+angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStorageService, wfAuthSettings) {
     var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
+    var _baseUrl = wfAuthSettings.apiUrl + '/api/user';
     var authServiceFactory = {};
 
     var _authentication = {
@@ -11,7 +12,7 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
 
         _logOut();
 
-        return $http.post(serviceBase + 'api/account/register', registration).then(function (response) {
+        return $http.post(_baseUrl, registration).then(function (response) {
             return response;
         });
     };

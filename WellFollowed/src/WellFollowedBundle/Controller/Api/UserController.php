@@ -15,7 +15,7 @@ use WellFollowedBundle\Base\BaseController;
 
 class UserController extends BaseController {
     /**
-     * @Route("api/user", name="get_users")
+     * @Route("/api/user", name="get_users")
      * @Method({"GET"})
      */
     public function getUser() {
@@ -29,13 +29,15 @@ class UserController extends BaseController {
     }
 
     /**
-     * @Route("api/user", name="post_user")
+     * @Route("/api/user", name="post_user")
      * @Method({"POST"})
      */
     public function addUser(Request $request) {
-        $body = $this->jsonRequest($request);
+        $user = $this->getDoctrine()
+            ->getRepository('WellFollowedBundle:User')
+            ->createUser($this->jsonRequest($request, 'WellFollowedBundle\Entity\User'));
 
-        return $this->jsonResponse($body);
+        return $this->jsonResponse($user);
     }
 
 }

@@ -33,6 +33,10 @@ angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTe
             template: '<wf-account></wf-account>',
             name: 'Compte'
         })
+        .when('/account/create', {
+            template: '<wf-account-create></wf-account-create>',
+            name: 'S\'inscrire'
+        })
         .otherwise({
             redirectTo: '/sensor'
         });

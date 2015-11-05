@@ -16,4 +16,13 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
         }
         return $this->findAll();
     }
+
+    public function createUser(User $user) {
+        $entityManager = $this->getEntityManager();
+
+        $entityManager->persist($user);
+        $entityManager->flush();
+
+        return $user;
+    }
 }
