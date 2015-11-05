@@ -25,4 +25,21 @@ class UserRepository extends \Doctrine\ORM\EntityRepository
 
         return $user;
     }
+
+    public function deleteUser($id) {
+        $id = (int) $id;
+
+        if ($id > 0) {
+            $qb = $this->createQueryBuilder('u');
+
+            $qb->delete('WellFollowedBundle\Entity\User', 'u')
+                ->where('u.id = :id')
+                ->setParameter('id', $id);
+
+            return $qb->getQuery()
+                ->execute();
+        }
+
+        throw new NotFoundHttpException();
+    }
 }

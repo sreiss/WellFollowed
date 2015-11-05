@@ -15,10 +15,10 @@ use WellFollowedBundle\Base\BaseController;
 
 class UserController extends BaseController {
     /**
-     * @Route("/api/user", name="get_users")
+     * @Route("/api/user/all", name="get_all_users")
      * @Method({"GET"})
      */
-    public function getUser() {
+    public function getAllUsers() {
         $users = $this->getDoctrine()
             ->getRepository('WellFollowedBundle:User')
             ->findUsers();
@@ -26,6 +26,18 @@ class UserController extends BaseController {
         return $this->jsonResponse(array(
            'users' => $users
         ));
+    }
+
+    /**
+     * @Route("/api/user/{id}", name="get_user", requirements={"id" = "\d+"})
+     * @Method({"GET"})
+     */
+    public function getUser(Request $request, $id) {
+        return $this->jsonResponse(
+            $this->getDoctrine()
+                ->getRepository('WellFollowedBundle:User')
+                ->find($id)
+        );
     }
 
     /**
@@ -38,6 +50,18 @@ class UserController extends BaseController {
             ->createUser($this->jsonRequest($request, 'WellFollowedBundle\Entity\User'));
 
         return $this->jsonResponse($user);
+    }
+
+    /**
+     * @Route("/api/user/delete/{id}", name="delete_user", requirements={"id" = "\d+"})
+     * @Method({"DELETE"})
+     */
+    public function deleteUser(Request $request, $id) {
+        $this->getDoctrine()
+            ->getRepository('WellFollowedBundle:User')
+            ->deleteUser($id);
+
+        return $this->jsonResponse($id);
     }
 
 }
