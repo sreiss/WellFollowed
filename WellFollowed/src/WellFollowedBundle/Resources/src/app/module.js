@@ -1,4 +1,4 @@
-angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal', 'angular-loading-bar']).config(function($routeProvider, $httpProvider, cfpLoadingBarProvider) {
+angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal', 'ui.bootstrap.alert', 'angular-loading-bar']).config(function($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
 
     var formatDate = function(data) {
         if (!!data) {
@@ -17,29 +17,47 @@ angular.module('wellFollowed', ['ngRoute', 'ngMessages', 'wfTemplates', 'wfLibTe
 
     $httpProvider.defaults.transformRequest.unshift(formatDate);
 
+    $httpProvider.interceptors.push('$wfAuthInterceptor');
+
+    $httpProvider.interceptors.push(function($q, $rootScope) {
+        var errorHandler = function(rejection) {
+            $rootScope.$broadcast('wfError', rejection.message);
+
+            return $q.reject(rejection);
+        };
+
+        return {
+            'requestError': errorHandler,
+            'responseError': errorHandler
+        };
+    });
+
     // Enregistrement des routes de l'application.
     // Si un attribut "name" est renseigné, l'élément sera ajouté automatiquement au menu.
     // L'attribut "template" contiendra toujours une directive englobant l'ensemble d'une page.
-    $routeProvider
-        .when('/sensor', {
-            template: '<wf-sensor></wf-sensor>',
-            name: 'Capteur'
+    $stateProvider
+        .state('login', {
+            url: '/connexion',
+            template: '<wf-login></wf-login>'
         })
-        .when('/calendrier', {
-            template: '<wf-planning></wf-planning>',
-            name: 'Calendrier'
+        .state('sensor', {
+            url: '/',
+            template: '<wf-sensor></wf-sensor>'
         })
-        .when('/account', {
-            template: '<wf-account></wf-account>',
-            name: 'Compte'
+        .state('calendar', {
+            url: '/calendrier',
+            template: '<wf-planning></wf-planning>'
         })
-        .when('/account/create', {
-            template: '<wf-account-create></wf-account-create>',
-            name: 'S\'inscrire'
+        .state('account', {
+            url: '/compte',
+            template: '<wf-account></wf-account>'
         })
-        .otherwise({
-            redirectTo: '/sensor'
+        .state('subscription', {
+            url: '/compte/inscription',
+            template: '<wf-account-create></wf-account-create>'
         });
+
+    $urlRouterProvider.otherwise('/');
 
     cfpLoadingBarProvider.includeSpinner = false;
 })

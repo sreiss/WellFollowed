@@ -11,14 +11,16 @@ namespace WellFollowedBundle\Controller\Api;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
-use WellFollowedBundle\Base\BaseController;
+use WellFollowedBundle\Base\ApiController;
 
-class UserController extends BaseController {
+class UserController extends ApiController
+{
     /**
      * @Route("/api/user/all", name="get_all_users")
      * @Method({"GET"})
      */
-    public function getAllUsers() {
+    public function getAllUsers()
+    {
         $users = $this->getDoctrine()
             ->getRepository('WellFollowedBundle:User')
             ->findUsers();
@@ -32,7 +34,8 @@ class UserController extends BaseController {
      * @Route("/api/user/{id}", name="get_user", requirements={"id" = "\d+"})
      * @Method({"GET"})
      */
-    public function getUser(Request $request, $id) {
+    public function getAppUser(Request $request, $id)
+    {
         return $this->jsonResponse(
             $this->getDoctrine()
                 ->getRepository('WellFollowedBundle:User')
@@ -44,19 +47,27 @@ class UserController extends BaseController {
      * @Route("/api/user", name="post_user")
      * @Method({"POST"})
      */
-    public function addUser(Request $request) {
+    public function createUser(Request $request)
+    {
+        $user = $this->get('well_followed.user_service')
+            ->createUser($this->jsonRequest($request, 'OAuth2\ServerBundle\Entity\User'));
+
+        return $user;
+        /*
         $user = $this->getDoctrine()
             ->getRepository('WellFollowedBundle:User')
             ->createUser($this->jsonRequest($request, 'WellFollowedBundle\Entity\User'));
 
         return $this->jsonResponse($user);
+        */
     }
 
     /**
      * @Route("/api/user/delete/{id}", name="delete_user", requirements={"id" = "\d+"})
      * @Method({"DELETE"})
      */
-    public function deleteUser(Request $request, $id) {
+    public function deleteUser(Request $request, $id)
+    {
         $this->getDoctrine()
             ->getRepository('WellFollowedBundle:User')
             ->deleteUser($id);

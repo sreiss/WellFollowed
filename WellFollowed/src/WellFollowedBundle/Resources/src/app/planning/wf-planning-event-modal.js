@@ -19,7 +19,7 @@ angular.module('wellFollowed').directive('wfPlanningEventModal', function($wfEve
 
             scope.deleteEvent = function() {
                 $wfEvent.deleteEvent(scope.event.id).then(function() {
-                    scope.close(scope.event.id);
+                    scope.close(scope.event);
                 });
             };
         }

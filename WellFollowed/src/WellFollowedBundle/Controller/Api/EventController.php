@@ -9,11 +9,11 @@
 namespace WellFollowedBundle\Controller\Api;
 
 use Symfony\Component\HttpFoundation\Request;
-use WellFollowedBundle\Base\BaseController;
+use WellFollowedBundle\Base\ApiController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 
-class EventController extends BaseController
+class EventController extends ApiController
 {
     /**
      * @Route("/api/event", name="get_events")

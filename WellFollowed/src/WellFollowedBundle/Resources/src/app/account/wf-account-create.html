@@ -1,0 +1,41 @@
+<div ng-include="'account/wf-logo.html'"></div>
+<div class="login-container">
+    <wf-error-alerts></wf-error-alerts>
+    <form name="userForm" class="login-form">
+        <div class="form-group has-feedback"
+             ng-class="{'has-error': userForm.username.$invalid && !userForm.username.$pristine}">
+            <label class="control-label sr-only">Nom d'utilisateur</label>
+            <input type="text" class="form-control" ng-model="user.username" name="username"
+                   placeholder="Nom d'utilisateur" required/>
+
+            <div class="red form-error-message" ng-messages="userForm.username.$error"
+                 ng-show="!userForm.username.$pristine">
+                <span ng-message="required">Ce champ est requis</span>
+            </div>
+        </div>
+        <div class="form-group"
+             ng-class="{'has-error': userForm.password.$invalid && !userForm.password.$pristine}">
+            <label class="control-label sr-only">Mot de passe</label>
+            <input type="password" class="form-control" ng-model="user.password" placeholder="Mot de passe"
+                   name="password"
+                   minlength="6" required/>
+
+            <div class="red form-error-message" ng-messages="userForm.password.$error"
+                 ng-show="!userForm.password.$pristine">
+                <span ng-message="minlength">Entrez au moins 6 caractères</span>
+                <span ng-message="required">Ce champ est requis</span>
+            </div>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary btn-block" ng-click="subscribe()" ng-disabled="userForm.$invalid">
+                S'inscrire
+            </button>
+        </div>
+    </form>
+    <p class="text-center">
+        <a ui-sref="login">
+            <span class="glyphicon glyphicon-arrow-left"></span>
+            Retour
+        </a>
+    </p>
+</div>

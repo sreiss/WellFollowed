@@ -1,18 +1,10 @@
-angular.module('wellFollowed').directive('wfMenu', function($route) {
+angular.module('wellFollowed').directive('wfMenu', function($wfMenu) {
     return {
         restrict: 'E',
         templateUrl: 'common/wf-menu.html',
         link: function(scope, element, attributes) {
 
-            scope.menuItems = [];
-            angular.forEach($route.routes, function(route) {
-                if (!!route.name) {
-                    scope.menuItems.push({
-                        name: route.name,
-                        href: route.originalPath
-                    })
-                }
-            });
+            scope.menuItems = $wfMenu.getMenu('main');
 
             scope.$on('$routeChangeSuccess', function(angularEvent, current, previous) {
                 debugger;

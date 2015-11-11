@@ -19,6 +19,7 @@ class AppKernel extends Kernel
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new OAuth2\ServerBundle\OAuth2ServerBundle(),
             new WellFollowedBundle\WellFollowedBundle(),
         );
 

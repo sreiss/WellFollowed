@@ -1,11 +1,27 @@
 # To get started with security, check out the documentation:
 # http://symfony.com/doc/current/book/security.html
+parameters:
+    oauth2_scopes:
+        readsensor: "Lire les données capteurs"
+        readadmin: "Accéder à la partie administration du site"
+    oauth2_public_clients:
+        user: ["readsensor"]
+        admin: ["readsensor", "readadmin"]
+
 security:
+    encoders:
+        OAuth2\ServerBundle\Entity\User:
+            algorithm:          sha512
+            encode_as_base64:   true
+            iterations:         5000
+
 
     # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
     providers:
-        in_memory:
-            memory: ~
+        oauth2:
+            id: oauth2.user_provider
+        # in_memory:
+#            memory: ~
 
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs

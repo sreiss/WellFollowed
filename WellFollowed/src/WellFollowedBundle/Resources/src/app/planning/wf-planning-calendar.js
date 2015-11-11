@@ -66,8 +66,8 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
                                     title: 'Réservation'
                                 }
                             }))
-                            .then(function(deletedId) {
-                                $scope.events.splice(_.findIndex({id: deletedId}), 1);
+                            .then(function(event) {
+                                $scope.events.splice($scope.events.indexOf(event), 1);
                                 uiCalendarConfig.calendars
                                     .eventsCalendar
                                     .fullCalendar('refresh');

@@ -1,4 +1,5 @@
 <div>
-    <wf-menu></wf-menu>
-    <div ng-view></div>
+    <wf-menu ng-if="authentication.isAuth"></wf-menu>
+    <wf-error-alerts ng-if="showErrors"></wf-error-alerts>
+    <div ui-view></div>
 </div>

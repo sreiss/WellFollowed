@@ -1,5 +1,10 @@
+/**
+ * Code adapté de l'article "AngularJS Token Authentication using ASP.NET Web API 2, Owin, and Identity" de Taiseer Joudeh sur CodeProject.com.
+ * @author Taiseer Joudeh
+ * @url http://www.codeproject.com/Articles/784106/AngularJS-Token-Authentication-using-ASP-NET-Web-A
+ */
 angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStorageService, wfAuthSettings) {
-    var serviceBase = 'http://ngauthenticationapi.azurewebsites.net/';
+    var serviceBase = wfAuthSettings.apiUrl + '/';
     var _baseUrl = wfAuthSettings.apiUrl + '/api/user';
     var authServiceFactory = {};
 
@@ -8,9 +13,9 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
         userName : ""
     };
 
-    var _saveRegistration = function (registration) {
+    var _createUser = function (registration) {
 
-        _logOut();
+        _logout();
 
         return $http.post(_baseUrl, registration).then(function (response) {
             return response;
@@ -20,7 +25,7 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
     var _login = function (loginData) {
 
         var data = "grant_type=password&username=" +
-            loginData.userName + "&password=" + loginData.password;
+            loginData.username + "&password=" + loginData.password + "&client_id=user&scope=readsensor";
 
         var deferred = $q.defer();
 
@@ -28,27 +33,27 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
         { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
 
             localStorageService.set('authorizationData',
-                { token: response.access_token, userName: loginData.userName });
+                { token: response.access_token, username: loginData.username });
 
             _authentication.isAuth = true;
-            _authentication.userName = loginData.userName;
+            _authentication.username = loginData.username;
 
             deferred.resolve(response);
 
         }).error(function (err, status) {
-            _logOut();
+            _logout();
             deferred.reject(err);
         });
 
         return deferred.promise;
     };
 
-    var _logOut = function () {
+    var _logout = function () {
 
         localStorageService.remove('authorizationData');
 
         _authentication.isAuth = false;
-        _authentication.userName = "";
+        _authentication.username = "";
     };
 
     var _fillAuthData = function () {
@@ -57,15 +62,15 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
         if (authData)
         {
             _authentication.isAuth = true;
-            _authentication.userName = authData.userName;
+            _authentication.userName = authData.username;
         }
     };
 
-    authServiceFactory.saveRegistration = _saveRegistration;
-    authServiceFactory.login = _login;
-    authServiceFactory.logOut = _logOut;
-    authServiceFactory.fillAuthData = _fillAuthData;
-    authServiceFactory.authentication = _authentication;
-
-    return authServiceFactory;
+    return {
+        createUser: _createUser,
+        login: _login,
+        logout: _logout,
+        fillAuthData: _fillAuthData,
+        authentication: _authentication
+    };
 });
