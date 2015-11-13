@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
             new OAuth2\ServerBundle\OAuth2ServerBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new JMS\AopBundle\JMSAopBundle(),
             new WellFollowedBundle\WellFollowedBundle(),
         );
 

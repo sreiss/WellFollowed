@@ -13,11 +13,12 @@ namespace WellFollowedBundle\Base;
  * @description Regroupe les erreurs que peut produire l'application.
  * @package WellFollowedBundle\Base
  */
-class ErrorCode
+abstract class ErrorCode
 {
     const UNKNOWN_ERROR = "UNKNOWN_ERROR";
 
     // User
     const USER_EXISTS = "USER_EXISTS";
     const UNAUTHORIZED = "UNAUTHORIZED";
+    const NOT_FOUND = "NOT_FOUND";
 }

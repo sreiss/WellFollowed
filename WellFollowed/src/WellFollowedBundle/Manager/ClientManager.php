@@ -1,13 +1,12 @@
 <?php
 
-namespace WellFollowedBundle\Service;
+namespace WellFollowedBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use OAuth2\ServerBundle\Exception\ScopeNotFoundException;
-use OAuth2\ServerBundle\Manager\ClientManager;
 use OAuth2\ServerBundle\Manager\ScopeManagerInterface;
 
-class ClientService
+class ClientManager
 {
     private $em;
 
@@ -17,7 +16,7 @@ class ClientService
     private $sm;
     private $clientManager;
 
-    public function __construct(EntityManager $entityManager, ScopeManagerInterface $scopeManager, ClientManager $clientManager)
+    public function __construct(EntityManager $entityManager, ScopeManagerInterface $scopeManager, \OAuth2\ServerBundle\Manager\ClientManager $clientManager)
     {
         $this->em = $entityManager;
         $this->sm = $scopeManager;

@@ -9,7 +9,7 @@ use JMS\Serializer\Annotation as JMS;
  * Event
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="WellFollowedBundle\Entity\EventRepository")
+ * @ORM\Entity
  * @JMS\ExclusionPolicy("none")
  */
 class Event
@@ -52,13 +52,9 @@ class Event
     private $end;
 
     /**
-     * @var WellFollowedBundle\Entity\User
+     * @var \WellFollowedBundle\Entity\User
      *
-     * @ORM\ManyToMany(targetEntity="User")
-     * @ORM\JoinTable(name="users_events",
-     *      joinColumns={@ORM\JoinColumn(name="event_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id", unique=true)}
-     * )
+     * @ORM\OneToOne(targetEntity="User", cascade={"persist"})
      */
     private $user;
 
@@ -139,7 +135,7 @@ class Event
      *
      * @return \DateTime
      */
-    public function getStartDate()
+    public function getStart()
     {
         return $this->start;
     }

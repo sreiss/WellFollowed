@@ -1,6 +1,12 @@
-app:
-    resource: "@WellFollowedBundle/Controller/"
+well_followed_api:
+    resource: "@WellFollowedBundle/Controller/Api/"
     type:     annotation
+    prefix: /api
+
+well_followed_web:
+    resource: "@WellFollowedBundle/Controller/Web/"
+    type: annotation
+    prefix: /
 
 oauth2_server:
     resource: "@OAuth2ServerBundle/Controller/"

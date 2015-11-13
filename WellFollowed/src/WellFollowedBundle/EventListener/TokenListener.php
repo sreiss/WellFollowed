@@ -35,7 +35,7 @@ class TokenListener
         if ($controller[0] instanceof TokenControllerInterface) {
             $token = $event->getRequest()->headers->get('Authorization');
             if (!in_array($token, $this->tokens)) {
-                throw new WellFollowedException(ErrorCode::UNAUTHORIZED, null, 401);
+                //throw new WellFollowedException(ErrorCode::UNAUTHORIZED, null, 401);
             }
         }
     }

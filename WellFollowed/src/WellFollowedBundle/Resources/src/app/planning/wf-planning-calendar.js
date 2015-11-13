@@ -1,4 +1,4 @@
-angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent, $wfModal, wfCrudTypes, uiCalendarConfig) {
+angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent, $wfModal, wfCrudTypes, wfResponseFormats, uiCalendarConfig) {
     return {
         restrict: 'E',
         templateUrl: 'planning/wf-planning-calendar.html',
@@ -9,7 +9,8 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
             $scope.eventsF = function (start, end, timezone, callback) {
                 var filter = {
                     start: start.toDate(),
-                    end: end.toDate()
+                    end: end.toDate(),
+                    format: wfResponseFormats.formatFull
                 };
 
                 $wfEvent.getEvents(filter)

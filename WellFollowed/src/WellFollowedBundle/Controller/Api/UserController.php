@@ -16,7 +16,7 @@ use WellFollowedBundle\Base\ApiController;
 class UserController extends ApiController
 {
     /**
-     * @Route("/api/user/all", name="get_all_users")
+     * @Route("/user", name="get_all_users")
      * @Method({"GET"})
      */
     public function getAllUsers()
@@ -31,7 +31,7 @@ class UserController extends ApiController
     }
 
     /**
-     * @Route("/api/user/{id}", name="get_user", requirements={"id" = "\d+"})
+     * @Route("/user/{id}", name="get_user", requirements={"id" = "\d+"})
      * @Method({"GET"})
      */
     public function getAppUser(Request $request, $id)
@@ -44,12 +44,12 @@ class UserController extends ApiController
     }
 
     /**
-     * @Route("/api/user", name="post_user")
+     * @Route("/user", name="post_user")
      * @Method({"POST"})
      */
     public function createUser(Request $request)
     {
-        $user = $this->get('well_followed.user_service')
+        $user = $this->get('well_followed.user_manager')
             ->createUser($this->jsonRequest($request, 'OAuth2\ServerBundle\Entity\User'));
 
         return $user;
@@ -63,7 +63,7 @@ class UserController extends ApiController
     }
 
     /**
-     * @Route("/api/user/delete/{id}", name="delete_user", requirements={"id" = "\d+"})
+     * @Route("/user/delete/{id}", name="delete_user", requirements={"id" = "\d+"})
      * @Method({"DELETE"})
      */
     public function deleteUser(Request $request, $id)

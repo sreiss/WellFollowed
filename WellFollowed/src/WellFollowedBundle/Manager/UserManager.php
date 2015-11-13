@@ -15,9 +15,10 @@ use OAuth2\ServerBundle\Manager\ScopeManager;
 use OAuth2\ServerBundle\User\OAuth2UserProvider;
 use WellFollowedBundle\Base\ErrorCode;
 use WellFollowedBundle\Base\WellFollowedException;
+use WellFollowedBundle\Contract\Manager\UserManagerInterface;
+use WellFollowedBundle\Contract\Service\UserServiceInterface;
 
-
-class UserService
+class UserManager implements UserManagerInterface
 {
     private $userProvider;
     private $em;

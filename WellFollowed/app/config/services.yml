@@ -1,7 +1,15 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
-#    parameter_name: value
+
+    # Repositories
+
+
+    # Managers
+
+#    well_followed.event_manager.class: WellFollowedBundle\Manager\EventManager
+#    well_followed.user_manager.class: WellFollowedBundle\Manager\UserManager
+#    well_followed.client_manager.class: WellFollowedBundle\Manager\ClientManager
 
 services:
 #    service_name:
@@ -21,12 +29,19 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
-    # Services
+    # Repositories
 
-    well_followed.user_service:
-        class: WellFollowedBundle\Service\UserService
-        arguments: ["@oauth2.user_provider", "@doctrine.orm.entity_manager", "@oauth2.client_manager", "@oauth2.grant_type.user_credentials", "@oauth2.scope_manager"]
 
-    well_followed.client_service:
-        class: WellFollowedBundle\Service\ClientService
-        arguments: ["@doctrine.orm.entity_manager", "@oauth2.scope_manager", "@oauth2.client_manager"]
+    # Managers
+
+#    well_followed.event_manager:
+#        class: "%well_followed.event_manager.class%"
+#        arguments: ["@well_followed.event_repository"]
+#
+#    well_followed.user_manager:
+#        class: "%well_followed.user_manager.class%"
+#        arguments: ["@oauth2.user_provider", "@doctrine.orm.entity_manager", "@oauth2.client_manager", "@oauth2.grant_type.user_credentials", "@oauth2.scope_manager"]
+#
+#    well_followed.client_manager:
+#        class: "%well_followed.client_manager.class%"
+#        arguments: ["@doctrine.orm.entity_manager", "@oauth2.scope_manager", "@oauth2.client_manager"]
