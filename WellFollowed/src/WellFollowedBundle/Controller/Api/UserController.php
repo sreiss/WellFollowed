@@ -11,9 +11,10 @@ namespace WellFollowedBundle\Controller\Api;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Symfony\Component\HttpFoundation\Request;
+use UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowedBundle\Base\ApiController;
 
-class UserController extends ApiController
+class UserController extends ApiController implements JsonControllerInterface
 {
     /**
      * @Route("/user", name="get_all_users")

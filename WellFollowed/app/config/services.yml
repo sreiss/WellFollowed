@@ -1,6 +1,16 @@
 # Learn more about services, parameters and containers at
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
+    # Util
+    util.metadata_factory.class: Metadata\MetadataFactory
+    util.metadata.controller_annotation_driver.class: UtilBundle\Metadata\Driver\ControllerAnnotationDriver
+    util.processor.json_content_processor.class: UtilBundle\Processor\JsonContentProcessor
+    util.event_listener.json_listener.class: UtilBundle\EventListener\JsonListener
+
+    # WellFollowed
+    well_followed.exception_listener.class: WellFollowedBundle\EventListener\ExceptionListener
+    well_followed.tokens.action_listener.class: WellFollowedBundle\EventListener\TokenListener
+
 
     # Repositories
 
@@ -12,6 +22,26 @@ parameters:
 #    well_followed.client_manager.class: WellFollowedBundle\Manager\ClientManager
 
 services:
+    # Util
+    util.metadata.controller_annotation_driver:
+        class: "%util.metadata.controller_annotation_driver.class%"
+        arguments: ["@annotation_reader"]
+
+    util.metadata_factory:
+        class: "%util.metadata_factory.class%"
+        arguments: ["@util.metadata.controller_annotation_driver"]
+
+    util.processor.json_content_processor:
+        class: "%util.processor.json_content_processor.class%"
+        arguments: ["@util.metadata_factory", "@jms_serializer"]
+
+    util.event_listener.json_listener:
+        class: "%util.event_listener.json_listener.class%"
+        arguments: ["@util.processor.json_content_processor"]
+        tags:
+            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+
 #    service_name:
 #        class: AppBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
@@ -19,13 +49,13 @@ services:
     # Listeners
 
     well_followed.exception_listener:
-        class: WellFollowedBundle\EventListener\ExceptionListener
+        class: "%well_followed.exception_listener.class%"
         arguments: ["@jms_serializer", "%kernel.environment%"]
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
     well_followed.tokens.action_listener:
-        class: WellFollowedBundle\EventListener\TokenListener
+        class: "%well_followed.tokens.action_listener.class%"
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 

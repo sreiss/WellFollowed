@@ -71,18 +71,18 @@ class EventManager implements EventManagerInterface
         return null;
     }
 
-    public function createEvent(EventModel $model)
+    public function createEvent(Event $event)
     {
-        $event = new Event();
-        $event->setTitle($model->getTitle());
-        $event->setStart($model->getStart());
-        $event->setEnd($model->getEnd());
-        $event->setDescription($model->getDescription());
+//        $event = new Event();
+//        $event->setTitle($model->getTitle());
+//        $event->setStart($model->getStart());
+//        $event->setEnd($model->getEnd());
+//        $event->setDescription($model->getDescription());
 
         $this->entityManager->persist($event);
         $this->entityManager->flush();
 
-        return $model;
+        return $event;
     }
 
     public function deleteEvent($id)
