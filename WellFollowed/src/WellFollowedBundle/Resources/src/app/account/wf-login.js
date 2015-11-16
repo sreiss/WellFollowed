@@ -1,4 +1,4 @@
-angular.module('wellFollowed').directive('wfLogin', function($wfAuth) {
+angular.module('wellFollowed').directive('wfLogin', function($wfAuth, $location) {
     return {
         restrict: 'E',
         templateUrl: 'account/wf-login.html',
@@ -12,7 +12,7 @@ angular.module('wellFollowed').directive('wfLogin', function($wfAuth) {
                     username: scope.username,
                     password: scope.password
                 }).then(function (result) {
-                    debugger;
+                    $location.path("/calendrier");
                 });
             }
 

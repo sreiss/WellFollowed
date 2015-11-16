@@ -1,13 +1,21 @@
 angular.module('wellFollowed').directive('wfMenu', function($wfMenu) {
+
+    var _menuItems = function(scope) {
+        if (scope.authentication.isAuth)
+            scope.menuItems = $wfMenu.getMenu('main');
+        else
+            scope.menuItems = $wfMenu.getMenu('noauth');
+    }
+
     return {
         restrict: 'E',
         templateUrl: 'common/wf-menu.html',
-        link: function(scope, element, attributes) {
+        link: function(scope, element, attributes, wfApp) {
 
-            scope.menuItems = $wfMenu.getMenu('main');
+            _menuItems(scope);
 
-            scope.$on('$routeChangeSuccess', function(angularEvent, current, previous) {
-                debugger;
+            scope.$on('$stateChangeSuccess', function(angularEvent, current, previous) {
+                _menuItems(scope);
             });
         }
     };
