@@ -2,8 +2,8 @@
 
 namespace WellFollowedBundle\Manager\Filter;
 
+use UtilBundle\Contract\Manager\Filter\FilterInterface;
 use WellFollowedBundle\Base\Filter\ResponseFormat;
-use WellFollowedBundle\Contract\Manager\Filter\FilterInterface;
 
 /**
  * Created by PhpStorm.

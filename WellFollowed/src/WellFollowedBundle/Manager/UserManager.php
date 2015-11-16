@@ -6,7 +6,7 @@
  * Time: 17:59
  */
 
-namespace WellFollowedBundle\Service;
+namespace WellFollowedBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use OAuth2\ServerBundle\Entity\User;
@@ -16,8 +16,13 @@ use OAuth2\ServerBundle\User\OAuth2UserProvider;
 use WellFollowedBundle\Base\ErrorCode;
 use WellFollowedBundle\Base\WellFollowedException;
 use WellFollowedBundle\Contract\Manager\UserManagerInterface;
-use WellFollowedBundle\Contract\Service\UserServiceInterface;
+use JMS\DiExtraBundle\Annotation as DI;
 
+/**
+ * Class UserManager
+ * @package WellFollowedBundle\Service
+ * @DI\Service("well_followed.user_manager")
+ */
 class UserManager implements UserManagerInterface
 {
     private $userProvider;
@@ -26,6 +31,20 @@ class UserManager implements UserManagerInterface
     private $userCredentialsGrantType;
     private $scopeManager;
 
+    /**
+     * @param OAuth2UserProvider $userProvider
+     * @param EntityManager $entityManager
+     * @param ClientManager $clientManager
+     * @param $userCredentialsGrantType
+     * @param ScopeManager $scopeManager
+     * @DI\InjectParams({
+     *      "userProvider" = @DI\Inject("oauth2.user_provider"),
+     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
+     *      "clientManager" = @DI\Inject("oauth2.client_manager"),
+     *      "userCredentialsGrantType" = @DI\Inject("oauth2.grant_type.user_credentials"),
+     *      "scopeManager" = @DI\Inject("oauth2.scope_manager")
+     * })
+     */
     public function __construct(OAuth2UserProvider $userProvider, EntityManager $entityManager, ClientManager $clientManager, $userCredentialsGrantType, ScopeManager $scopeManager)
     {
         $this->userProvider = $userProvider;

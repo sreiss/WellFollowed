@@ -6,20 +6,20 @@ use JMS\Serializer\Serializer;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use UtilBundle\Contract\Controller\JsonControllerInterface;
-use UtilBundle\Processor\JsonContentProcessor;
+use UtilBundle\Processor\ControllerAnnotationProcessor;
 
-class JsonListener
+class ControllerListener
 {
     /**
-     * @var JsonContentProcessor
+     * @var ControllerAnnotationProcessor
      */
     private $processor;
 
     /**
      * JsonListener constructor.
-     * @param JsonContentProcessor $processor
+     * @param ControllerAnnotationProcessor $processor
      */
-    public function __construct(JsonContentProcessor $processor)
+    public function __construct(ControllerAnnotationProcessor $processor)
     {
         $this->processor = $processor;
     }
@@ -34,7 +34,7 @@ class JsonListener
 
         if ($controller[0] instanceof JsonControllerInterface) {
             $request = $event->getRequest();
-            $this->processor->deserializeJsonContent($controller[0], $request);
+            $this->processor->onKernelController($controller[0], $request);
         }
     }
 
@@ -42,7 +42,7 @@ class JsonListener
     {
         if (!empty($event->getRequest()->attributes->get('entity'))) {
             $response = $event->getResponse();
-            $this->processor->serializeJsonContent($response);
+            $this->processor->onKernelResponse($response);
         }
     }
 }

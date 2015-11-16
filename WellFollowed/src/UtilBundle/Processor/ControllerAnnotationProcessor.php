@@ -8,7 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-class JsonContentProcessor
+class ControllerAnnotationProcessor
 {
     private $factory;
     private $serializer;
@@ -19,7 +19,7 @@ class JsonContentProcessor
         $this->serializer = $serializer;
     }
 
-    public function deserializeJsonContent(Controller $controller, Request $request)
+    public function onKernelController(Controller $controller, Request $request)
     {
         if (!is_object($controller)) {
             throw new \InvalidArgumentException('No controller provided');
@@ -34,12 +34,25 @@ class JsonContentProcessor
                 else
                     $request->attributes->set('json', '');
             }
+
+            if (isset($methodMetadata->filterClass)) {
+                $filter = new $methodMetadata->filterClass();
+                foreach ($request->query as $queryParam => $value) {
+                    if (method_exists($filter, ($methodName = 'set' . ucfirst($queryParam)))) {
+                        if (preg_match('/[0-9]{4}\-[0-1][1-9]-[0-1][1-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?/', $value))
+                            $filter->$methodName(new \DateTime($value));
+                        else
+                            $filter->$methodName($value);
+                    }
+                }
+                $request->attributes->set('filter', $filter);
+            }
         }
 
         return $controller;
     }
 
-    public function serializeJsonContent(Response $response)
+    public function onKernelResponse(Response $response)
     {
         $response->headers->set('Content-Type', 'application/json');
         if (!empty($body = $response->getContent()))

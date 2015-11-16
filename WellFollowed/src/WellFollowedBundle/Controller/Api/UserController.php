@@ -10,9 +10,11 @@ namespace WellFollowedBundle\Controller\Api;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowedBundle\Base\ApiController;
+use UtilBundle\Annotation\JsonContent;
 
 class UserController extends ApiController implements JsonControllerInterface
 {
@@ -47,13 +49,14 @@ class UserController extends ApiController implements JsonControllerInterface
     /**
      * @Route("/user", name="post_user")
      * @Method({"POST"})
+     * @JsonContent("OAuth2\ServerBundle\Entity\User")
      */
     public function createUser(Request $request)
     {
         $user = $this->get('well_followed.user_manager')
-            ->createUser($this->jsonRequest($request, 'OAuth2\ServerBundle\Entity\User'));
+            ->createUser($request->attributes->get('json'));
 
-        return $user;
+        return new Response($user);
         /*
         $user = $this->getDoctrine()
             ->getRepository('WellFollowedBundle:User')

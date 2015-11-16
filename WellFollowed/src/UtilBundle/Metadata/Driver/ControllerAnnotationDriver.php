@@ -9,11 +9,17 @@ use UtilBundle\Metadata\JsonContentMetadata;
 
 class ControllerAnnotationDriver implements DriverInterface
 {
+    private $annotationClasses;
+
     private $reader;
 
     public function __construct(Reader $reader)
     {
         $this->reader = $reader;
+        $this->annotationClasses = array(
+            'UtilBundle\\Annotation\\JsonContent' => array('entity'),
+            'UtilBundle\\Annotation\\FilterContent' => array('filterClass')
+        );
     }
 
     public function loadMetadataForClass(\ReflectionClass $class)
@@ -26,14 +32,20 @@ class ControllerAnnotationDriver implements DriverInterface
         foreach ($class->getMethods() as $reflectionMethod) {
             $methodMetadata = new JsonContentMetadata($class->getName(), $reflectionMethod->getName());
 
-            $annotation = $this->reader->getMethodAnnotation(
-                $reflectionMethod,
-                'UtilBundle\\Annotation\\JsonContent'
-            );
+            foreach ($this->annotationClasses as $annotationClass => $attributes) {
+                $annotation = $this->reader->getMethodAnnotation(
+                    $reflectionMethod,
+                    $annotationClass
+                );
 
-            if (!is_null($annotation)) {
-                $methodMetadata->entity = $annotation->getEntity();
-                $classMetadata->addMethodMetadata($methodMetadata);
+
+                if (!is_null($annotation)) {
+                    foreach ($attributes as $attribute) {
+                        $methodName = 'get' . ucfirst($attribute);
+                        $methodMetadata->$attribute = $annotation->$methodName();
+                        $classMetadata->addMethodMetadata($methodMetadata);
+                    }
+                }
             }
         }
 

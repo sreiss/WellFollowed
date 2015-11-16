@@ -18,6 +18,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowedBundle\Manager\EventManager;
 use WellFollowedBundle\Manager\Filter\EventFilter;
 use UtilBundle\Annotation\JsonContent;
+use UtilBundle\Annotation\FilterContent;
 
 
 class EventController extends ApiController implements JsonControllerInterface
@@ -37,18 +38,19 @@ class EventController extends ApiController implements JsonControllerInterface
      * @Route("/event", name="get_events")
      * @Method({"GET"})
      * @JsonContent("WellFollowedBundle\Entity\Event")
+     * @FilterContent("WellFollowedBundle\Manager\Filter\EventFilter")
      */
     public function getEvents(Request $request)
     {
-        $filter = new EventFilter();
-        if (!is_null($start = $request->query->get('start')))
-            $filter->setStart(new \DateTime($start));
-        if (!is_null($end = $request->query->get('end')))
-            $filter->setEnd(new \DateTime($end));
-        $filter->setFormat($request->query->get('format'));
+//        $filter = new EventFilter();
+//        if (!is_null($start = $request->query->get('start')))
+//            $filter->setStart(new \DateTime($start));
+//        if (!is_null($end = $request->query->get('end')))
+//            $filter->setEnd(new \DateTime($end));
+//        $filter->setFormat($request->query->get('format'));
 
         $events = $this->eventManager
-            ->getEvents($filter);
+            ->getEvents($request->attributes->get('filter'));
 
         return $this->jsonResponse($events);
     }

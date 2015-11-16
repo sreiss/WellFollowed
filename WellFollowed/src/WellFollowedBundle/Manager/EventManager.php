@@ -1,6 +1,7 @@
 <?php
 
 namespace WellFollowedBundle\Manager;
+
 use Doctrine\ORM\EntityManager;
 use WellFollowedBundle\Base\ErrorCode;
 use WellFollowedBundle\Base\Filter\ResponseFormat;

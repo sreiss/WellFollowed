@@ -4,8 +4,8 @@ parameters:
     # Util
     util.metadata_factory.class: Metadata\MetadataFactory
     util.metadata.controller_annotation_driver.class: UtilBundle\Metadata\Driver\ControllerAnnotationDriver
-    util.processor.json_content_processor.class: UtilBundle\Processor\JsonContentProcessor
-    util.event_listener.json_listener.class: UtilBundle\EventListener\JsonListener
+    util.processor.controller_annotation_processor.class: UtilBundle\Processor\ControllerAnnotationProcessor
+    util.event_listener.controller_listener.class: UtilBundle\EventListener\ControllerListener
 
     # WellFollowed
     well_followed.exception_listener.class: WellFollowedBundle\EventListener\ExceptionListener
@@ -31,13 +31,13 @@ services:
         class: "%util.metadata_factory.class%"
         arguments: ["@util.metadata.controller_annotation_driver"]
 
-    util.processor.json_content_processor:
-        class: "%util.processor.json_content_processor.class%"
+    util.processor.controller_annotation_processor:
+        class: "%util.processor.controller_annotation_processor.class%"
         arguments: ["@util.metadata_factory", "@jms_serializer"]
 
-    util.event_listener.json_listener:
-        class: "%util.event_listener.json_listener.class%"
-        arguments: ["@util.processor.json_content_processor"]
+    util.event_listener.controller_listener:
+        class: "%util.event_listener.controller_listener.class%"
+        arguments: ["@util.processor.controller_annotation_processor"]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
             - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
