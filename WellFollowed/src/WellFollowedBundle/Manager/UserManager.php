@@ -10,7 +10,6 @@ namespace WellFollowedBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use OAuth2\ServerBundle\Entity\User;
-use OAuth2\ServerBundle\Manager\ClientManager;
 use OAuth2\ServerBundle\Manager\ScopeManager;
 use OAuth2\ServerBundle\User\OAuth2UserProvider;
 use WellFollowedBundle\Base\ErrorCode;

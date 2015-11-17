@@ -1,11 +1,11 @@
 angular.module('wellFollowed').directive('wfMenu', function($wfMenu) {
 
     var _menuItems = function(scope) {
-        if (scope.authentication.isAuth)
+        //if (scope.authentication.isAuth)
             scope.menuItems = $wfMenu.getMenu('main');
-        else
-            scope.menuItems = $wfMenu.getMenu('noauth');
-    }
+        //else
+        //    scope.menuItems = $wfMenu.getMenu('noauth');
+    };
 
     return {
         restrict: 'E',

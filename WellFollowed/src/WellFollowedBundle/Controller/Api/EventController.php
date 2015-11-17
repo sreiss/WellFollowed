@@ -15,7 +15,7 @@ use WellFollowedBundle\Base\ApiController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use JMS\DiExtraBundle\Annotation as DI;
-use WellFollowedBundle\Manager\EventManager;
+use WellFollowedBundle\Contract\Manager\EventManagerInterface;
 use WellFollowedBundle\Manager\Filter\EventFilter;
 use UtilBundle\Annotation\JsonContent;
 use UtilBundle\Annotation\FilterContent;
@@ -30,7 +30,7 @@ class EventController extends ApiController implements JsonControllerInterface
      *      "eventManager" = @DI\Inject("well_followed.event_manager")
      * })
      */
-    public function __construct(EventManager $eventManager) {
+    public function __construct(EventManagerInterface $eventManager) {
         $this->eventManager = $eventManager;
     }
 

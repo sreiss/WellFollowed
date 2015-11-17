@@ -26,7 +26,7 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
 
         var data = "grant_type=password&username=" +
             loginData.username + "&password=" + loginData.password + "&client_id=user&scope=readsensor";
-
+        debugger;
         var deferred = $q.defer();
 
         $http.post(serviceBase + 'token', data, { headers:

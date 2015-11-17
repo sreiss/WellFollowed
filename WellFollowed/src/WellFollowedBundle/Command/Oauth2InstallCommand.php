@@ -28,7 +28,7 @@ class Oauth2InstallCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
         $scopeManager = $container->get('oauth2.scope_manager');
-        $clientService = $container->get('well_followed.client_service');
+        $clientService = $container->get('well_followed.client_manager');
         $oauth2Scopes = $container->getParameter('oauth2_scopes');
         $oauth2PublicClients = $container->getParameter('oauth2_public_clients');
 

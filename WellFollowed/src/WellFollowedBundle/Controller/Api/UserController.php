@@ -16,8 +16,27 @@ use UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowedBundle\Base\ApiController;
 use UtilBundle\Annotation\JsonContent;
 
+use JMS\DiExtraBundle\Annotation as DI;
+use WellFollowedBundle\Contract\Manager\UserManagerInterface;
+
 class UserController extends ApiController implements JsonControllerInterface
 {
+    /** @var  UserManagerInterface */
+    private $userManager;
+
+    /**
+     * UserController constructor.
+     * @param UserManagerInterface $userManager
+     *
+     * @DI\InjectParams({
+     *      @DI\Inject("well_followed.user_manager")
+     * })
+     */
+    public function __construct(UserManagerInterface $userManager)
+    {
+        $this->userManager = $userManager;
+    }
+
     /**
      * @Route("/user", name="get_all_users")
      * @Method({"GET"})

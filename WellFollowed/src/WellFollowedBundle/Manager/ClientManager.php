@@ -6,6 +6,13 @@ use Doctrine\ORM\EntityManager;
 use OAuth2\ServerBundle\Exception\ScopeNotFoundException;
 use OAuth2\ServerBundle\Manager\ScopeManagerInterface;
 
+use JMS\DiExtraBundle\Annotation as DI;
+
+/**
+ * Class ClientManager
+ * @package WellFollowedBundle\Manager
+ * @DI\Service("well_followed.client_manager")
+ */
 class ClientManager
 {
     private $em;
@@ -16,6 +23,17 @@ class ClientManager
     private $sm;
     private $clientManager;
 
+    /**
+     * @param EntityManager $entityManager
+     * @param ScopeManagerInterface $scopeManager
+     * @param \OAuth2\ServerBundle\Manager\ClientManager $clientManager
+     *
+     * @DI\InjectParams({
+     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
+     *      "scopeManager" = @DI\Inject("oauth2.scope_manager"),
+     *      "clientManager" = @DI\Inject("oauth2.client_manager")
+     * })
+     */
     public function __construct(EntityManager $entityManager, ScopeManagerInterface $scopeManager, \OAuth2\ServerBundle\Manager\ClientManager $clientManager)
     {
         $this->em = $entityManager;
