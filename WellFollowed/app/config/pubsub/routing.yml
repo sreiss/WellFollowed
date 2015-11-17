@@ -1,0 +1,7 @@
+wellfollowed_sensor_topic:
+    channel: sensor/{sensorName}
+    handler:
+        callback: 'wellfollowed.sensor'
+    requirements:
+        sensorName:
+            pattern: "[a-zA-Z0-9]+"

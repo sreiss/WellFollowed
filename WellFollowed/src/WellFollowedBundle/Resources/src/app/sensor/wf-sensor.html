@@ -1,7 +1,16 @@
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-md-6">
-            <wf-sensor-temperature></wf-sensor-temperature>
+    <div ng-if="hasWsSession">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                Capteurs à afficher
+            </div>
+            <div class="panel-body">
+                <label class="checkbox-inline" ng-repeat="sensor in sensors">
+                    <input type="checkbox" ng-model="sensor.displayed"/>{{sensor.label}}
+                </label>
+            </div>
         </div>
+        <wf-sensor-temperature sensor="sensor" ng-repeat="sensor in sensors"
+                               ng-show="sensor.displayed"></wf-sensor-temperature>
     </div>
 </div>

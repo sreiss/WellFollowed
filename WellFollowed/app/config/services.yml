@@ -40,7 +40,7 @@ services:
         arguments: ["@util.processor.controller_annotation_processor"]
         tags:
             - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
-            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
+#            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
 #    service_name:
 #        class: AppBundle\Directory\ClassName

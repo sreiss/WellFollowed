@@ -38,11 +38,11 @@ class ControllerListener
         }
     }
 
-    public function onKernelResponse(FilterResponseEvent $event)
-    {
-        if (!empty($event->getRequest()->attributes->get('entity'))) {
-            $response = $event->getResponse();
-            $this->processor->onKernelResponse($response);
-        }
-    }
+//    public function onKernelResponse(FilterResponseEvent $event)
+//    {
+//        if (!empty($event->getRequest()->attributes->get('entity'))) {
+//            $response = $event->getResponse();
+//            $this->processor->onKernelResponse($response);
+//        }
+//    }
 }

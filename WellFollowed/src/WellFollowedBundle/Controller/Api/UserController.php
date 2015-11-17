@@ -17,22 +17,22 @@ use WellFollowedBundle\Base\ApiController;
 use UtilBundle\Annotation\JsonContent;
 
 use JMS\DiExtraBundle\Annotation as DI;
-use WellFollowedBundle\Contract\Manager\UserManagerInterface;
+use WellFollowedBundle\Manager\UserManager;
 
 class UserController extends ApiController implements JsonControllerInterface
 {
-    /** @var  UserManagerInterface */
+    /** @var  UserManager */
     private $userManager;
 
     /**
      * UserController constructor.
-     * @param UserManagerInterface $userManager
+     * @param UserManager $userManager
      *
      * @DI\InjectParams({
-     *      @DI\Inject("well_followed.user_manager")
+     *      "userManager" = @DI\Inject("well_followed.user_manager")
      * })
      */
-    public function __construct(UserManagerInterface $userManager)
+    public function __construct(UserManager $userManager)
     {
         $this->userManager = $userManager;
     }
@@ -58,11 +58,10 @@ class UserController extends ApiController implements JsonControllerInterface
      */
     public function getAppUser(Request $request, $id)
     {
-        return $this->jsonResponse(
-            $this->getDoctrine()
-                ->getRepository('WellFollowedBundle:User')
-                ->find($id)
-        );
+        $user = $this->userManager
+            ->getUser($id);
+
+        return $this->jsonResponse($user);
     }
 
     /**
@@ -75,7 +74,7 @@ class UserController extends ApiController implements JsonControllerInterface
         $user = $this->get('well_followed.user_manager')
             ->createUser($request->attributes->get('json'));
 
-        return new Response($user);
+        return $this->jsonResponse($user);
         /*
         $user = $this->getDoctrine()
             ->getRepository('WellFollowedBundle:User')

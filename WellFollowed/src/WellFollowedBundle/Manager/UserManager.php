@@ -36,6 +36,7 @@ class UserManager implements UserManagerInterface
      * @param ClientManager $clientManager
      * @param $userCredentialsGrantType
      * @param ScopeManager $scopeManager
+     *
      * @DI\InjectParams({
      *      "userProvider" = @DI\Inject("oauth2.user_provider"),
      *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
@@ -51,6 +52,12 @@ class UserManager implements UserManagerInterface
         $this->clientManager = $clientManager;
         $this->userCredentialsGrantType = $userCredentialsGrantType;
         $this->scopeManager = $scopeManager;
+    }
+
+    public function getUser($id)
+    {
+        return $this->em->getRepository('OAuth2ServerBundle:User')
+            ->find($id);
     }
 
     public function createUser(User $user)
