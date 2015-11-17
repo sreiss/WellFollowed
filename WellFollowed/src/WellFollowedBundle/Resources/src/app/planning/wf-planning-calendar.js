@@ -14,8 +14,8 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
                 };
 
                 $wfEvent.getEvents(filter)
-                    .then(function (result) {
-                        angular.merge($scope.events, result.data);
+                    .success(function (result) {
+                        angular.merge($scope.events, result);
                         uiCalendarConfig.calendars
                             .eventsCalendar
                             .fullCalendar('refresh');

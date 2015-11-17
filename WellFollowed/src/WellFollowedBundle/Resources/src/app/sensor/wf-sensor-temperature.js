@@ -9,7 +9,7 @@ angular.module('wellFollowed').directive('wfSensorTemperature', function() {
         link: function(scope, element, attributes, wfSensor) {
             var session = wfSensor.getWsSession();
 
-            session.subscribe('sensor/' + scope.sensor.name, function(uri, payload) {
+            session.subscribe('sensor/data/' + scope.sensor.name, function(uri, payload) {
                 console.log(payload);
             });
         }

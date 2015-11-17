@@ -1,5 +1,5 @@
 wellfollowed_sensor_topic:
-    channel: sensor/{sensorName}
+    channel: sensor/data/{sensorName}
     handler:
         callback: 'wellfollowed.sensor'
     requirements:
