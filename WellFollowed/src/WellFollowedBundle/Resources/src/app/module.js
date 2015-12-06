@@ -55,6 +55,10 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
         .state('subscription', {
             url: '/compte/inscription',
             template: '<wf-account-create></wf-account-create>'
+        })
+        .state('reset-password', {
+            url: '/compte/reinitialisation',
+            template: '<wf-account-reset></wf-account-reset>'
         });
 
     $urlRouterProvider.otherwise('/');
