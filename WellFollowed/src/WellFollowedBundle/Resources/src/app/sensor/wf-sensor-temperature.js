@@ -6,12 +6,11 @@ angular.module('wellFollowed').directive('wfSensorTemperature', function() {
             sensor: '='
         },
         require: '^wfSensor',
+        controller: function($scope) {
+            $scope.data = [];
+        },
         link: function(scope, element, attributes, wfSensor) {
-            var session = wfSensor.getWsSession();
-
-            session.subscribe('sensor/data/' + scope.sensor.name, function(uri, payload) {
-                console.log(payload);
-            });
+            scope.currentTemp = 0;
         }
     };
 });
