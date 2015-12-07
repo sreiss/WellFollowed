@@ -55,6 +55,10 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
         .state('subscription', {
             url: '/compte/inscription',
             template: '<wf-account-create></wf-account-create>'
+        })
+        .state('rtSimulation', {
+            url: '/dummy/rtSimulation/:sensorName',
+            template: function(params) { return '<wf-dummy-rt-simulation sensor-name="' + params.sensorName + '"></wf-dummy-rt-simulation>'; }
         });
 
     $urlRouterProvider.otherwise('/');

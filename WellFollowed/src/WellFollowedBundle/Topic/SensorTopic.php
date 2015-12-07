@@ -45,9 +45,9 @@ class SensorTopic implements TopicInterface {
     {
         //this will broadcast the message to ALL subscribers of this topic.
         $sensorName = $request->getAttributes()->get('sensorName');
-        $connection->event($topic->getId(), array(
-            'msg' => $this->sensorManager->getSensorQueue($sensorName)
-        ));
+//        $connection->event($topic->getId(), array(
+//            'msg' => $this->sensorManager->getSensorQueue($sensorName)
+//        ));
     }
 
     /**
