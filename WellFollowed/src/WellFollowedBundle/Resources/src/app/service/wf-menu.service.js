@@ -6,7 +6,7 @@ angular.module('wellFollowed').factory('$wfMenu', function() {
             { name: 'Compte', state: 'account', right: 'ReadAccount' }
         ],
         'noauth': [
-            { name: 'S\'inscrire', state: 'accountCreate'},
+            { name: 'S\'inscrire', state: 'subscription'},
             { name: 'Se connecter', state: 'login'}
         ]
     };
