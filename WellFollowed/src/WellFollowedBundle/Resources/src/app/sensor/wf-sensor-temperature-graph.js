@@ -54,6 +54,10 @@ angular.module('wellFollowed').directive('wfSensorTemperatureGraph', function() 
                .duration(750)
                .ease("linear");
 
+           d3.select(window)
+               .on("resize", function() {
+
+               });
            //d3.select(window)
            //    .on("scroll", function() { ++count; });
 

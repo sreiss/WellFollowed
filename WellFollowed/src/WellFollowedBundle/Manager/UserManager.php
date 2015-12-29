@@ -40,7 +40,7 @@ class UserManager implements UserManagerInterface
      * @DI\InjectParams({
      *      "userProvider" = @DI\Inject("oauth2.user_provider"),
      *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *      "clientManager" = @DI\Inject("oauth2.client_manager"),
+     *      "clientManager" = @DI\Inject("well_followed.client_manager"),
      *      "userCredentialsGrantType" = @DI\Inject("oauth2.grant_type.user_credentials"),
      *      "scopeManager" = @DI\Inject("oauth2.scope_manager")
      * })

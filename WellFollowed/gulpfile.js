@@ -37,6 +37,10 @@ var bundles = {
             "src": ["Resources/src/app/**/*.js", "Resources/src/app/**.js"],
             "dest": "Resources/public/js",
             "fileName": "app.min.js"
+        },
+        "appImg": {
+            "src": ["Resources/src/img/**.{png,jpg,gif}"],
+            "dest": "Resources/public/img"
         }
     }
 };
@@ -207,6 +211,10 @@ gulp.task('resources', ['clean'], function() {
                             module: options.module,
                             standalone: options.standalone
                         }))
+                        .pipe(gulp.dest(destPath));
+                } else if (resourceType == 'appImg') {
+                    stream = gulp.src(srcPath)
+                        .pipe(print())
                         .pipe(gulp.dest(destPath));
                 } else {
                     stream = gulp.src(srcPath)

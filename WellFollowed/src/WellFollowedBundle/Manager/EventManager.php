@@ -39,37 +39,37 @@ class EventManager implements EventManagerInterface
             ->getRepository('WellFollowedBundle:Event')
             ->createQueryBuilder('e');
 
-        if (!is_null($filter))
+        if ($filter !== null)
         {
             // We take into account the end of the first event matched and the end of the last one
             // in order to be consistent.
-            if (!is_null($filter->getStart()))
+            if ($filter->getStart() !== null)
                 $qb->andWhere('e.end > :start')
                     ->setParameter('start', $filter->getStart());
-            if (!is_null($filter->getEnd()))
+            if ($filter->getEnd() !== null)
                 $qb->andWhere('e.end < :end')
                     ->setParameter('end', $filter->getEnd());
-            if (!is_null($filter->getFormat()) && $filter->getFormat() == ResponseFormat::FULL_FORMAT)
-            {
-                $models = array();
-                $events = $qb->getQuery()
-//                    ->join('e.User', 'u', 'WITH', 'u.id = ?1', 'e.user_id')
-                    ->getResult();
-
-                foreach ($events as $event)
-                {
-                    $userModel = null;
-                    if (!is_null($user = $event->getUser()))
-                        $userModel = new UserModel($userModel);
-                    $models[] = new EventModel($event, $userModel);
-                }
-
-                return $models;
-            }
-
         }
 
-        return null;
+        $models = array();
+        //if ($filter !== null && $filter->getFormat() !== null && $filter->getFormat() == ResponseFormat::FULL_FORMAT)
+        //{
+            $events = $qb->getQuery()
+//                    ->join('e.User', 'u', 'WITH', 'u.id = ?1', 'e.user_id')
+                ->getResult();
+
+            foreach ($events as $event)
+            {
+                $userModel = null;
+                if ($user = $event->getUser() != null)
+                    $userModel = new UserModel($userModel);
+                $models[] = new EventModel($event, $userModel);
+            }
+
+            return $models;
+        //}
+
+        //return null;
     }
 
     public function createEvent(Event $event)
@@ -99,8 +99,11 @@ class EventManager implements EventManagerInterface
                 ->where('e.id = :id')
                 ->setParameter('id', $id);
 
-            return $qb->getQuery()
+            $deletedCount = $qb->getQuery()
                 ->execute();
+
+            if ($deletedCount == 0)
+                throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
         }
 
         throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);

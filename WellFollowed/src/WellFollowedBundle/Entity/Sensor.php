@@ -23,9 +23,9 @@ class Sensor
     /**
      * @var string
      *
-     * @ORM\Column(name="label", type="string", length=255)
+     * @ORM\Column(name="tag", type="string", length=255)
      */
-    private $label;
+    private $tag;
 
     /**
      * @var string
@@ -83,23 +83,23 @@ class Sensor
     }
 
     /**
-     * Get label
+     * Get tag
      *
      * @return string
      */
-    public function getLabel()
+    public function getTag()
     {
-        return $this->label;
+        return $this->tag;
     }
 
     /**
-     * Set label
+     * Set tag
      *
-     * @param string $label
+     * @param string $tag
      */
-    public function setLabel($label)
+    public function setTag($tag)
     {
-        $this->label = $label;
+        $this->tag = $tag;
     }
 }
 

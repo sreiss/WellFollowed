@@ -15,7 +15,7 @@ class EventFilter implements FilterInterface
 {
     private $start;
     private $end;
-    private $format;
+    private $format = ResponseFormat::FULL_FORMAT;
 
     /**
      * @return mixed

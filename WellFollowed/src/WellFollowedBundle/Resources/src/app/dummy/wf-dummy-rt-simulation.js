@@ -1,10 +1,10 @@
-angular.module('wellFollowed').directive('wfDummyRtSimulation', function(wfAuthSettings) {
+angular.module('wellFollowed').directive('wfDummyRtSimulation', function(wfAuthSettings, $interval) {
     return {
         restrict: 'E',
         scope: {
             sensorName: '@'
         },
-        controller: function($scope, $interval) {
+        link: function (scope, element, attributes) {
             var websocket = WS.connect(wfAuthSettings.websocketUrl);
             var wsSession = null;
 
@@ -14,17 +14,16 @@ angular.module('wellFollowed').directive('wfDummyRtSimulation', function(wfAuthS
 
                 $interval(function() {
                     var val = Math.floor((Math.random() * 10) + 9);
-                    console.log('Value ' + val + ' sent to ' + $scope.sensorName);
-                    wsSession.publish('sensor/data/' + $scope.sensorName, {date: new Date(), val: val});
+                    var p  = document.createElement('p');
+                    angular.element(p).text('[' + new Date() + '] Value ' + val + ' sent to ' + scope.sensorName);
+                    element.prepend(p);
+                    wsSession.publish('sensor/data/' + scope.sensorName, {date: new Date(), val: val});
                 }, 1000);
             });
 
             websocket.on('socket/disconnect', function (error) {
                 wsSession = null;
             });
-        },
-        link: function (scope, element, attributes) {
-
         }
     };
 });

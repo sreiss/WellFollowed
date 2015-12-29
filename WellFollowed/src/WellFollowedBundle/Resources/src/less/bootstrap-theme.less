@@ -1,0 +1,37 @@
+@import './variables.less';
+
+.navbar-default {
+  background-color: @bg;
+}
+
+.navbar-default .navbar-brand {
+  color: @primary;
+  -webkit-transition: color 0.2s;
+  transition: color 0.2s;
+}
+
+.navbar-default .navbar-brand:hover {
+  color: @secondary;
+}
+
+.navbar-nav>li>a {
+  padding-bottom: 13px;
+  border-bottom: 2px solid transparent;
+  -webkit-transition: border 0.2s, color 0.2s;
+  transition: border 0.2s, color 0.2s;
+}
+
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:hover {
+  border-color: @primary;
+  background-color: transparent;
+}
+
+.panel-default>.panel-heading {
+  color: @primary;
+  background-color: @bg;
+}
+
+.panel {
+  min-height: 132px;
+}

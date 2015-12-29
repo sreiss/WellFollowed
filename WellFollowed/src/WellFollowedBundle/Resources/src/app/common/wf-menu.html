@@ -15,8 +15,16 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <!--<li class="active"><a href="#">Link <span class="sr-only">(current)</span></a></li>-->
-                <li ng-repeat="item in menuItems">
-                    <a ui-sref="{{item.state}}">{{ item.name }}</a>
+                <li ng-repeat="item in menuItems" ng-class="{'dropdown': !!item.items}">
+                    <a ui-sref="{{item.state}}" ng-if="!item.items">{{ item.name }}</a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" ng-if="!!item.items">
+                        {{item.name}} <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" ng-if="!!item.items">
+                        <li ng-repeat="item2 in item.items">
+                            <a ui-sref="{{item2.state}}">{{item2.name}}</a>
+                        </li>
+                    </ul>
                 </li>
             </ul>
             <ul class="nav navbar-nav navbar-right" ng-if="authentication.isAuth">

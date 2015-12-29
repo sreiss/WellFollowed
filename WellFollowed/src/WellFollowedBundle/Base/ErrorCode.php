@@ -21,4 +21,11 @@ abstract class ErrorCode
     const USER_EXISTS = "USER_EXISTS";
     const UNAUTHORIZED = "UNAUTHORIZED";
     const NOT_FOUND = "NOT_FOUND";
+
+    // InstitutionType
+    const INSTITUTION_TYPE_EXISTS = "INSTITUTION_TYPE_EXISTS";
+
+    // Model
+    const NO_MODEL_PROVIDED = "NO_MODEL_PROVIDED";
+    const AN_ID_MUST_BE_PROVIDED = "AN_ID_MUST_BE_PROVIDED";
 }

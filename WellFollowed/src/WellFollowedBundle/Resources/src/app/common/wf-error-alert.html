@@ -1,3 +1,5 @@
 <div>
-    <uib-alert type="danger" close="close(alert)">{{alert.message | wfError }}</uib-alert>
+    <uib-alert type="danger" close="close(alert)">
+        {{alert.message | wfError }} <span class="label label-warning pull-right">(alertes restantes: {{alertCount}})</span>
+    </uib-alert>
 </div>

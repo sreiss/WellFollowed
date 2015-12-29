@@ -4,7 +4,8 @@ angular.module('wellFollowed').directive('wfErrorAlert', function() {
        templateUrl: 'common/wf-error-alert.html',
        scope: {
            alert: '=alertObject',
-           close: '='
+           close: '=',
+           alertCount: '='
        },
        link: function(scope, element, attributes) {
 

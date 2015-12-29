@@ -59,6 +59,19 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
         .state('rtSimulation', {
             url: '/dummy/rtSimulation/:sensorName',
             template: function(params) { return '<wf-dummy-rt-simulation sensor-name="' + params.sensorName + '"></wf-dummy-rt-simulation>'; }
+        })
+        .state('admin', {
+            url: '/admin',
+            abstract: true,
+            template: '<wf-admin></wf-admin>'
+        })
+        .state('admin.institutionTypes', {
+            url: '/institution-types',
+            template: '<wf-admin-institution-types></wf-admin-institution-types>'
+        })
+        .state('admin.institutionType', {
+            url: '/institution-type/:id',
+            template: function(params) { return '<wf-admin-institution-type institution-type-id="' + params.id + '"></wf-admin-institution-type>'; }
         });
 
     $urlRouterProvider.otherwise('/');

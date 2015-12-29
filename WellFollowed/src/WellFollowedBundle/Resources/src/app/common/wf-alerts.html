@@ -1,0 +1,6 @@
+<div class="container-fluid">
+    <span ng-if="alerts.length > 0">
+        <wf-error-alert close="close" alert-object="alerts[0]" ng-if="alerts[0].type === alertTypes.error" alert-count="alerts.length"></wf-error-alert>
+        <wf-success-alert close="close" alert-object="alerts[0]" ng-if="alerts[0].type === alertTypes.success" alert-count="alerts.length"></wf-success-alert>
+    </span>
+</div>

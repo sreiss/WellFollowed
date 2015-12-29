@@ -165,7 +165,7 @@ class Event
     }
 
     /**
-     * @return WellFollowedBundle\Entity\User
+     * @return \WellFollowedBundle\Entity\User
      */
     public function getUser()
     {
@@ -173,7 +173,7 @@ class Event
     }
 
     /**
-     * @param WellFollowedBundle\Entity\User $user
+     * @param \WellFollowedBundle\Entity\User $user
      */
     public function setUser($user)
     {
