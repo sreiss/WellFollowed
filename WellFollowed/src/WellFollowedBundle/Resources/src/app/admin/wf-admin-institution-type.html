@@ -6,36 +6,40 @@
                 {{institutionType.tag}}
             </div>
         </div>
-        <div class="panel-body" ng-if="institutionType !== null">
-            <form name="institutionTypeForm" class="form-horizontal">
+        <form name="institutionTypeForm" class="form-horizontal">
+            <div class="panel-body" ng-if="institutionType !== null">
+
                 <div class="row">
                     <div class="col-md-4 col-md-offset-4">
-                        <div class="form-group">
+                        <div class="form-group has-feeback"
+                             ng-class="{'has-error': institutionTypeForm.tag.$invalid}">
                             <label class="control-label col-md-3" for="tag">Nom</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" ng-model="institutionType.tag" name="tag" id="tag" required />
+                                <input type="text" class="form-control" ng-model="institutionType.tag" name="tag"
+                                       id="tag" required/>
                             </div>
                         </div>
                     </div>
                 </div>
-            </form>
-        </div>
-        <div class="panel-footer" ng-if="institutionType !== null">
-            <div class="row">
-                <div ng-class="{'col-md-offset-4 col-md-4': previousState != '', 'col-md-offset-5 col-md-2': previousState == ''}">
-                    <div class="btn-group btn-group-justified">
-                        <a class="btn btn-default" ui-sref="{{previousState}}" ng-if="previousState != ''">
-                            Retour
-                        </a>
-                        <a class="btn btn-primary" ng-click="createInstitutionType()" ng-if="!institutionTypeId">
-                            Créer
-                        </a>
-                        <a class="btn btn-primary" ng-click="updateInstitutionType()" ng-if="!!institutionTypeId">
-                            Sauvegarder
-                        </a>
+
+            </div>
+            <div class="panel-footer" ng-if="institutionType !== null">
+                <div class="row">
+                    <div ng-class="{'col-md-offset-4 col-md-4': previousState != '', 'col-md-offset-5 col-md-2': previousState == ''}">
+                        <div class="btn-group btn-group-justified">
+                            <a class="btn btn-default" ui-sref="{{previousState}}" ng-if="previousState != ''">
+                                Retour
+                            </a>
+                            <a class="btn btn-primary" ng-click="createInstitutionType()" ng-if="!institutionTypeId" ng-disabled="institutionTypeForm.$invalid">
+                                Créer
+                            </a>
+                            <a class="btn btn-primary" ng-click="updateInstitutionType()" ng-if="!!institutionTypeId" ng-disabled="institutionTypeForm.$invalid">
+                                Sauvegarder
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
