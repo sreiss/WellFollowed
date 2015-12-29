@@ -7,6 +7,7 @@ angular.module('wellFollowed').directive('wfApp', function($wfAuth, wfAlertTypes
            $scope.alerts = [];
            $scope.showErrors = true;
            $scope.authentication = $wfAuth.authentication;
+           $scope.previousState = {};
 
            this.getAuthentication = function() {
                return $scope.authentication;
@@ -23,8 +24,13 @@ angular.module('wellFollowed').directive('wfApp', function($wfAuth, wfAlertTypes
                 });
            };
 
-           $scope.$on('stateChangeSuccess', function() {
+           this.getPreviousState = function() {
+                return $scope.previousState;
+           };
+
+           $scope.$on('$stateChangeSuccess', function(event, to, toParams, previous, previousParams) {
                $scope.showErrors = true;
+               $scope.previousState = previous;
            });
 
            $scope.logOut = function() {

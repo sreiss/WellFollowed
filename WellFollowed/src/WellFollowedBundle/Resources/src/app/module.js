@@ -72,6 +72,14 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
         .state('admin.institutionType', {
             url: '/institution-type/:id',
             template: function(params) { return '<wf-admin-institution-type institution-type-id="' + params.id + '"></wf-admin-institution-type>'; }
+        })
+        .state('admin.institutions', {
+            url: '/institutions',
+            template: '<wf-admin-institutions></wf-admin-institutions>'
+        })
+        .state('admin.institution', {
+            url: '/institution/:id',
+            template: function(params) { return '<wf-admin-institution institution-id="' + params.id + '"></wf-admin-institution>'; }
         });
 
     $urlRouterProvider.otherwise('/');

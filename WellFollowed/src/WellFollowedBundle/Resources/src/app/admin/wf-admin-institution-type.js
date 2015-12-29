@@ -36,6 +36,8 @@ angular.module('wellFollowed').directive('wfAdminInstitutionType', function($wfI
                         $state.go('admin.institutionTypes');
                     });
             };
+
+            scope.previousState = wfApp.getPreviousState().name || 'admin.institutionTypes';
         }
     };
 });

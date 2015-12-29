@@ -25,6 +25,8 @@ abstract class ErrorCode
     // InstitutionType
     const INSTITUTION_TYPE_EXISTS = "INSTITUTION_TYPE_EXISTS";
 
+    const INSTITUTION_EXISTS = "INSTITUTION_EXISTS";
+
     // Model
     const NO_MODEL_PROVIDED = "NO_MODEL_PROVIDED";
     const AN_ID_MUST_BE_PROVIDED = "AN_ID_MUST_BE_PROVIDED";
