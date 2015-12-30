@@ -11,8 +11,8 @@ app/phpunit.xml
 bin/
 composer.phar
 vendor/
-src/*/Resources/dist
-src/*/Resources/public
+src/*/*/Resources/dist
+src/*/*/Resources/public
 bower_components/
 node_modules/
 composer.lock
