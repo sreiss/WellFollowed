@@ -67,7 +67,7 @@ var bowerConfig = {
             ]
         },
         "fonts": {
-            "dest": "/Resources/public/lib/fonts"
+            "dest": "Resources/public/lib/fonts"
         }
     }
 };
