@@ -1,7 +1,7 @@
 <div class="container-fluid">
     <div class="panel panel-default">
         <wf-loader ng-if="institution === null"></wf-loader>
-        <div class="panel-heading" ng-if="institution !== null">
+        <div class="panel-heading" ng-if="institution !== null && !!institution.tag">
             <div class="panel-title">
                 {{institution.type.tag}} {{institution.tag}}
             </div>

@@ -1,4 +1,4 @@
-angular.module('wellFollowed').directive('wfAdminInstitutions', function($wfInstitution) {
+angular.module('wellFollowed').directive('wfAdminInstitutions', function($wfInstitution, $wfModal) {
     return {
         restrict: 'E',
         templateUrl: 'admin/wf-admin-institutions.html',
@@ -16,8 +16,14 @@ angular.module('wellFollowed').directive('wfAdminInstitutions', function($wfInst
             refresh();
 
             scope.deleteInstitution = function(id) {
-                scope.institutions = null;
-                $wfInstitution.deleteInstitution(id)
+                $wfModal.open({
+                    scope: scope,
+                    directiveName: 'wf-delete-modal'
+                })
+                    .then(function () {
+                        scope.institutions = null;
+                        return $wfInstitution.deleteInstitution(id);
+                    })
                     .then(function(response) {
                         wfApp.addSuccess("Établissement supprimé.");
                     })

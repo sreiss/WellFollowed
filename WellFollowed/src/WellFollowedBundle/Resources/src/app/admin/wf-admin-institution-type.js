@@ -16,9 +16,7 @@ angular.module('wellFollowed').directive('wfAdminInstitutionType', function($wfI
                         scope.institutionType = response.data;
                     });
             } else {
-                scope.institutionType = {
-                    tag: "Nouveau Type d'établissement"
-                };
+                scope.institutionType = {};
             }
 
             scope.createInstitutionType = function() {

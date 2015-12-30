@@ -23,9 +23,7 @@ angular.module('wellFollowed').directive('wfAdminInstitution', function($wfInsti
                         scope.institution = response.data;
                     });
             } else {
-                scope.institution = {
-                    tag: "Nouvel établissement"
-                };
+                scope.institution = {};
             }
 
             scope.createInstitution = function() {
