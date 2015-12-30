@@ -4,8 +4,8 @@
     <meta charset="UTF-8" />
     <title>{% block title %}Welcome!{% endblock %}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="bundles/wellfollowed/lib/css/lib.min.css">
-    <link rel="stylesheet" href="bundles/wellfollowed/css/app.min.css">
+    <link rel="stylesheet" href="bundles/wellfollowedapp/lib/css/lib.min.css">
+    <link rel="stylesheet" href="bundles/wellfollowedapp/css/app.min.css">
     {% block stylesheets %}
     {% endblock %}
     <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
@@ -17,10 +17,10 @@
     {% endblock %}
     #}
     <wf-app></wf-app>
-    <script src="bundles/wellfollowed/lib/js/lib.min.js"></script>
-    <script src="bundles/wellfollowed/lib/js/templates.js"></script>
-    <script src="bundles/wellfollowed/js/templates.js"></script>
-    <script src="bundles/wellfollowed/js/app.min.js"></script>
+    <script src="bundles/wellfollowedapp/lib/js/lib.min.js"></script>
+    <script src="bundles/wellfollowedapp/lib/js/templates.js"></script>
+    <script src="bundles/wellfollowedapp/js/templates.js"></script>
+    <script src="bundles/wellfollowedapp/js/app.min.js"></script>
     {% block javascripts %}{% endblock %}
     {{ ws_client() }}
 </body>
