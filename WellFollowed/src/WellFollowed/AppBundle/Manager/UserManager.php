@@ -9,9 +9,13 @@
 namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
-use OAuth2\ServerBundle\Entity\User;
+use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
+use WellFollowed\AppBundle\Manager\Filter\UserFilter;
+use WellFollowed\AppBundle\Model\User\UserListModel;
+use WellFollowed\AppBundle\Model\User\UserModel;
+use WellFollowed\OAuth2ServerBundle\Entity\User;
 use OAuth2\ServerBundle\Manager\ScopeManager;
-use OAuth2\ServerBundle\User\OAuth2UserProvider;
+use WellFollowed\OAuth2ServerBundle\User\OAuth2UserProvider;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 use WellFollowed\AppBundle\Contract\Manager\UserManagerInterface;
@@ -25,7 +29,7 @@ use JMS\DiExtraBundle\Annotation as DI;
 class UserManager implements UserManagerInterface
 {
     private $userProvider;
-    private $em;
+    private $entityManager;
     private $clientManager;
     private $userCredentialsGrantType;
     private $scopeManager;
@@ -48,36 +52,78 @@ class UserManager implements UserManagerInterface
     public function __construct(OAuth2UserProvider $userProvider, EntityManager $entityManager, ClientManager $clientManager, $userCredentialsGrantType, ScopeManager $scopeManager)
     {
         $this->userProvider = $userProvider;
-        $this->em = $entityManager;
+        $this->entityManager = $entityManager;
         $this->clientManager = $clientManager;
         $this->userCredentialsGrantType = $userCredentialsGrantType;
         $this->scopeManager = $scopeManager;
     }
 
-    public function getUser($id)
+    public function getUsers(UserFilter $filter)
     {
-        return $this->em->getRepository('OAuth2ServerBundle:User')
-            ->find($id);
+        $models = [];
+        $qb = null;
+
+        if (!is_null($filter)) {
+            // TODO: handle filter
+        }
+
+        if ($qb === null) {
+            $qb = $this->entityManager
+                ->createQuery('SELECT partial u.{id,username,lastName,firstName} FROM WellFollowedOAuth2ServerBundle:User u');
+
+            $users = $qb->getResult();
+
+            foreach ($users as $user) {
+                $model = new UserListModel($user);
+                $models[] = $model;
+            }
+        }
+
+        return $models;
     }
 
-    public function createUser(User $user)
+    public function getUser($username)
     {
-        $existingUser = $this->em->getRepository('OAuth2ServerBundle:User')
-            ->find($user->getUsername());
+        $user = $this->userProvider
+            ->loadUserByUsername($username);
 
-        if (!is_null($existingUser))
+        if ($user === null)
+            throw new WellFollowedException(ErrorCode::NOT_FOUND);
+
+        return new UserModel($user);
+    }
+
+    public function createUser(UserModel $model)
+    {
+        if ($model === null)
+            throw new WellFollowedException(ErrorCode::NO_MODEL_PROVIDED);
+
+        $existingUser = $this->entityManager
+            ->getRepository('WellFollowedOAuth2ServerBundle:User')
+            ->findOneBy(array('username' => $model->getUsername()));
+
+        if ($existingUser !== null)
             throw new WellFollowedException(ErrorCode::USER_EXISTS);
 
         $this->clientManager
             ->createClient(
-                $user->getUsername(),
+                $model->getUsername(),
                 array('http://localhost:8085'),
                 array('password'),
                 array('readsensor')
-            )
-            ;
+            );
 
-        return $this->userProvider
-            ->createUser($user->getUsername(), $user->getPassword());
+        $user = $this->userProvider
+            ->createUser(
+                $model->getUsername(),
+                $model->getPassword(),
+                $model->getFirstName(),
+                $model->getLastName(),
+                $model->getSubscriptionDate(),
+                ($model->getRoles() !== null) ?:array(),
+                ($model->getScopes() !== null) ?:array()
+            );
+
+        return new UserModel($user);
     }
 }

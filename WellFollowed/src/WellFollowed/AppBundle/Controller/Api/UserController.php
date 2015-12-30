@@ -15,10 +15,17 @@ use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\UtilBundle\Annotation\JsonContent;
+use WellFollowed\UtilBundle\Annotation\FilterContent;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Manager\UserManager;
 
+/**
+ * Class UserController
+ * @package WellFollowed\AppBundle\Controller\Api
+ *
+ * @Route("/user")
+ */
 class UserController extends ApiController implements JsonControllerInterface
 {
     /** @var  UserManager */
@@ -38,43 +45,41 @@ class UserController extends ApiController implements JsonControllerInterface
     }
 
     /**
-     * @Route("/user", name="get_all_users")
+     * @Route(" ", name="get_users")
      * @Method({"GET"})
+     * @FilterContent("WellFollowed\AppBundle\Manager\Filter\UserFilter")
      */
-    public function getAllUsers()
+    public function getUsersAction(Request $request)
     {
-        $users = $this->getDoctrine()
-            ->getRepository('WellFollowed\AppBundle:User')
-            ->findUsers();
+        $models = $this->userManager
+            ->getUsers($request->attributes->get('filter'));
 
-        return $this->jsonResponse(array(
-           'users' => $users
-        ));
+        return $this->jsonResponse($models);
     }
 
     /**
-     * @Route("/user/{id}", name="get_user", requirements={"id" = "\d+"})
+     * @Route("/{username}", name="get_user", requirements={"username" = "[a-zA-Z][a-zA-Z0-9]+"})
      * @Method({"GET"})
      */
-    public function getAppUser(Request $request, $id)
+    public function getUserAction(Request $request, $username)
     {
         $user = $this->userManager
-            ->getUser($id);
+            ->getUser($username);
 
         return $this->jsonResponse($user);
     }
 
     /**
-     * @Route("/user", name="post_user")
+     * @Route(" ", name="create_user")
      * @Method({"POST"})
-     * @JsonContent("OAuth2\ServerBundle\Entity\User")
+     * @JsonContent("WellFollowed\AppBundle\Model\User\UserModel")
      */
-    public function createUser(Request $request)
+    public function createUserAction(Request $request)
     {
-        $user = $this->get('well_followed.user_manager')
+        $model = $this->userManager
             ->createUser($request->attributes->get('json'));
 
-        return $this->jsonResponse($user);
+        return $this->jsonResponse($model);
         /*
         $user = $this->getDoctrine()
             ->getRepository('WellFollowed\AppBundle:User')

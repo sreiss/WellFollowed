@@ -52,9 +52,10 @@ class Event
     private $end;
 
     /**
-     * @var \WellFollowed\AppBundle\Entity\User
+     * @var \WellFollowed\OAuth2ServerBundle\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="WellFollowed\OAuth2ServerBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(name="username", referencedColumnName="username")
      */
     private $user;
 

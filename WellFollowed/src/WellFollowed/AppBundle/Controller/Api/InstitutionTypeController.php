@@ -39,13 +39,14 @@ class InstitutionTypeController extends ApiController implements JsonControllerI
     /**
      * @Route(" ", name="get_institution_types")
      * @Method({"GET"})
+     * @FilterContent("WellFollowed\AppBundle\Manager\Filter\InstitutionTypeFilter")
      */
     public function getInstitutionTypesAction(Request $request)
     {
-        $model = $this->institutionTypeManager
+        $models = $this->institutionTypeManager
             ->getInstitutionTypes($request->attributes->get('filter'));
 
-        return $this->jsonResponse($model);
+        return $this->jsonResponse($models);
     }
 
     /**

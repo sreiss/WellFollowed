@@ -3,14 +3,14 @@
  * @author Taiseer Joudeh
  * @url http://www.codeproject.com/Articles/784106/AngularJS-Token-Authentication-using-ASP-NET-Web-A
  */
-angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStorageService, wfAuthSettings) {
+angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStorageService, wfAuthSettings) {
     var serviceBase = wfAuthSettings.apiUrl + '/';
     var _baseUrl = wfAuthSettings.apiUrl + '/api/user';
     var authServiceFactory = {};
 
     var _authentication = {
         isAuth: false,
-        userName : ""
+        userName: ""
     };
 
     var _createUser = function (registration) {
@@ -25,32 +25,38 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
     var _login = function (loginData) {
 
         var data = "grant_type=password&username=" +
-            loginData.username + "&password=" + loginData.password + "&client_id=user&scope=readsensor";
-        debugger;
-        var deferred = $q.defer();
+            loginData.username + "&password=" + loginData.password + "&client_id=" + loginData.username + "&scope=readsensor";
 
-        $http.post(serviceBase + 'token', data, { headers:
-        { 'Content-Type': 'application/x-www-form-urlencoded' } }).success(function (response) {
 
-            localStorageService.set('authorizationData',
-                { token: response.access_token, username: loginData.username });
+        return $http.post(serviceBase + 'token', data, {
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function (response) {
+
+            localStorageService.set('authorizationData', {
+                token: response.access_token,
+                username: loginData.username
+            });
 
             _authentication.isAuth = true;
             _authentication.username = loginData.username;
 
-            deferred.resolve(response);
-
-        }).error(function (err, status) {
+            return loginData.username;
+        }, function (response) {
             _logout();
-            deferred.reject(err);
+            return $q.reject(response);
+        }).then(function (username) {
+            $http.get(_baseUrl + '/' + username)
+                .then(function(response) {
+                    localStorageService.set('currentUser', response.data);
+                });
         });
 
-        return deferred.promise;
     };
 
     var _logout = function () {
 
         localStorageService.remove('authorizationData');
+        localStorageService.remove('currentUser');
 
         _authentication.isAuth = false;
         _authentication.username = "";
@@ -59,11 +65,14 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
     var _fillAuthData = function () {
 
         var authData = localStorageService.get('authorizationData');
-        if (authData)
-        {
+        if (authData) {
             _authentication.isAuth = true;
             _authentication.userName = authData.username;
         }
+    };
+
+    var _getCurrentUser = function() {
+        return localStorageService.get('currentUser');
     };
 
     return {
@@ -71,6 +80,7 @@ angular.module('wellFollowed').factory('$wfAuth', function($http, $q, localStora
         login: _login,
         logout: _logout,
         fillAuthData: _fillAuthData,
-        authentication: _authentication
+        authentication: _authentication,
+        getCurrentUser: _getCurrentUser
     };
 });

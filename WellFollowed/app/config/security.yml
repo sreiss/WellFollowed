@@ -10,7 +10,7 @@ parameters:
 
 security:
     encoders:
-        OAuth2\ServerBundle\Entity\User:
+        WellFollowed\OAuth2ServerBundle\Entity\User:
             algorithm:          sha512
             encode_as_base64:   true
             iterations:         5000

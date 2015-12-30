@@ -1,4 +1,4 @@
-angular.module('wellFollowed').directive('wfMenu', function($wfMenu) {
+angular.module('wellFollowed').directive('wfMenu', function($wfMenu, $wfAuth) {
 
     var _menuItems = function(scope) {
         if (scope.authentication.isAuth)
@@ -16,6 +16,15 @@ angular.module('wellFollowed').directive('wfMenu', function($wfMenu) {
 
             scope.$on('$stateChangeSuccess', function(angularEvent, current, previous) {
                 _menuItems(scope);
+            });
+
+            var unregister = scope.$watch(function() {
+                return $wfAuth.getCurrentUser();
+            }, function(user) {
+                if (!!user) {
+                    scope.user = user;
+                    unregister();
+                }
             });
         }
     };
