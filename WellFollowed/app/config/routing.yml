@@ -1,10 +1,10 @@
 well_followed_api:
-    resource: "@WellFollowedBundle/Controller/Api/"
+    resource: "@WellFollowedAppBundle/Controller/Api/"
     type:     annotation
     prefix: /api
 
 well_followed_web:
-    resource: "@WellFollowedBundle/Controller/Web/"
+    resource: "@WellFollowedAppBundle/Controller/Web/"
     type: annotation
     prefix: /
 

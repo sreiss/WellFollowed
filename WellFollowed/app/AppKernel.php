@@ -22,8 +22,8 @@ class AppKernel extends Kernel
             new OAuth2\ServerBundle\OAuth2ServerBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
-            new UtilBundle\UtilBundle(),
-            new WellFollowedBundle\WellFollowedBundle(),
+            new WellFollowed\UtilBundle\WellFollowedUtilBundle(),
+            new WellFollowed\AppBundle\WellFollowedAppBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

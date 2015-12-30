@@ -3,13 +3,13 @@
 parameters:
     # Util
     util.metadata_factory.class: Metadata\MetadataFactory
-    util.metadata.controller_annotation_driver.class: UtilBundle\Metadata\Driver\ControllerAnnotationDriver
-    util.processor.controller_annotation_processor.class: UtilBundle\Processor\ControllerAnnotationProcessor
-    util.event_listener.controller_listener.class: UtilBundle\EventListener\ControllerListener
+    util.metadata.controller_annotation_driver.class: WellFollowed\UtilBundle\Metadata\Driver\ControllerAnnotationDriver
+    util.processor.controller_annotation_processor.class: WellFollowed\UtilBundle\Processor\ControllerAnnotationProcessor
+    util.event_listener.controller_listener.class: WellFollowed\UtilBundle\EventListener\ControllerListener
 
     # WellFollowed
-    well_followed.exception_listener.class: WellFollowedBundle\EventListener\ExceptionListener
-    well_followed.tokens.action_listener.class: WellFollowedBundle\EventListener\TokenListener
+    well_followed.exception_listener.class: WellFollowed\AppBundle\EventListener\ExceptionListener
+    well_followed.tokens.action_listener.class: WellFollowed\AppBundle\EventListener\TokenListener
 
 
     # Repositories
@@ -17,9 +17,9 @@ parameters:
 
     # Managers
 
-#    well_followed.event_manager.class: WellFollowedBundle\Manager\EventManager
-#    well_followed.user_manager.class: WellFollowedBundle\Manager\UserManager
-#    well_followed.client_manager.class: WellFollowedBundle\Manager\ClientManager
+#    well_followed.event_manager.class: WellFollowed\AppBundle\Manager\EventManager
+#    well_followed.user_manager.class: WellFollowed\AppBundle\Manager\UserManager
+#    well_followed.client_manager.class: WellFollowed\AppBundle\Manager\ClientManager
 
 services:
     # Util

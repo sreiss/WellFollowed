@@ -16,7 +16,7 @@ var gulp = require('gulp'),
 var bundlesRoot = "src";
 
 var bundles = {
-    "WellFollowedBundle": {
+    "WellFollowed\AppBundle": {
         "js": {
             "src": "Resources/src/js/**/*.js",
             "dest": "Resources/public/js",
@@ -46,7 +46,7 @@ var bundles = {
 };
 
 var bowerConfig = {
-    "WellFollowedBundle": {
+    "WellFollowed\AppBundle": {
         "js": {
             "dest": "Resources/public/lib/js",
             "fileName": "lib.min.js"
