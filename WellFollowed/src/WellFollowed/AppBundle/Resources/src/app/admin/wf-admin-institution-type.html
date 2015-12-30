@@ -25,8 +25,8 @@
             </div>
             <div class="panel-footer" ng-if="institutionType !== null">
                 <div class="row">
-                    <div ng-class="{'col-md-offset-4 col-md-4': previousState != '', 'col-md-offset-5 col-md-2': previousState == ''}">
-                        <div class="btn-group btn-group-justified">
+                    <div class="col-md-offset-3 col-md-6 text-center">
+                        <!--<div class="btn-group btn-group-justified">-->
                             <a class="btn btn-default" ui-sref="{{previousState}}" ng-if="previousState != ''">
                                 Retour
                             </a>
@@ -36,7 +36,7 @@
                             <a class="btn btn-primary" ng-click="updateInstitutionType()" ng-if="!!institutionTypeId" ng-disabled="institutionTypeForm.$invalid">
                                 Sauvegarder
                             </a>
-                        </div>
+                        <!--</div>-->
                     </div>
                 </div>
             </div>

@@ -40,6 +40,20 @@
                     </div>
                 </div>
             </div>
+            <div class="panel-footer" ng-if="institutionType !== null">
+                <div class="row">
+                    <div class="col-md-offset-3 col-md-6 text-center">
+                        <!--<div class="btn-group btn-group-justified">-->
+                        <a class="btn btn-default" ui-sref="{{previousState}}" ng-if="previousState != ''">
+                            Retour
+                        </a>
+                        <a class="btn btn-primary" ng-click="updateUser()" ng-disabled="accountForm.$invalid">
+                            Sauvegarder
+                        </a>
+                        <!--</div>-->
+                    </div>
+                </div>
+            </div>
         </form>
     </div>
 </div>

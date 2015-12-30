@@ -3,7 +3,6 @@ angular.module('wellFollowed').factory('$wfMenu', function() {
         'main': [
             { name: 'Sensor', state: 'sensor', right: 'ReadSensor' },
             { name: 'Calendrier', state: 'calendar', right: 'ReadCalendar' },
-            { name: 'Compte', state: 'account', right: 'ReadAccount' },
             { name: 'Administration', right: 'ReadAdmin', items:
                 [
                     { name: "Établissements", state: 'admin.institutions', right: 'ReadInstitutions' },

@@ -2,7 +2,8 @@ angular.module('wellFollowed').directive('wfAccount', function($wfAuth) {
    return {
        restrict: 'E',
        templateUrl: 'account/wf-account.html',
-       link: function(scope, element, attributes) {
+       require: '^wfApp',
+       link: function(scope, element, attributes, wfApp) {
 
            var unregister = scope.$watch(function() {
                return $wfAuth.getCurrentUser();
@@ -12,6 +13,8 @@ angular.module('wellFollowed').directive('wfAccount', function($wfAuth) {
                    unregister();
                }
            });
+
+           scope.previousState = wfApp.getPreviousState().name || 'sensor';
 
        }
    }
