@@ -38,7 +38,7 @@ class ClientManager
     {
         $client = new \OAuth2\ServerBundle\Entity\Client();
         $client->setClientId($identifier);
-        $client->setClientSecret('ok');
+        $client->setClientSecret('');
         $client->setRedirectUri($redirect_uris);
         $client->setGrantTypes($grant_types);
 
