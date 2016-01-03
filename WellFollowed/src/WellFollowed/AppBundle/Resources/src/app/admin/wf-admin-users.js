@@ -15,14 +15,14 @@ angular.module('wellFollowed').directive('wfAdminUsers', function ($wfUser, $wfM
             };
             refresh();
 
-            scope.deleteUser = function (id) {
+            scope.deleteUser = function (username) {
                 $wfModal.open({
                     scope: scope,
                     directiveName: 'wf-delete-modal'
                 })
                     .then(function () {
                         scope.users = null;
-                        return $wfUser.deleteUser(id);
+                        return $wfUser.deleteUser(username);
                     })
                     .then(function (response) {
                         wfApp.addSuccess("Utilisateur supprimé.");

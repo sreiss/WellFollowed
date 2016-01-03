@@ -65,20 +65,28 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
             abstract: true,
             template: '<wf-admin></wf-admin>'
         })
+        .state('admin.users', {
+            url: '/utilisateurs',
+            template: '<wf-admin-users></wf-admin-users>'
+        })
+        .state('admin.user', {
+            url: '/utilisateur/:username',
+            template: function(params) { return '<wf-admin-user username="' + params.username + '"></wf-admin-user>'; }
+        })
         .state('admin.institutionTypes', {
-            url: '/institution-types',
+            url: '/types-d-etablissements',
             template: '<wf-admin-institution-types></wf-admin-institution-types>'
         })
         .state('admin.institutionType', {
-            url: '/institution-type/:id',
+            url: '/type-d-etablissement/:id',
             template: function(params) { return '<wf-admin-institution-type institution-type-id="' + params.id + '"></wf-admin-institution-type>'; }
         })
         .state('admin.institutions', {
-            url: '/institutions',
+            url: '/etablissements',
             template: '<wf-admin-institutions></wf-admin-institutions>'
         })
         .state('admin.institution', {
-            url: '/institution/:id',
+            url: '/etablissement/:id',
             template: function(params) { return '<wf-admin-institution institution-id="' + params.id + '"></wf-admin-institution>'; }
         });
 

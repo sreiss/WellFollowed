@@ -90,16 +90,15 @@ class UserController extends ApiController implements JsonControllerInterface
     }
 
     /**
-     * @Route("/user/delete/{id}", name="delete_user", requirements={"id" = "\d+"})
+     * @Route("/{username}", name="delete_user", requirements={"username" = "[a-zA-Z][a-zA-Z0-9]+"})
      * @Method({"DELETE"})
      */
-    public function deleteUser(Request $request, $id)
+    public function deleteUser(Request $request, $username)
     {
-        $this->getDoctrine()
-            ->getRepository('WellFollowedAppBundle:User')
-            ->deleteUser($id);
+        $this->userManager
+            ->deleteUser($username);
 
-        return $this->jsonResponse($id);
+        return $this->jsonResponse(null);
     }
 
 }

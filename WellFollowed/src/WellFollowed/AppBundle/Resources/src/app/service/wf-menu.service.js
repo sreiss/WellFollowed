@@ -6,7 +6,8 @@ angular.module('wellFollowed').factory('$wfMenu', function() {
             { name: 'Administration', right: 'ReadAdmin', items:
                 [
                     { name: "Établissements", state: 'admin.institutions', right: 'ReadInstitutions' },
-                    { name: "Types d'établissement", state: 'admin.institutionTypes', right: 'ReadInstitutionTypes'}
+                    { name: "Types d'établissement", state: 'admin.institutionTypes', right: 'ReadInstitutionTypes'},
+                    { name: "Utilisateurs", state: 'admin.users', right: 'ReadUsers' }
                 ]
             }
         ],

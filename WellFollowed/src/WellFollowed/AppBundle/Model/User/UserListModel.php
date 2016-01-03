@@ -8,18 +8,12 @@
 
 namespace WellFollowed\AppBundle\Model\User;
 
-use JMS\Serializer\Annotation\SerializedName as Serializer;
+use JMS\Serializer\Annotation as Serializer;
 use WellFollowed\OAuth2ServerBundle\Entity\User;
 
 
 class UserListModel
 {
-    /**
-     * @var int
-     * @Serializer\Type("integer")
-     */
-    private $id;
-
     /**
      * @var string
      * @Serializer\Type("string")
@@ -29,37 +23,22 @@ class UserListModel
     /**
      * @var string
      * @Serializer\Type("string")
+     * @Serializer\SerializedName("firstName")
      */
     private $firstName;
 
     /**
      * @var string
      * @Serializer\Type("string")
+     * @Serializer\SerializedName("lastName")
      */
     private $lastName;
 
     public function __construct(User $user)
     {
-        $this->id = $user->getId();
         $this->username = $user->getUsername();
         $this->firstName = $user->getFirstName();
         $this->lastName = $user->getLastName();
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param mixed $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
     }
 
     /**

@@ -70,7 +70,7 @@ class UserManager implements UserManagerInterface
 
         if ($qb === null) {
             $qb = $this->entityManager
-                ->createQuery('SELECT partial u.{id,username,lastName,firstName} FROM WellFollowedOAuth2ServerBundle:User u');
+                ->createQuery('SELECT partial u.{username,lastName,firstName} FROM WellFollowedOAuth2ServerBundle:User u');
 
             $users = $qb->getResult();
 
@@ -126,5 +126,28 @@ class UserManager implements UserManagerInterface
             );
 
         return new UserModel($user);
+    }
+
+    public function deleteUser($username)
+    {
+        if ($username !== null) {
+            $qb = $this->entityManager
+                ->getRepository('WellFollowedOAuth2ServerBundle:User')
+                ->createQueryBuilder('u');
+
+            $qb->delete('WellFollowed\OAuth2ServerBundle\Entity\User', 'u')
+                ->where('u.username = :username')
+                ->setParameter('username', $username);
+
+            $deletedCount = $qb->getQuery()
+                ->execute();
+
+            if ($deletedCount == 0)
+                throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
+
+            return $deletedCount;
+        }
+
+        throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
     }
 }

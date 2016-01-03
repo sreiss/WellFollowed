@@ -1,4 +1,4 @@
-angular.module('wellFollowed').factory('$wfUser', function($http) {
+angular.module('wellFollowed').factory('$wfUser', function($http, wfAuthSettings) {
 
     var _baseUrl = wfAuthSettings.apiUrl + '/api/user';
 
@@ -18,13 +18,13 @@ angular.module('wellFollowed').factory('$wfUser', function($http) {
         return $http.put(_baseUrl, model);
     };
 
-    var _deleteUser = function(id) {
-        return $http.delete(_baseUrl + '/' + id);
+    var _deleteUser = function(username) {
+        return $http.delete(_baseUrl + '/' + username);
     };
 
     return {
         createUser: _createUser,
-        getUsers: _getUsers(),
+        getUsers: _getUsers,
         getUser: _getUser,
         updateUser: _updateUser,
         deleteUser: _deleteUser
