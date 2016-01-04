@@ -4,8 +4,12 @@ namespace WellFollowed\AppBundle\Manager;
 
 
 use Doctrine\ORM\EntityManager;
+use OldSound\RabbitMqBundle\RabbitMq\Producer;
+use WellFollowed\AppBundle\Base\ErrorCode;
+use WellFollowed\AppBundle\Base\WellFollowedException;
 use WellFollowed\AppBundle\Contract\Manager\SensorManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
+use WellFollowed\AppBundle\Entity\SensorValue;
 use WellFollowed\AppBundle\Manager\Filter\SensorFilter;
 
 /**
@@ -21,17 +25,49 @@ class SensorManager implements SensorManagerInterface
      */
     private $entityManager;
 
+    private $sensorQueues = [];
+
     /**
      * SensorManager constructor.
      * @param EntityManager $entityManager
      *
      * @DI\InjectParams({
-     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
+     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
+     *      "experienceManager" = @DI\Inject("well_followed.experience_manager")
      * })
      */
-    public function __construct(EntityManager $entityManager)
+    public function __construct(EntityManager $entityManager, ExperienceManager $experienceManager)
     {
         $this->entityManager = $entityManager;
+        $this->experienceManager = $experienceManager;
+    }
+
+    public function enqueue($sensorName, \DateTime $date, $value)
+    {
+        if (!$sensorName || !$date || $value)
+            return false;
+
+        if (!isset($this->sensorQueues[$sensorName]))
+            $this->sensorQueues[$sensorName] = [];
+
+        $value = new SensorValue();
+        $value->setDate($date);
+        $value->setValue($value);
+        $value->setSensorName($sensorName);
+        $value->setExperienceId($this->experienceManager->getCurrentExperienceId());
+        $this->createSensorValue($value);
+
+        return true;
+    }
+
+    private function createSensorValue(SensorValue $value)
+    {
+        $this->entityManager->persist($value);
+    }
+
+    public function flushSensorValues()
+    {
+        $this->entityManager->flush();
     }
 
     /**

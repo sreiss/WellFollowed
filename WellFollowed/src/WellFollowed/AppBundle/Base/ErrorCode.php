@@ -30,4 +30,9 @@ abstract class ErrorCode
     // Model
     const NO_MODEL_PROVIDED = "NO_MODEL_PROVIDED";
     const AN_ID_MUST_BE_PROVIDED = "AN_ID_MUST_BE_PROVIDED";
+
+    // Sensor
+    const NO_SENSOR_NAME_SPECIFIED = "NO_SENSOR_NAME_SPECIFIED";
+    const NO_DATE_SPECIFIED = "NO_DATE_SPECIFIED";
+    const NO_VALUE_SPECIFIED = "NO_VALUE_SPECIFIED";
 }
