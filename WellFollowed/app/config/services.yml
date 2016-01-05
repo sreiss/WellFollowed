@@ -2,6 +2,7 @@
 # http://symfony.com/doc/current/book/service_container.html
 parameters:
     # Util
+    util.cache.class: Doctrine\Common\Cache\ApcCache
     util.metadata_factory.class: Metadata\MetadataFactory
     util.metadata.controller_annotation_driver.class: WellFollowed\UtilBundle\Metadata\Driver\ControllerAnnotationDriver
     util.processor.controller_annotation_processor.class: WellFollowed\UtilBundle\Processor\ControllerAnnotationProcessor
@@ -23,6 +24,9 @@ parameters:
 
 services:
     # Util
+    util.cache:
+        class: "%util.cache.class%"
+
     util.metadata.controller_annotation_driver:
         class: "%util.metadata.controller_annotation_driver.class%"
         arguments: ["@annotation_reader"]

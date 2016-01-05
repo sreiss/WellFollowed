@@ -15,23 +15,8 @@ use WellFollowed\AppBundle\Contract\Manager\SensorManagerInterface;
  * @DI\Service("well_followed.sensor_topic")
  * @DI\Tag("gos_web_socket.topic")
  */
-class SensorTopic implements TopicInterface {
-
-    /** @var  SensorManagerInterface */
-    private $sensorManager;
-
-    /**
-     * SensorTopic constructor.
-     * @param SensorManagerInterface $sensorManager
-     *
-     * @DI\InjectParams({
-     *      "sensorManager" = @DI\Inject("well_followed.sensor_manager")
-     * })
-     */
-    public function __construct(SensorManagerInterface $sensorManager)
-    {
-        $this->sensorManager = $sensorManager;
-    }
+class SensorTopic implements TopicInterface
+{
 
     /**
      * This will receive any Subscription requests for this topic.

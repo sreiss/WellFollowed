@@ -11,6 +11,7 @@ use WellFollowed\AppBundle\Contract\Manager\SensorManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Entity\SensorValue;
 use WellFollowed\AppBundle\Manager\Filter\SensorFilter;
+use WellFollowed\AppBundle\Topic\SensorTopic;
 
 /**
  * Class SensorManager
@@ -23,9 +24,15 @@ class SensorManager implements SensorManagerInterface
     /**
      * @var EntityManager
      */
-    private $entityManager;
+    private $entityManager = null;
+
+    private $experienceManager = null;
 
     private $sensorQueues = [];
+
+    private $sensorClientManager = null;
+
+    private $sensorTopic = null;
 
     /**
      * SensorManager constructor.
@@ -33,13 +40,19 @@ class SensorManager implements SensorManagerInterface
      *
      * @DI\InjectParams({
      *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *      "experienceManager" = @DI\Inject("well_followed.experience_manager")
+     *      "experienceManager" = @DI\Inject("well_followed.experience_manager"),
+     *      "sensorClientManager" = @DI\Inject("well_followed.sensor_client_manager"),
+     *      "sensorTopic" = @DI\Inject("well_followed.sensor_topic")
      * })
      */
-    public function __construct(EntityManager $entityManager, ExperienceManager $experienceManager)
+    public function __construct(EntityManager $entityManager, ExperienceManager $experienceManager, SensorClientManager $sensorClientManager, SensorTopic $sensorTopic)
     {
         $this->entityManager = $entityManager;
         $this->experienceManager = $experienceManager;
+        $this->sensorClientManager = $sensorClientManager;
+        $this->sensorTopic = $sensorTopic;
+
+        $this->sensorClientManager->publish('sensor/data/sensor1', "test");
     }
 
     public function enqueue($sensorName, \DateTime $date, $value)
@@ -56,6 +69,11 @@ class SensorManager implements SensorManagerInterface
         $value->setSensorName($sensorName);
         $value->setExperienceId($this->experienceManager->getCurrentExperienceId());
         $this->createSensorValue($value);
+
+        $this->sensorClientManager->publish($this->sensorTopic->getName(), [
+            'date' => $date,
+            'value' => $value
+        ]);
 
         return true;
     }
