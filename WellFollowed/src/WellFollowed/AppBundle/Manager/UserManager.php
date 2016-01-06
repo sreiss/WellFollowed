@@ -8,6 +8,7 @@
 
 namespace WellFollowed\AppBundle\Manager;
 
+use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Acl\Exception\Exception;
 use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
@@ -131,7 +132,11 @@ class UserManager implements UserManagerInterface
             $this->entityManager
                 ->getConnection()
                 ->rollBack();
-            throw $e;
+            if ($e instanceof UniqueConstraintViolationException) {
+                throw new WellFollowedException(ErrorCode::USER_EXISTS);
+            } else {
+                throw $e;
+            }
         }
 
         return new UserModel($user);
