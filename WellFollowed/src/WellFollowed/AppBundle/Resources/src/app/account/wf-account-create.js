@@ -1,4 +1,4 @@
-angular.module('wellFollowed').directive('wfAccountCreate', function($wfAuth) {
+angular.module('wellFollowed').directive('wfAccountCreate', function($wfAuth, $state) {
    return {
        restrict: 'E',
        templateUrl: 'account/wf-account-create.html',
@@ -11,7 +11,8 @@ angular.module('wellFollowed').directive('wfAccountCreate', function($wfAuth) {
 
            scope.subscribe = function() {
                $wfAuth.createUser(scope.user).then(function(result) {
-
+                   wfApp.addSuccess('Utilisateur "' + result.data.username + '" enregistré.');
+                   $state.go('login');
                });
            };
        }

@@ -1,6 +1,6 @@
 <div ng-include="'account/wf-logo.html'"></div>
 <div class="login-container">
-    <wf-error-alerts></wf-error-alerts>
+    <wf-alerts alerts="alerts"></wf-alerts>
     <form name="userForm" class="login-form">
         <div class="form-group has-feedback"
              ng-class="{'has-error': userForm.username.$invalid && !userForm.username.$pristine}">
@@ -23,6 +23,28 @@
             <div class="red form-error-message" ng-messages="userForm.password.$error"
                  ng-show="!userForm.password.$pristine">
                 <span ng-message="minlength">Entrez au moins 6 caractères</span>
+                <span ng-message="required">Ce champ est requis</span>
+            </div>
+        </div>
+        <div class="form-group"
+             ng-class="{'has-error': userForm.firstName.$invalid && !userForm.firstName.$pristine}">
+            <label class="control-label sr-only">Prénom</label>
+            <input type="text" class="form-control" ng-model="user.firstName" placeholder="Prénom"
+                   name="firstName" required/>
+
+            <div class="red form-error-message" ng-messages="userForm.firstName.$error"
+                 ng-show="!userForm.password.$pristine">
+                <span ng-message="required">Ce champ est requis</span>
+            </div>
+        </div>
+        <div class="form-group"
+             ng-class="{'has-error': userForm.lastName.$invalid && !userForm.lastName.$pristine}">
+            <label class="control-label sr-only">Nom</label>
+            <input type="text" class="form-control" ng-model="user.lastName" placeholder="Nom"
+                   name="lastName" required/>
+
+            <div class="red form-error-message" ng-messages="userForm.lastName.$error"
+                 ng-show="!userForm.password.$pristine">
                 <span ng-message="required">Ce champ est requis</span>
             </div>
         </div>

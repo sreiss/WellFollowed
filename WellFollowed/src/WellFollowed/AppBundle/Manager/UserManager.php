@@ -9,6 +9,7 @@
 namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Acl\Exception\Exception;
 use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
 use WellFollowed\AppBundle\Model\User\UserListModel;
@@ -99,31 +100,39 @@ class UserManager implements UserManagerInterface
         if ($model === null)
             throw new WellFollowedException(ErrorCode::NO_MODEL_PROVIDED);
 
-        $existingUser = $this->entityManager
-            ->getRepository('WellFollowedOAuth2ServerBundle:User')
-            ->findOneBy(array('username' => $model->getUsername()));
+        $this->entityManager
+            ->getConnection()
+            ->beginTransaction();
 
-        if ($existingUser !== null)
-            throw new WellFollowedException(ErrorCode::USER_EXISTS);
+        try {
+            $this->clientManager
+                ->createClient(
+                    $model->getUsername(),
+                    array('http://localhost:8085'),
+                    array('password'),
+                    array('readsensor')
+                );
 
-        $this->clientManager
-            ->createClient(
-                $model->getUsername(),
-                array('http://localhost:8085'),
-                array('password'),
-                array('readsensor')
-            );
+            $user = $this->userProvider
+                ->createUser(
+                    $model->getUsername(),
+                    $model->getPassword(),
+                    $model->getFirstName(),
+                    $model->getLastName(),
+                    new \DateTime(),
+                    ($model->getRoles() !== null) ?: array(),
+                    ($model->getScopes() !== null) ?: array()
+                );
 
-        $user = $this->userProvider
-            ->createUser(
-                $model->getUsername(),
-                $model->getPassword(),
-                $model->getFirstName(),
-                $model->getLastName(),
-                $model->getSubscriptionDate(),
-                ($model->getRoles() !== null) ?:array(),
-                ($model->getScopes() !== null) ?:array()
-            );
+            $this->entityManager
+                ->getConnection()
+                ->commit();
+        } catch (Exception $e) {
+            $this->entityManager
+                ->getConnection()
+                ->rollBack();
+            throw $e;
+        }
 
         return new UserModel($user);
     }
