@@ -128,7 +128,7 @@ class UserManager implements UserManagerInterface
             $this->entityManager
                 ->getConnection()
                 ->commit();
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->entityManager
                 ->getConnection()
                 ->rollBack();
