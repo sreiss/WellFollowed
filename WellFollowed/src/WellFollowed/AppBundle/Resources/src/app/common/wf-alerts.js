@@ -10,7 +10,7 @@ angular.module('wellFollowed').directive('wfAlerts', function(wfAlertTypes, $tim
 
             scope.alertTypes = wfAlertTypes;
 
-            scope.$on('wfError', function(message) {
+            scope.$on('wfError', function(event, message) {
                 scope.alerts.push({
                     type: wfAlertTypes.error,
                     message: message

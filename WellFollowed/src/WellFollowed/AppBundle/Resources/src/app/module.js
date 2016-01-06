@@ -21,7 +21,7 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
 
     $httpProvider.interceptors.push(function($q, $rootScope) {
         var errorHandler = function(rejection) {
-            $rootScope.$broadcast('wfError', rejection.message);
+            $rootScope.$broadcast('wfError', rejection.data.error || rejection.data.message);
 
             return $q.reject(rejection);
         };

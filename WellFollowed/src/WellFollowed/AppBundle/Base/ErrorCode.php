@@ -15,25 +15,26 @@ namespace WellFollowed\AppBundle\Base;
  */
 abstract class ErrorCode
 {
-    const UNKNOWN_ERROR = "UNKNOWN_ERROR";
+    const UNKNOWN_ERROR = "Erreur inconnue";
 
     // User
-    const USER_EXISTS = "USER_EXISTS";
-    const UNAUTHORIZED = "UNAUTHORIZED";
-    const NOT_FOUND = "NOT_FOUND";
+    const USER_EXISTS = "L'utilisateur existe déjà.";
+    const UNAUTHORIZED = "Non autorisé.";
+    const NOT_FOUND = "Resource non trouvée.";
+    const CLIENT_EXISTS = "Le client existe déjà.";
 
     // InstitutionType
-    const INSTITUTION_TYPE_EXISTS = "INSTITUTION_TYPE_EXISTS";
+    const INSTITUTION_TYPE_EXISTS = "Le type d'établissement existe déjà.";
 
-    const INSTITUTION_EXISTS = "INSTITUTION_EXISTS";
+    const INSTITUTION_EXISTS = "L'établissement existe déjà.";
 
     // Model
-    const NO_MODEL_PROVIDED = "NO_MODEL_PROVIDED";
-    const AN_ID_MUST_BE_PROVIDED = "AN_ID_MUST_BE_PROVIDED";
+    const NO_MODEL_PROVIDED = "Aucun model envoyé.";
+    const AN_ID_MUST_BE_PROVIDED = "Un identifiant doit être fournit.";
 
     // Sensor
-    const NO_SENSOR_NAME_SPECIFIED = "NO_SENSOR_NAME_SPECIFIED";
-    const NO_DATE_SPECIFIED = "NO_DATE_SPECIFIED";
-    const NO_VALUE_SPECIFIED = "NO_VALUE_SPECIFIED";
-    const NO_CLIENT = "NO_CLIENT";
+    const NO_SENSOR_NAME_SPECIFIED = "Aucun non de capteur spécifié.";
+    const NO_DATE_SPECIFIED = "Aucune date spécifiée.";
+    const NO_VALUE_SPECIFIED = "Aucune valeur spécifiée.";
+    const NO_CLIENT = "Aucun client spécifié.";
 }

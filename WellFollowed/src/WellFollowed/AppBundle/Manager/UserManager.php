@@ -134,9 +134,8 @@ class UserManager implements UserManagerInterface
                 ->rollBack();
             if ($e instanceof UniqueConstraintViolationException) {
                 throw new WellFollowedException(ErrorCode::USER_EXISTS);
-            } else {
-                throw $e;
             }
+            throw $e;
         }
 
         return new UserModel($user);
