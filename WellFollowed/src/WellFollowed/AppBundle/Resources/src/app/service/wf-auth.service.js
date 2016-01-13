@@ -24,16 +24,19 @@ angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStor
 
     var _login = function (loginData) {
 
-        var data = "grant_type=password&username=" +
-            loginData.username + "&password=" + loginData.password + "&client_id=" + loginData.username + "&scope=readsensor";
-
+        var data = 'grant_type=password&' +
+            'username=' + loginData.username + '&' +
+            'password=' + loginData.password + '&' +
+            'client_id=' + wfAuthSettings.clientId + '&' +
+            'client_secret=' + wfAuthSettings.clientSecret;
 
         return $http.post(serviceBase + 'token', data, {
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).then(function (response) {
 
+            debugger;
             localStorageService.set('authorizationData', {
-                token: response.access_token,
+                token: response.data.access_token,
                 username: loginData.username
             });
 

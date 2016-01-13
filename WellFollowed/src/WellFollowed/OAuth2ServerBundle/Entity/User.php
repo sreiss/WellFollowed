@@ -71,6 +71,13 @@ class User implements OAuth2UserInterface
     private $scopes;
 
     /**
+     * @var \WellFollowed\AppBundle\Entity\Experience[]
+     *
+     * @ORM\ManyToMany(targetEntity="\WellFollowed\AppBundle\Entity\Experience", mappedBy="allowed_users")
+     */
+    private $experiences;
+
+    /**
      * Set username
      *
      * @param  string $username
@@ -251,5 +258,21 @@ class User implements OAuth2UserInterface
     public function setSubscriptionDate($subscriptionDate)
     {
         $this->subscriptionDate = $subscriptionDate;
+    }
+
+    /**
+     * @return \WellFollowed\AppBundle\Entity\Experience[]
+     */
+    public function getExperiences()
+    {
+        return $this->experiences;
+    }
+
+    /**
+     * @param \WellFollowed\AppBundle\Entity\Experience[] $experiences
+     */
+    public function setExperiences($experiences)
+    {
+        $this->experiences = $experiences;
     }
 }

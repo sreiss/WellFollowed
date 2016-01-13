@@ -8,7 +8,6 @@
 
 namespace WellFollowed\AppBundle\Command;
 
-
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,9 +27,11 @@ class Oauth2InstallCommand extends ContainerAwareCommand
     {
         $container = $this->getContainer();
         $scopeManager = $container->get('oauth2.scope_manager');
-        $clientService = $container->get('well_followed.client_manager');
+        $clientManager = $container->get('oauth2.client_manager');
+        //$clientService = $container->get('well_followed.client_manager');
         $oauth2Scopes = $container->getParameter('oauth2_scopes');
-        $oauth2PublicClients = $container->getParameter('oauth2_public_clients');
+        //$oauth2PublicClients = $container->getParameter('oauth2_public_clients');
+        $oauth2Clients = $container->getParameter('oauth2_clients');
 
         try {
             foreach($oauth2Scopes as $scope => $description) {
@@ -40,8 +41,20 @@ class Oauth2InstallCommand extends ContainerAwareCommand
                 }
             }
 
-            foreach($oauth2PublicClients as $client => $scopes) {
-                $clientService->createClient($client, array('http://localhost:8085'), array('password'), $scopes, true);
+            foreach($oauth2Clients as $clientId => $config) {
+                if ($clientManager->getClient($clientId) === null)
+                {
+                    $clientManager->createClient(
+                        $clientId,
+                        ($config['redirect_uris'] === null) ? [] : $config['redirect_uris'],
+                        ($config['grant_types'] === null) ? [] : $config['grant_types'],
+                        ($config['scopes'] === null) ? [] : $config['scopes']
+                    );
+                }
+                else
+                {
+                    $output->writeln('<fg=yellow>Le client '. $clientId .' était déjà présent en base.</fg=yellow>');
+                }
             }
 
         } catch (\Doctrine\DBAL\DBALException $e) {

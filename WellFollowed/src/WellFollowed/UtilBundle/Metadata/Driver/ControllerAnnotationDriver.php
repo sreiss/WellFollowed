@@ -39,7 +39,7 @@ class ControllerAnnotationDriver implements DriverInterface
                 );
 
 
-                if (!is_null($annotation)) {
+                if ($annotation !== null) {
                     foreach ($attributes as $attribute) {
                         $methodName = 'get' . ucfirst($attribute);
                         $methodMetadata->$attribute = $annotation->$methodName();

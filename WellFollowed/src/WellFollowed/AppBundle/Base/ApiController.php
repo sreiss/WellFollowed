@@ -10,12 +10,12 @@ class ApiController extends Controller implements TokenControllerInterface {
     private $modelClass = null;
     private $filterClass = null;
 
-    public function setModelClass($className)
+    protected function setModelClass($className)
     {
         $this->modelClass = $className;
     }
 
-    public function setFilterClass($className)
+    protected function setFilterClass($className)
     {
         $this->filterClass = $className;
     }

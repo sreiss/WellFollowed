@@ -66,7 +66,7 @@ class UserManager implements UserManagerInterface
         $models = [];
         $qb = null;
 
-        if (!is_null($filter)) {
+        if ($filter !== null) {
             // TODO: handle filter
         }
 
@@ -101,19 +101,7 @@ class UserManager implements UserManagerInterface
         if ($model === null)
             throw new WellFollowedException(ErrorCode::NO_MODEL_PROVIDED);
 
-        $this->entityManager
-            ->getConnection()
-            ->beginTransaction();
-
         try {
-            $this->clientManager
-                ->createClient(
-                    $model->getUsername(),
-                    array('http://localhost:8085'),
-                    array('password'),
-                    array('readsensor')
-                );
-
             $user = $this->userProvider
                 ->createUser(
                     $model->getUsername(),
@@ -125,13 +113,9 @@ class UserManager implements UserManagerInterface
                     ($model->getScopes() !== null) ?: array()
                 );
 
-            $this->entityManager
-                ->getConnection()
-                ->commit();
+            $this->entityManager->persist($user);
+            $this->entityManager->flush();
         } catch (\Exception $e) {
-            $this->entityManager
-                ->getConnection()
-                ->rollBack();
             if ($e instanceof UniqueConstraintViolationException) {
                 throw new WellFollowedException(ErrorCode::USER_EXISTS);
             }

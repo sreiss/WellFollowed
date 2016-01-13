@@ -2,12 +2,10 @@
 
 namespace WellFollowed\OAuth2ServerBundle\Manager;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
+use OAuth2\ServerBundle\Entity\Client;
 use OAuth2\ServerBundle\Exception\ScopeNotFoundException;
 use OAuth2\ServerBundle\Manager\ScopeManagerInterface;
-use WellFollowed\AppBundle\Base\ErrorCode;
-use WellFollowed\AppBundle\Base\WellFollowedException;
 
 class ClientManager
 {
@@ -22,6 +20,15 @@ class ClientManager
     {
         $this->em = $entityManager;
         $this->sm = $scopeManager;
+    }
+
+    public function getClient($id)
+    {
+        $client = $this->em
+            ->getRepository('OAuth2ServerBundle:Client')
+            ->find($id);
+
+        return $client;
     }
 
     /**
@@ -39,35 +46,28 @@ class ClientManager
      */
     public function createClient($identifier, array $redirect_uris = array(), array $grant_types = array(), array $scopes = array())
     {
-        try {
-            $client = new \OAuth2\ServerBundle\Entity\Client();
-            $client->setClientId($identifier);
-            $client->setClientSecret('');
-            $client->setRedirectUri($redirect_uris);
-            $client->setGrantTypes($grant_types);
+        $client = new \OAuth2\ServerBundle\Entity\Client();
+        $client->setClientId($identifier);
+        $client->setClientSecret($this->generateSecret());
+        $client->setRedirectUri($redirect_uris);
+        $client->setGrantTypes($grant_types);
 
-            // Verify scopes
-            foreach ($scopes as $scope) {
-                // Get Scope
-                $scopeObject = $this->sm->findScopeByScope($scope);
-                if (!$scopeObject) {
-                    throw new ScopeNotFoundException();
-                }
+        // Verify scopes
+        foreach ($scopes as $scope) {
+            // Get Scope
+            $scopeObject = $this->sm->findScopeByScope($scope);
+            if (!$scopeObject) {
+                throw new ScopeNotFoundException();
             }
-
-            $client->setScopes($scopes);
-
-            // Store Client
-            $this->em->persist($client);
-            $this->em->flush();
-
-            return $client;
-        } catch (\Exception $e) {
-            if ($e instanceof UniqueConstraintViolationException) {
-                throw new WellFollowedException(ErrorCode::CLIENT_EXISTS);
-            }
-            throw $e;
         }
+
+        $client->setScopes($scopes);
+
+        // Store Client
+        $this->em->persist($client);
+        $this->em->flush();
+
+        return $client;
     }
 
     /**

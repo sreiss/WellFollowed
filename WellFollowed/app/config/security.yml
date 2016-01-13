@@ -2,11 +2,16 @@
 # http://symfony.com/doc/current/book/security.html
 parameters:
     oauth2_scopes:
-        readsensor: "Lire les données capteurs"
-        readadmin: "Accéder à la partie administration du site"
-    oauth2_public_clients:
-        user: ["readsensor"]
-        admin: ["readsensor", "readadmin"]
+        access_home: "Accéder à la page d'acceuil"
+        access_sensor: "Lire les données capteurs"
+        access_admin: "Accéder à la partie administration du site"
+    oauth2_clients:
+        well_followed_web:
+            redirect_uris: ["http://localhost:8085"]
+            description: "Application web WellFollowed."
+            grant_types: ["password"]
+            scopes: ["access_home", "access_sensor", "access_admin"]
+            default_scopes: ["access_home"]
 
 security:
     encoders:
@@ -28,6 +33,14 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        #api:
+        #    pattern: ^/api/
+        #    form_login:
+        #        provider: oauth2
+        #        login_path: /#/login
+        #        check_path: token
+        #    stateless: true
 
         main:
             anonymous: ~

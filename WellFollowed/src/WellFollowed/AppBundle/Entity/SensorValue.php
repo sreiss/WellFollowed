@@ -8,6 +8,8 @@
 
 namespace WellFollowed\AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * SensorValue
  *
@@ -35,7 +37,7 @@ class SensorValue
     /**
      * @var string
      *
-     * @ORM\Column(name="value", type="double", nullable=false)
+     * @ORM\Column(name="value", type="decimal", nullable=false)
      */
     private $value;
 

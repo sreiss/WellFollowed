@@ -58,10 +58,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
 
-    well_followed.tokens.action_listener:
-        class: "%well_followed.tokens.action_listener.class%"
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+#    well_followed.tokens.action_listener:
+#        class: "%well_followed.tokens.action_listener.class%"
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 
     # Repositories
 
