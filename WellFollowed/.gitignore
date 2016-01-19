@@ -2,7 +2,7 @@
 app/cache/*
 !app/cache/.gitkeep
 app/logs/*
-web/*
+web/bundles/*
 !app/logs/.gitkeep
 app/phpunit.xml
 bin/
