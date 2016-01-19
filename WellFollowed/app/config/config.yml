@@ -7,8 +7,6 @@ imports:
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
     locale: en
-    oauth2.user_provider.class: WellFollowed\OAuth2ServerBundle\User\OAuth2UserProvider
-    oauth2.client_manager.class: WellFollowed\OAuth2ServerBundle\Manager\ClientManager
 
 framework:
     #esi:             ~

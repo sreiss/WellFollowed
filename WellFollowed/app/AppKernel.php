@@ -23,7 +23,7 @@ class AppKernel extends Kernel
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
-            new WellFollowed\OAuth2ServerBundle\WellFollowedOAuth2ServerBundle(),
+            new WellFollowed\OAuth2\ServerBundle\WellFollowedOAuth2ServerBundle(),
             new WellFollowed\UtilBundle\WellFollowedUtilBundle(),
             new WellFollowed\AppBundle\WellFollowedAppBundle(),
         );

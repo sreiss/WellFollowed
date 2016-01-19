@@ -16,4 +16,7 @@ parameters:
     mailer_password:   ~
 
     # A secret key that's used to generate certain security-related tokens
-    secret:            ThisTokenIsNotSoSecretChangeIt
+    secret:            fcf24d0feef063b2795ac8a7191c84d8cc013c4b
+
+    gos_web_socket_port: 8080
+    gos_web_socket_host: localhost

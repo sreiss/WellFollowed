@@ -1,5 +1,4 @@
 .idea/*
-app/bootstrap.php.cache
 app/cache/*
 !app/cache/.gitkeep
 app/logs/*

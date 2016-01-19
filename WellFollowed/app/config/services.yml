@@ -12,6 +12,10 @@ parameters:
     well_followed.exception_listener.class: WellFollowed\AppBundle\EventListener\ExceptionListener
     well_followed.tokens.action_listener.class: WellFollowed\AppBundle\EventListener\TokenListener
 
+    # OAuth2 overrides
+    oauth2.user_provider.class: WellFollowed\OAuth2\ServerBundle\User\OAuth2UserProvider
+    oauth2.client_manager.class: WellFollowed\OAuth2\ServerBundle\Manager\ClientManager
+
 
     # Repositories
 

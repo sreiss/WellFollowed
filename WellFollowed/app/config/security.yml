@@ -5,6 +5,7 @@ parameters:
         access_home: "Accéder à la page d'acceuil"
         access_sensor: "Lire les données capteurs"
         access_admin: "Accéder à la partie administration du site"
+        access_calendar: "Accéder au calendrier"
     oauth2_clients:
         well_followed_web:
             redirect_uris: ["http://localhost:8085"]
@@ -15,7 +16,7 @@ parameters:
 
 security:
     encoders:
-        WellFollowed\OAuth2ServerBundle\Entity\User:
+        WellFollowed\OAuth2\ServerBundle\Entity\User:
             algorithm:          sha512
             encode_as_base64:   true
             iterations:         5000
