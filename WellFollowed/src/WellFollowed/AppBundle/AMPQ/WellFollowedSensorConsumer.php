@@ -10,6 +10,7 @@ use WellFollowed\AppBundle\Manager\SensorManager;
 /**
  * Class WellFollowedSensorConsumer
  * @package WellFollowed\AppBundle\AMPQ
+ * {@inheritdoc}
  *
  * @DI\Service("well_followed.sensor_consumer")
  */

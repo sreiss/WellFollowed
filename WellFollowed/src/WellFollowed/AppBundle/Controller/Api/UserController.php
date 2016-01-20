@@ -16,6 +16,7 @@ use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\UtilBundle\Annotation\JsonContent;
 use WellFollowed\UtilBundle\Annotation\FilterContent;
+use WellFollowed\UtilBundle\Annotation\AllowedScopes;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Manager\UserManager;
@@ -24,9 +25,10 @@ use WellFollowed\AppBundle\Manager\UserManager;
  * Class UserController
  * @package WellFollowed\AppBundle\Controller\Api
  *
+ * @AllowedScopes({"access_user"})
  * @Route("/user")
  */
-class UserController extends ApiController implements JsonControllerInterface
+class UserController extends ApiController
 {
     /** @var  UserManager */
     private $userManager;
@@ -60,6 +62,7 @@ class UserController extends ApiController implements JsonControllerInterface
     /**
      * @Route("/{username}", name="get_user", requirements={"username" = "[a-zA-Z][a-zA-Z0-9]+"})
      * @Method({"GET"})
+     * @AllowedScopes({"access_current_user"})
      */
     public function getUserAction(Request $request, $username)
     {

@@ -34,6 +34,11 @@ class EventController extends ApiController implements JsonControllerInterface
         $this->eventManager = $eventManager;
     }
 
+    public function getAllowedScopes()
+    {
+        return ['access_calendar'];
+    }
+
     /**
      * @Route("/event", name="get_events")
      * @Method({"GET"})

@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\OAuth2ServerBundle\User;
+namespace WellFollowed\OAuth2\ServerBundle\User;
 
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -99,7 +99,7 @@ class OAuth2UserProvider implements UserProviderInterface
      */
     public function createUser($username, $password, $firstName, $lastName, $subscriptionDate, array $roles = array(), array $scopes = array())
     {
-        $user = new \WellFollowed\OAuth2ServerBundle\Entity\User();
+        $user = new \WellFollowed\OAuth2\ServerBundle\Entity\User();
         $user->setUsername($username);
         $user->setFirstName($firstName);
         $user->setLastName($lastName);

@@ -30,6 +30,11 @@ class InstitutionController extends ApiController implements JsonControllerInter
         $this->institutionManager = $institutionManager;
     }
 
+    public function getAllowedScopes()
+    {
+        return ['access_institution'];
+    }
+
     /**
      * @Route(" ", name="get_institutions")
      * @Method({"GET"})

@@ -2,7 +2,7 @@
 
 namespace WellFollowed\AppBundle\Model\User;
 
-use WellFollowed\OAuth2ServerBundle\Entity\User;
+use WellFollowed\OAuth2\ServerBundle\Entity\User;
 use JMS\Serializer\Annotation as Serializer;
 
 class UserModel

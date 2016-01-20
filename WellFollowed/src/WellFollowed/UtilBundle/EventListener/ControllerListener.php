@@ -5,7 +5,7 @@ namespace WellFollowed\UtilBundle\EventListener;
 use JMS\Serializer\Serializer;
 use Symfony\Component\HttpKernel\Event\FilterControllerEvent;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
+use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\UtilBundle\Processor\ControllerAnnotationProcessor;
 
 class ControllerListener
@@ -32,7 +32,7 @@ class ControllerListener
             return;
         }
 
-        if ($controller[0] instanceof JsonControllerInterface) {
+        if ($controller[0] instanceof ApiController) {
             $request = $event->getRequest();
             $this->processor->onKernelController($controller[0], $request);
         }

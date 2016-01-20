@@ -1,13 +1,13 @@
-angular.module('wellFollowed').factory('$wfMenu', function() {
+angular.module('wellFollowed').factory('$wfMenu', function($wfAuth) {
     var _menus = {
         'main': [
-            { name: 'Sensor', state: 'sensor', right: 'ReadSensor' },
-            { name: 'Calendrier', state: 'calendar', right: 'ReadCalendar' },
-            { name: 'Administration', right: 'ReadAdmin', items:
+            { name: 'Capteurs', state: 'sensor', right: 'access_sensor' },
+            { name: 'Calendrier', state: 'calendar', right: 'access_calendar' },
+            { name: 'Administration', right: 'access_admin', items:
                 [
-                    { name: "Établissements", state: 'admin.institutions', right: 'ReadInstitutions' },
-                    { name: "Types d'établissement", state: 'admin.institutionTypes', right: 'ReadInstitutionTypes'},
-                    { name: "Utilisateurs", state: 'admin.users', right: 'ReadUsers' }
+                    { name: "Établissements", state: 'admin.institutions', right: 'access_institution' },
+                    { name: "Types d'établissement", state: 'admin.institutionTypes', right: 'access_institution_type'},
+                    { name: "Utilisateurs", state: 'admin.users', right: 'access_user' }
                 ]
             }
         ],
@@ -17,7 +17,16 @@ angular.module('wellFollowed').factory('$wfMenu', function() {
         ]
     };
 
-    var _getMenu = function(id, auth) {
+    var _getMenu = function(id) {
+        if (id != 'noauth') {
+            for (var i = 0; i < _menus[id].length; i++) {
+                var right = _menus[id][i].right;
+                if (!!right && $wfAuth.authentication.scopes.indexOf(right) < 0) {
+                    _menus[id].splice(i, 1);
+                }
+            }
+
+        }
         return _menus[id] || [];
     };
 

@@ -27,7 +27,18 @@ class ControllerAnnotationProcessor
 
         $classMetadata = $this->factory->getMetadataForClass(get_class($controller));
 
+        foreach ($classMetadata->propertyMetadata as $propertyMetadata) {
+            if (isset($propertyMetadata->allowedScopes)) {
+                $controller->setAllowedScopes($propertyMetadata->allowedScopes);
+                //$request->attributes->set('securityScopes', $classMetadata->allowedScopes);
+            }
+        }
+
         foreach ($classMetadata->methodMetadata as $methodMetadata) {
+            if (isset($methodMetadata->securityScopes)) {
+                $request->attributes->set('securityScopes', $methodMetadata->securityScopes);
+            }
+
             if (isset($methodMetadata->entity)) {
                 if (!empty($body = $request->getContent()))
                     $request->attributes->set('json', $this->serializer->deserialize($body, $methodMetadata->entity, 'json'));

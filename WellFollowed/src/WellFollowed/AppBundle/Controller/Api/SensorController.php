@@ -2,7 +2,6 @@
 
 namespace WellFollowed\AppBundle\Controller\Api;
 
-
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
@@ -11,7 +10,14 @@ use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use WellFollowed\UtilBundle\Annotation\FilterContent;
+use WellFollowed\UtilBundle\Annotation\AllowedScopes;
 
+/**
+ * Class SensorController
+ * @package WellFollowed\AppBundle\Controller\Api
+ *
+ * @AllowedScopes({"access_sensor"})
+ */
 class SensorController extends ApiController implements JsonControllerInterface
 {
     /**

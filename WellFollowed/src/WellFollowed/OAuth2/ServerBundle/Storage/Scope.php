@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\OAuth2ServerBundle\Storage;
+namespace WellFollowed\OAuth2\ServerBundle\Storage;
 
 use Doctrine\ORM\EntityManager;
 use OAuth2\ServerBundle\Manager\ScopeManagerInterface;

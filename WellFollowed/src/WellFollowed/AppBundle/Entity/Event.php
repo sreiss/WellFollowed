@@ -52,9 +52,9 @@ class Event
     private $end;
 
     /**
-     * @var \WellFollowed\OAuth2ServerBundle\Entity\User
+     * @var \WellFollowed\OAuth2\ServerBundle\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="WellFollowed\OAuth2ServerBundle\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="WellFollowed\OAuth2\ServerBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(name="username", referencedColumnName="username")
      */
     private $user;
@@ -166,7 +166,7 @@ class Event
     }
 
     /**
-     * @return \WellFollowed\AppBundle\Entity\User
+     * @return \WellFollowed\OAuth2\ServerBundle\Entity\User
      */
     public function getUser()
     {
@@ -174,7 +174,7 @@ class Event
     }
 
     /**
-     * @param \WellFollowed\AppBundle\Entity\User $user
+     * @param \WellFollowed\OAuth2\ServerBundle\Entity\User $user
      */
     public function setUser($user)
     {

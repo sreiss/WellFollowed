@@ -3,14 +3,15 @@
  * @author Taiseer Joudeh
  * @url http://www.codeproject.com/Articles/784106/AngularJS-Token-Authentication-using-ASP-NET-Web-A
  */
-angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStorageService, wfAuthSettings) {
+angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStorageService, wfAuthSettings, $state) {
     var serviceBase = wfAuthSettings.apiUrl + '/';
     var _baseUrl = wfAuthSettings.apiUrl + '/api/user';
     var authServiceFactory = {};
 
     var _authentication = {
         isAuth: false,
-        userName: ""
+        username: "",
+        scopes: []
     };
 
     var _createUser = function (registration) {
@@ -34,14 +35,17 @@ angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStor
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).then(function (response) {
 
-            debugger;
+            var scopes = response.data.scope.split(' ');
+
             localStorageService.set('authorizationData', {
                 token: response.data.access_token,
-                username: loginData.username
+                username: loginData.username,
+                scopes: scopes
             });
 
             _authentication.isAuth = true;
             _authentication.username = loginData.username;
+            _authentication.scopes = scopes;
 
             return loginData.username;
         }, function (response) {
@@ -63,6 +67,9 @@ angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStor
 
         _authentication.isAuth = false;
         _authentication.username = "";
+        _authentication.scopes = [];
+
+        $state.reload();
     };
 
     var _fillAuthData = function () {
@@ -70,7 +77,8 @@ angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStor
         var authData = localStorageService.get('authorizationData');
         if (authData) {
             _authentication.isAuth = true;
-            _authentication.userName = authData.username;
+            _authentication.username = authData.username;
+            _authentication.scopes = authData.scopes;
         }
     };
 

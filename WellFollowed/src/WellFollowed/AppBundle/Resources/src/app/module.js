@@ -40,8 +40,12 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
             url: '/connexion',
             template: '<wf-login></wf-login>'
         })
-        .state('sensor', {
+        .state('home', {
             url: '/',
+            template: '<wf-home></wf-home>'
+        })
+        .state('sensor', {
+            url: '/capteurs',
             template: '<wf-sensor></wf-sensor>'
         })
         .state('calendar', {

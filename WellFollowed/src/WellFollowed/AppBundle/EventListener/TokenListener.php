@@ -61,14 +61,13 @@ class TokenListener
 
         if ($controller[0] instanceof ApiController)
         {
-            $result = $this->oauth2Server->verifyResourceRequest($controller[0]->get('oauth2.request'), $controller[0]->get('oauth2.response'));
+            $scopes = empty($controller[0]->getAllowedScopes()) ? null : implode($controller[0]->getAllowedScopes());
+
+            $result = $this->oauth2Server->verifyResourceRequest($controller[0]->get('oauth2.request'), $controller[0]->get('oauth2.response'), $scopes);
 
             if (!$result) {
                 throw new WellFollowedException(ErrorCode::UNAUTHORIZED, null, 401);
             }
-
-            $tokenData = $this->oauth2Server->getAccessTokenData($controller[0]->get('oauth2.request'), $controller[0]->get('oauth2.response'));
-            //TODO: check rights
         }
     }
 }

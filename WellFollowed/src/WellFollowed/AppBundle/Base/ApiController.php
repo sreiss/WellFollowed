@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ApiController extends Controller implements TokenControllerInterface {
     private $modelClass = null;
     private $filterClass = null;
+    private $allowedScopes = null;
 
     protected function setModelClass($className)
     {
@@ -18,6 +19,16 @@ class ApiController extends Controller implements TokenControllerInterface {
     protected function setFilterClass($className)
     {
         $this->filterClass = $className;
+    }
+
+    public function getAllowedScopes()
+    {
+        return $this->allowedScopes;
+    }
+
+    public function setAllowedScopes(array $scopes)
+    {
+        $this->allowedScopes = $scopes;
     }
 
     /**

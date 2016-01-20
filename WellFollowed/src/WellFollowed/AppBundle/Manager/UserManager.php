@@ -15,10 +15,10 @@ use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
 use WellFollowed\AppBundle\Model\User\UserListModel;
 use WellFollowed\AppBundle\Model\User\UserModel;
-use WellFollowed\OAuth2ServerBundle\Entity\User;
+use WellFollowed\OAuth2\ServerBundle\Entity\User;
 use OAuth2\ServerBundle\Manager\ScopeManager;
-use WellFollowed\OAuth2ServerBundle\Manager\ClientManager;
-use WellFollowed\OAuth2ServerBundle\User\OAuth2UserProvider;
+use WellFollowed\OAuth2\ServerBundle\Manager\ClientManager;
+use WellFollowed\OAuth2\ServerBundle\User\OAuth2UserProvider;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 use WellFollowed\AppBundle\Contract\Manager\UserManagerInterface;
@@ -132,7 +132,7 @@ class UserManager implements UserManagerInterface
                 ->getRepository('WellFollowedOAuth2ServerBundle:User')
                 ->createQueryBuilder('u');
 
-            $qb->delete('WellFollowed\OAuth2ServerBundle\Entity\User', 'u')
+            $qb->delete('WellFollowed\OAuth2\ServerBundle\Entity\User', 'u')
                 ->where('u.username = :username')
                 ->setParameter('username', $username);
 

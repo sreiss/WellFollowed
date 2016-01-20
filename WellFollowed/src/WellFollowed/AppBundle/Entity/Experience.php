@@ -29,9 +29,9 @@ class Experience
     private $name;
 
     /**
-     * @var \WellFollowed\OAuth2ServerBundle\Entity\User
+     * @var \WellFollowed\OAuth2\ServerBundle\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="WellFollowed\OAuth2ServerBundle\Entity\User", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="WellFollowed\OAuth2\ServerBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(name="initiator_username", referencedColumnName="username")
      */
     private $initiator;
@@ -45,9 +45,9 @@ class Experience
     private $event;
 
     /**
-     * @var \WellFollowed\OAuth2ServerBundle\Entity\User[]
+     * @var \WellFollowed\OAuth2\ServerBundle\Entity\User[]
      *
-     * @ORM\ManyToMany(targetEntity="WellFollowed\OAuth2ServerBundle\Entity\User", inversedBy="experiences", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="WellFollowed\OAuth2\ServerBundle\Entity\User", inversedBy="experiences", cascade={"persist"})
      * @ORM\JoinTable(name="experice_allowed_users",
      *      joinColumns={@ORM\JoinColumn(name="experience_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="username", referencedColumnName="username")}
@@ -80,7 +80,7 @@ class Experience
     }
 
     /**
-     * @return \WellFollowed\OAuth2ServerBundle\Entity\User
+     * @return \WellFollowed\OAuth2\ServerBundle\Entity\User
      */
     public function getInitiator()
     {
@@ -88,7 +88,7 @@ class Experience
     }
 
     /**
-     * @param \WellFollowed\OAuth2ServerBundle\Entity\User $initiator
+     * @param \WellFollowed\OAuth2\ServerBundle\Entity\User $initiator
      */
     public function setInitiator($initiator)
     {
@@ -96,7 +96,7 @@ class Experience
     }
 
     /**
-     * @return \WellFollowed\OAuth2ServerBundle\Entity\User[]
+     * @return \WellFollowed\OAuth2\ServerBundle\Entity\User[]
      */
     public function getAllowedUsers()
     {
@@ -104,7 +104,7 @@ class Experience
     }
 
     /**
-     * @param \WellFollowed\OAuth2ServerBundle\Entity\User[] $allowedUsers
+     * @param \WellFollowed\OAuth2\ServerBundle\Entity\User[] $allowedUsers
      */
     public function setAllowedUsers($allowedUsers)
     {

@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\OAuth2ServerBundle\Manager;
+namespace WellFollowed\OAuth2\ServerBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use OAuth2\ServerBundle\Entity\Client;

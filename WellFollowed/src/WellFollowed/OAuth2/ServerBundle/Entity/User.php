@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\OAuth2ServerBundle\Entity;
+namespace WellFollowed\OAuth2\ServerBundle\Entity;
 
 use OAuth2\ServerBundle\User\OAuth2UserInterface;
 use Doctrine\ORM\Mapping as ORM;
