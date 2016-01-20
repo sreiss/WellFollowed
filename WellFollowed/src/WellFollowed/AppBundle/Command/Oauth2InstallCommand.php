@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use WellFollowed\AppBundle\Model\User\UserModel;
+use WellFollowed\OAuth2\ServerBundle\Entity\User;
 
 class Oauth2InstallCommand extends ContainerAwareCommand
 {
@@ -32,6 +34,7 @@ class Oauth2InstallCommand extends ContainerAwareCommand
         $oauth2Scopes = $container->getParameter('oauth2_scopes');
         //$oauth2PublicClients = $container->getParameter('oauth2_public_clients');
         $oauth2Clients = $container->getParameter('oauth2_clients');
+        $userManager = $container->get('well_followed.user_manager');
 
         try {
             foreach($oauth2Scopes as $scope => $description) {
@@ -56,7 +59,6 @@ class Oauth2InstallCommand extends ContainerAwareCommand
                     $output->writeln('<fg=yellow>Le client '. $clientId .' était déjà présent en base.</fg=yellow>');
                 }
             }
-
         } catch (\Doctrine\DBAL\DBALException $e) {
             $output->writeln('<fg=red>Impossible de créer le scope</fg=red>');
             $output->writeln('<fg=red>' . $e->getMessage() . '</fg=red>');

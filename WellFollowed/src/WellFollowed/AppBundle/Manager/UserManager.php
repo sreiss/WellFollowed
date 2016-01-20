@@ -102,6 +102,7 @@ class UserManager implements UserManagerInterface
             throw new WellFollowedException(ErrorCode::NO_MODEL_PROVIDED);
 
         try {
+            $model->setScopes(['access_home', 'access_current_user']);
             $user = $this->userProvider
                 ->createUser(
                     $model->getUsername(),
@@ -109,12 +110,12 @@ class UserManager implements UserManagerInterface
                     $model->getFirstName(),
                     $model->getLastName(),
                     new \DateTime(),
-                    ($model->getRoles() !== null) ?: array(),
-                    ($model->getScopes() !== null) ?: array()
+                    ($model->getRoles() !== null) ?$model->getRoles(): array(),
+                    ($model->getScopes() !== null) ?$model->getScopes(): array()
                 );
 
-            $this->entityManager->persist($user);
-            $this->entityManager->flush();
+//            $this->entityManager->persist($user);
+//            $this->entityManager->flush();
         } catch (\Exception $e) {
             if ($e instanceof UniqueConstraintViolationException) {
                 throw new WellFollowedException(ErrorCode::USER_EXISTS);

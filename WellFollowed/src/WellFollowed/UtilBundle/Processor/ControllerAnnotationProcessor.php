@@ -7,6 +7,7 @@ use Metadata\MetadataFactoryInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use WellFollowed\AppBundle\Base\ApiController;
 
 class ControllerAnnotationProcessor
 {
@@ -25,6 +26,10 @@ class ControllerAnnotationProcessor
             throw new \InvalidArgumentException('No controller provided');
         }
 
+        if (!$controller instanceof ApiController) {
+            return $controller;
+        }
+
         $classMetadata = $this->factory->getMetadataForClass(get_class($controller));
 
         foreach ($classMetadata->propertyMetadata as $propertyMetadata) {
@@ -35,8 +40,9 @@ class ControllerAnnotationProcessor
         }
 
         foreach ($classMetadata->methodMetadata as $methodMetadata) {
-            if (isset($methodMetadata->securityScopes)) {
-                $request->attributes->set('securityScopes', $methodMetadata->securityScopes);
+            if (isset($methodMetadata->allowedScopes)) {
+                $controller->addMethodAllowedScopes($methodMetadata->name, $methodMetadata->allowedScopes);
+                //$request->attributes->set('securityScopes', $methodMetadata->securityScopes);
             }
 
             if (isset($methodMetadata->entity)) {

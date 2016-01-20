@@ -6,10 +6,11 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ApiController extends Controller implements TokenControllerInterface {
+abstract class ApiController extends Controller implements TokenControllerInterface {
     private $modelClass = null;
     private $filterClass = null;
     private $allowedScopes = null;
+    private $methodAllowedScopes = null;
 
     protected function setModelClass($className)
     {
@@ -29,6 +30,27 @@ class ApiController extends Controller implements TokenControllerInterface {
     public function setAllowedScopes(array $scopes)
     {
         $this->allowedScopes = $scopes;
+    }
+
+    /**
+     * @return array
+     */
+    public function getMethodAllowedScopes()
+    {
+        return $this->methodAllowedScopes;
+    }
+
+    /**
+     * @param array $methodAllowedScopes
+     */
+    public function setMethodAllowedScopes($methodAllowedScopes)
+    {
+        $this->methodAllowedScopes = $methodAllowedScopes;
+    }
+
+    public function addMethodAllowedScopes($methodName, array $scopes)
+    {
+        $this->methodAllowedScopes[$methodName] = $scopes;
     }
 
     /**

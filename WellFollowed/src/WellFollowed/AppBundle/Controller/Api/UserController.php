@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sreiss
- * Date: 01/10/15
- * Time: 22:31
- */
 
 namespace WellFollowed\AppBundle\Controller\Api;
 
@@ -76,6 +70,7 @@ class UserController extends ApiController
      * @Route(" ", name="create_user")
      * @Method({"POST"})
      * @JsonContent("WellFollowed\AppBundle\Model\User\UserModel")
+     * @AllowedScopes({"all"})
      */
     public function createUserAction(Request $request)
     {

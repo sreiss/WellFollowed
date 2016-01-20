@@ -61,12 +61,19 @@ class TokenListener
 
         if ($controller[0] instanceof ApiController)
         {
-            $scopes = empty($controller[0]->getAllowedScopes()) ? null : implode($controller[0]->getAllowedScopes());
+            $methodAllowedScopes = $controller[0]->getMethodAllowedScopes();
+            if (isset($methodAllowedScopes) && isset($methodAllowedScopes[$controller[1]])) {
+                $scopes = empty($methodAllowedScopes[$controller[1]]) ? null : implode(' ', $methodAllowedScopes[$controller[1]]);
+            } else {
+                $scopes = empty($controller[0]->getAllowedScopes()) ? null : implode(' ', $controller[0]->getAllowedScopes());
+            }
 
-            $result = $this->oauth2Server->verifyResourceRequest($controller[0]->get('oauth2.request'), $controller[0]->get('oauth2.response'), $scopes);
+            if ($scopes !== 'all') {
+                $result = $this->oauth2Server->verifyResourceRequest($controller[0]->get('oauth2.request'), $controller[0]->get('oauth2.response'), $scopes);
 
-            if (!$result) {
-                throw new WellFollowedException(ErrorCode::UNAUTHORIZED, null, 401);
+                if (!$result) {
+                    throw new WellFollowedException(ErrorCode::UNAUTHORIZED, null, 401);
+                }
             }
         }
     }

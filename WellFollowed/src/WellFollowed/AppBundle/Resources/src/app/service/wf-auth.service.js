@@ -69,7 +69,7 @@ angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStor
         _authentication.username = "";
         _authentication.scopes = [];
 
-        $state.reload();
+        $state.state('home');
     };
 
     var _fillAuthData = function () {
