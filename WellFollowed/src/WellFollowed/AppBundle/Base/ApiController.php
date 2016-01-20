@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-abstract class ApiController extends Controller implements TokenControllerInterface {
+abstract class ApiController extends Controller {
     private $modelClass = null;
     private $filterClass = null;
     private $allowedScopes = null;
