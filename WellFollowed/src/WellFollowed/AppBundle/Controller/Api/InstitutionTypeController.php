@@ -17,7 +17,8 @@ use WellFollowed\UtilBundle\Annotation\FilterContent;
 use WellFollowed\UtilBundle\Annotation\JsonContent;
 
 /**
- * InstitutionType controller.
+ * Class InstitutionTypeController
+ * @package WellFollowed\AppBundle\Controller\Api
  *
  * @Route("/institution-type")
  */

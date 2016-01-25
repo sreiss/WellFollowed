@@ -16,6 +16,7 @@ use WellFollowed\UtilBundle\Annotation\AllowedScopes;
  * Class SensorController
  * @package WellFollowed\AppBundle\Controller\Api
  *
+ * @Route("/sensor")
  * @AllowedScopes({"access_sensor"})
  */
 class SensorController extends ApiController implements JsonControllerInterface
@@ -39,7 +40,7 @@ class SensorController extends ApiController implements JsonControllerInterface
     }
 
     /**
-     * @Route("/sensor", name="get_sensors")
+     * @Route(" ", name="get_sensors")
      * @Method({"GET"})
      * @FilterContent("WellFollowed\AppBundle\Manager\Filter\SensorFilter")
      */
@@ -52,7 +53,7 @@ class SensorController extends ApiController implements JsonControllerInterface
     }
 
     /**
-     * @Route("/sensor/{name}", name="get_sensor", requirements={"name" = "[a-zA-Z0-9]+"})
+     * @Route("/{name}", name="get_sensor", requirements={"name" = "[a-zA-Z0-9]+"})
      * @Method({"GET"})
      */
     public function getSensor(Request $request, $sensorName)

@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sreiss
- * Date: 26/10/15
- * Time: 22:00
- */
 
 namespace WellFollowed\AppBundle\Controller\Api;
 
@@ -20,7 +14,12 @@ use WellFollowed\AppBundle\Manager\Filter\EventFilter;
 use WellFollowed\UtilBundle\Annotation\JsonContent;
 use WellFollowed\UtilBundle\Annotation\FilterContent;
 
-
+/**
+ * Class EventController
+ * @package WellFollowed\AppBundle\Controller\Api
+ *
+ * @Route("/event")
+ */
 class EventController extends ApiController implements JsonControllerInterface
 {
     private $eventManager;
@@ -34,26 +33,14 @@ class EventController extends ApiController implements JsonControllerInterface
         $this->eventManager = $eventManager;
     }
 
-    public function getAllowedScopes()
-    {
-        return ['access_calendar'];
-    }
-
     /**
-     * @Route("/event", name="get_events")
+     * @Route(" ", name="get_events")
      * @Method({"GET"})
      * @JsonContent("WellFollowed\AppBundle\Entity\Event")
      * @FilterContent("WellFollowed\AppBundle\Manager\Filter\EventFilter")
      */
     public function getEvents(Request $request)
     {
-//        $filter = new EventFilter();
-//        if (!is_null($start = $request->query->get('start')))
-//            $filter->setStart(new \DateTime($start));
-//        if (!is_null($end = $request->query->get('end')))
-//            $filter->setEnd(new \DateTime($end));
-//        $filter->setFormat($request->query->get('format'));
-
         $events = $this->eventManager
             ->getEvents($request->attributes->get('filter'));
 
@@ -61,7 +48,7 @@ class EventController extends ApiController implements JsonControllerInterface
     }
 
     /**
-     * @Route("/event", name="post_event")
+     * @Route(" ", name="post_event")
      * @Method({"POST"})
      * @JsonContent("WellFollowed\AppBundle\Entity\Event")
      */
@@ -74,7 +61,7 @@ class EventController extends ApiController implements JsonControllerInterface
     }
 
     /**
-     * @Route("/event/{id}", name="delete_event", requirements={"id" = "\d+"}))
+     * @Route("/{id}", name="delete_event", requirements={"id" = "\d+"}))
      * @Method({"DELETE"})
      */
     public function deleteEvent(Request $request, $id) {

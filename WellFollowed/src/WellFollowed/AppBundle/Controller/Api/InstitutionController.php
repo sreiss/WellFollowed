@@ -12,7 +12,8 @@ use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\AppBundle\Manager\InstitutionManager;
 
 /**
- * Institution controller.
+ * Class InstitutionController
+ * @package WellFollowed\AppBundle\Controller\Api
  *
  * @Route("/institution")
  */
