@@ -5,12 +5,12 @@ namespace WellFollowed\AppBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Base\ErrorCode;
-use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
+use WellFollowed\AppBundle\Base\ResponseFormat;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 use WellFollowed\AppBundle\Entity\InstitutionType;
 use WellFollowed\AppBundle\Manager\Filter\InstitutionTypeFilter;
-use WellFollowed\AppBundle\Model\Common\ListModel;
-use WellFollowed\AppBundle\Model\InstitutionType\InstitutionTypeModel;
+use WellFollowed\AppBundle\Model\ListModel;
+use WellFollowed\AppBundle\Model\InstitutionTypeModel;
 
 /** @DI\Service("well_followed.institution_type_manager") */
 class InstitutionTypeManager

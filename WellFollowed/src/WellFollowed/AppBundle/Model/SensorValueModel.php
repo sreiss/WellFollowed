@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model\Sensor;
+namespace WellFollowed\AppBundle\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 

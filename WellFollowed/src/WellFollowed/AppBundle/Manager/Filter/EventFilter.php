@@ -3,14 +3,8 @@
 namespace WellFollowed\AppBundle\Manager\Filter;
 
 use WellFollowed\UtilBundle\Contract\Manager\Filter\FilterInterface;
-use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
+use WellFollowed\AppBundle\Base\ResponseFormat;
 
-/**
- * Created by PhpStorm.
- * User: sreiss
- * Date: 13/11/2015
- * Time: 00:54
- */
 class EventFilter implements FilterInterface
 {
     private $start;

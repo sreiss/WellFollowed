@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model\Event;
+namespace WellFollowed\AppBundle\Model;
 
 use WellFollowed\AppBundle\Entity\Event;
 use WellFollowed\AppBundle\Model\User\UserModel;

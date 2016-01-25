@@ -6,7 +6,7 @@
  * Time: 18:14
  */
 
-namespace WellFollowed\AppBundle\Model\Institution;
+namespace WellFollowed\AppBundle\Model;
 
 
 use WellFollowed\AppBundle\Model\Common\ListModel;

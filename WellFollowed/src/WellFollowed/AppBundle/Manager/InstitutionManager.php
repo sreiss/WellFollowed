@@ -9,10 +9,10 @@ use WellFollowed\AppBundle\Base\WellFollowedException;
 use WellFollowed\AppBundle\Entity\Institution;
 use WellFollowed\AppBundle\Entity\InstitutionType;
 use WellFollowed\AppBundle\Manager\Filter\InstitutionFilter;
-use WellFollowed\AppBundle\Model\Common\ListModel;
-use WellFollowed\AppBundle\Model\Institution\InstitutionListModel;
-use WellFollowed\AppBundle\Model\Institution\InstitutionModel;
-use WellFollowed\AppBundle\Model\InstitutionType\InstitutionTypeModel;
+use WellFollowed\AppBundle\Model\ListModel;
+use WellFollowed\AppBundle\Model\InstitutionListModel;
+use WellFollowed\AppBundle\Model\InstitutionModel;
+use WellFollowed\AppBundle\Model\InstitutionTypeModel;
 
 /** @DI\Service("well_followed.institution_manager") */
 class InstitutionManager

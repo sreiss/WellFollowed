@@ -10,7 +10,7 @@ abstract class ApiController extends Controller {
     private $modelClass = null;
     private $filterClass = null;
     private $allowedScopes = null;
-    private $methodAllowedScopes = null;
+    private $methodAllowedScopes = [];
 
     protected function setModelClass($className)
     {

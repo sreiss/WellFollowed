@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model\InstitutionType;
+namespace WellFollowed\AppBundle\Model;
 
 use WellFollowed\AppBundle\Entity\InstitutionType;
 use JMS\Serializer\Annotation as Serializer;

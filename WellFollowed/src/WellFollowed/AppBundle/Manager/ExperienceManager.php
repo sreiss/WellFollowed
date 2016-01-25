@@ -5,7 +5,7 @@ namespace WellFollowed\AppBundle\Manager;
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Manager\Filter\ExperienceFilter;
-use WellFollowed\AppBundle\Model\Experience\ExperienceListModel;
+use WellFollowed\AppBundle\Model\ExperienceListModel;
 
 /**
  * Class ExperienceService

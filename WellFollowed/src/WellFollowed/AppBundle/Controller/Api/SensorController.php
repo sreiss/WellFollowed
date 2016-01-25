@@ -3,9 +3,9 @@
 namespace WellFollowed\AppBundle\Controller\Api;
 
 use Symfony\Component\HttpFoundation\Request;
+use WellFollowed\AppBundle\Manager\SensorManager;
 use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
-use WellFollowed\AppBundle\Contract\Manager\SensorManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -21,19 +21,19 @@ use WellFollowed\UtilBundle\Annotation\AllowedScopes;
 class SensorController extends ApiController implements JsonControllerInterface
 {
     /**
-     * @var SensorManagerInterface
+     * @var SensorManager
      */
     private $sensorManager;
 
     /**
      * SensorController constructor.
-     * @param SensorManagerInterface $sensorManager
+     * @param SensorManager $sensorManager
      *
      * @DI\InjectParams({
      *      "sensorManager" = @DI\Inject("well_followed.sensor_manager")
      * })
      */
-    public function __construct(SensorManagerInterface $sensorManager)
+    public function __construct(SensorManager $sensorManager)
     {
         $this->sensorManager = $sensorManager;
     }

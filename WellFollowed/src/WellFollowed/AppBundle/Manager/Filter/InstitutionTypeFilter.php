@@ -2,9 +2,8 @@
 
 namespace WellFollowed\AppBundle\Manager\Filter;
 
-
 use WellFollowed\UtilBundle\Contract\Manager\Filter\FilterInterface;
-use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
+use WellFollowed\AppBundle\Base\ResponseFormat;
 
 class InstitutionTypeFilter implements FilterInterface
 {

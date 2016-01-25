@@ -4,19 +4,17 @@ namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use WellFollowed\AppBundle\Base\ErrorCode;
-use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
+use WellFollowed\AppBundle\Base\ResponseFormat;
 use WellFollowed\AppBundle\Base\WellFollowedException;
-use WellFollowed\AppBundle\Contract\Manager\EventManagerInterface;
 use WellFollowed\AppBundle\Entity\Event;
-use WellFollowed\AppBundle\Entity\User;
 use WellFollowed\AppBundle\Manager\Filter\EventFilter;
-use WellFollowed\AppBundle\Model\Event\EventModel;
-use WellFollowed\AppBundle\Model\User\UserModel;
+use WellFollowed\AppBundle\Model\EventModel;
+use WellFollowed\AppBundle\Model\UserModel;
 
 use JMS\DiExtraBundle\Annotation as DI;
 
 /** @DI\Service("well_followed.event_manager") */
-class EventManager implements EventManagerInterface
+class EventManager
 {
     private $entityManager;
 

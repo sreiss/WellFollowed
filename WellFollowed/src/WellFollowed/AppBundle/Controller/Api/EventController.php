@@ -10,12 +10,12 @@ namespace WellFollowed\AppBundle\Controller\Api;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\DateTime;
+use WellFollowed\AppBundle\Manager\EventManager;
 use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use JMS\DiExtraBundle\Annotation as DI;
-use WellFollowed\AppBundle\Contract\Manager\EventManagerInterface;
 use WellFollowed\AppBundle\Manager\Filter\EventFilter;
 use WellFollowed\UtilBundle\Annotation\JsonContent;
 use WellFollowed\UtilBundle\Annotation\FilterContent;
@@ -30,7 +30,7 @@ class EventController extends ApiController implements JsonControllerInterface
      *      "eventManager" = @DI\Inject("well_followed.event_manager")
      * })
      */
-    public function __construct(EventManagerInterface $eventManager) {
+    public function __construct(EventManager $eventManager) {
         $this->eventManager = $eventManager;
     }
 

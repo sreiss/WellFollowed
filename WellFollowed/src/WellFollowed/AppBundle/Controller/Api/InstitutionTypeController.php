@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\AppBundle\Entity\InstitutionType;
-use WellFollowed\AppBundle\Form\InstitutionTypeType;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Manager\InstitutionTypeManager;
 use WellFollowed\UtilBundle\Annotation\FilterContent;

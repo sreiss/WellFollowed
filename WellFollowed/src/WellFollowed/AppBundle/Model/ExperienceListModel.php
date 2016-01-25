@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model\Experience;
+namespace WellFollowed\AppBundle\Model;
 
 use WellFollowed\AppBundle\Entity\Experience;
 

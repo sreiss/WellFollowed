@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model\User;
+namespace WellFollowed\AppBundle\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 use WellFollowed\OAuth2\ServerBundle\Entity\User;

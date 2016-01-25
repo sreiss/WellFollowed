@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sreiss
- * Date: 09/11/2015
- * Time: 00:03
- */
 
 namespace WellFollowed\AppBundle\Base;
 

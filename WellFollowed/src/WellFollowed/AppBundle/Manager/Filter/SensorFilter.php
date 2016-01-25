@@ -3,7 +3,9 @@
 namespace WellFollowed\AppBundle\Manager\Filter;
 
 
-class SensorFilter
+use WellFollowed\UtilBundle\Contract\Manager\Filter\FilterInterface;
+
+class SensorFilter implements FilterInterface
 {
 
 }

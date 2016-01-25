@@ -2,12 +2,10 @@
 
 namespace WellFollowed\AppBundle\Manager;
 
-
 use Doctrine\ORM\EntityManager;
 use OldSound\RabbitMqBundle\RabbitMq\Producer;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\WellFollowedException;
-use WellFollowed\AppBundle\Contract\Manager\SensorManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Entity\SensorValue;
 use WellFollowed\AppBundle\Manager\Filter\SensorFilter;
@@ -19,7 +17,7 @@ use WellFollowed\AppBundle\Topic\SensorTopic;
  *
  * @DI\Service("well_followed.sensor_manager")
  */
-class SensorManager implements SensorManagerInterface
+class SensorManager
 {
     /**
      * @var EntityManager

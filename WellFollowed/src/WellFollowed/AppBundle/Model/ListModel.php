@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model\Common;
+namespace WellFollowed\AppBundle\Model;
 
 class ListModel
 {

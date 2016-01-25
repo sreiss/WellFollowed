@@ -2,7 +2,7 @@
 
 namespace WellFollowed\AppBundle\Manager\Filter;
 
-use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
+use WellFollowed\AppBundle\Base\ResponseFormat;
 use WellFollowed\UtilBundle\Contract\Manager\Filter\FilterInterface;
 
 class UserFilter implements FilterInterface

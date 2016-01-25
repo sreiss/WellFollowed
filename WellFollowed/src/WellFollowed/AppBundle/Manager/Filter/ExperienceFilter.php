@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sreiss
- * Date: 09/01/2016
- * Time: 15:25
- */
 
 namespace WellFollowed\AppBundle\Manager\Filter;
 
+use WellFollowed\AppBundle\Base\ResponseFormat;
+use WellFollowed\UtilBundle\Contract\Manager\Filter\FilterInterface;
 
-use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
-
-class ExperienceFilter
+class ExperienceFilter implements FilterInterface
 {
     /*
      * @var string Le format dans lequel est renvoyé la réponse.

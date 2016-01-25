@@ -1,27 +1,20 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sreiss
- * Date: 08/11/2015
- * Time: 17:59
- */
 
 namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Acl\Exception\Exception;
-use WellFollowed\AppBundle\Base\Filter\ResponseFormat;
+use WellFollowed\AppBundle\Base\ResponseFormat;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
-use WellFollowed\AppBundle\Model\User\UserListModel;
-use WellFollowed\AppBundle\Model\User\UserModel;
+use WellFollowed\AppBundle\Model\UserListModel;
+use WellFollowed\AppBundle\Model\UserModel;
 use WellFollowed\OAuth2\ServerBundle\Entity\User;
 use OAuth2\ServerBundle\Manager\ScopeManager;
 use WellFollowed\OAuth2\ServerBundle\Manager\ClientManager;
 use WellFollowed\OAuth2\ServerBundle\User\OAuth2UserProvider;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\WellFollowedException;
-use WellFollowed\AppBundle\Contract\Manager\UserManagerInterface;
 use JMS\DiExtraBundle\Annotation as DI;
 
 /**
@@ -29,7 +22,7 @@ use JMS\DiExtraBundle\Annotation as DI;
  * @package WellFollowed\AppBundle\Service
  * @DI\Service("well_followed.user_manager")
  */
-class UserManager implements UserManagerInterface
+class UserManager
 {
     private $userProvider;
     private $entityManager;
