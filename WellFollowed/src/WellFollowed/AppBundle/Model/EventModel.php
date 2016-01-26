@@ -3,7 +3,7 @@
 namespace WellFollowed\AppBundle\Model;
 
 use WellFollowed\AppBundle\Entity\Event;
-use WellFollowed\AppBundle\Model\User\UserModel;
+use WellFollowed\AppBundle\Model\UserModel;
 
 class EventModel {
     /** @var int */
@@ -21,7 +21,7 @@ class EventModel {
     /** @var string */
     private $description;
 
-    /** @var \WellFollowed\AppBundle\Model\User\UserModel */
+    /** @var \WellFollowed\AppBundle\Model\UserModel */
     private $user;
 
     public function __construct(Event $event, UserModel $user = null)

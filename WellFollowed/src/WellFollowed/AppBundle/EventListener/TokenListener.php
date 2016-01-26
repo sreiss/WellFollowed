@@ -69,11 +69,11 @@ class TokenListener
             }
 
             if ($scopes !== 'all') {
-                $result = $this->oauth2Server->verifyResourceRequest($controller[0]->get('oauth2.request'), $controller[0]->get('oauth2.response'), $scopes);
+             //   $result = $this->oauth2Server->verifyResourceRequest($controller[0]->get('oauth2.request'), $controller[0]->get('oauth2.response'), $scopes);
 
-                if (!$result) {
-                    throw new WellFollowedException(ErrorCode::UNAUTHORIZED, null, 401);
-                }
+            //    if (!$result) {
+            //        throw new WellFollowedException(ErrorCode::UNAUTHORIZED, null, 401);
+            //    }
             }
         }
     }

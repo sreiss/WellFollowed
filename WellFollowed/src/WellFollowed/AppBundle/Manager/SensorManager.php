@@ -9,6 +9,7 @@ use WellFollowed\AppBundle\Base\WellFollowedException;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Entity\SensorValue;
 use WellFollowed\AppBundle\Manager\Filter\SensorFilter;
+use WellFollowed\AppBundle\Model\AMPQSensorMessageModel;
 use WellFollowed\AppBundle\Topic\SensorTopic;
 
 /**
@@ -49,28 +50,23 @@ class SensorManager
         $this->experienceManager = $experienceManager;
         $this->sensorClientManager = $sensorClientManager;
         $this->sensorTopic = $sensorTopic;
-
-        $this->sensorClientManager->publish('sensor/data/sensor1', "test");
     }
 
-    public function enqueue($sensorName, \DateTime $date, $value)
+    public function enqueue(AMPQSensorMessageModel $model)
     {
-        if (!$sensorName || !$date || $value)
-            return false;
-
-        if (!isset($this->sensorQueues[$sensorName]))
-            $this->sensorQueues[$sensorName] = [];
+        if (!isset($this->sensorQueues[$model->getSensorName()]))
+            $this->sensorQueues[$model->getSensorName()] = [];
 
         $value = new SensorValue();
-        $value->setDate($date);
+        $value->setDate($model->getDate());
         $value->setValue($value);
-        $value->setSensorName($sensorName);
+        $value->setSensorName($model->getSensorName());
         $value->setExperienceId($this->experienceManager->getCurrentExperienceId());
         $this->createSensorValue($value);
 
-        $this->sensorClientManager->publish($this->sensorTopic->getName(), [
-            'date' => $date,
-            'value' => $value
+        $this->sensorClientManager->publish('sensor/data/sensor1', [
+            'date' => $model->getDate(),
+            'value' => $model->getValue()
         ]);
 
         return true;
