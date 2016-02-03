@@ -9,7 +9,7 @@
 namespace WellFollowed\AppBundle\Model;
 
 
-use WellFollowed\AppBundle\Model\Common\ListModel;
+use WellFollowed\AppBundle\Model\ListModel;
 
 class InstitutionListModel extends ListModel
 {

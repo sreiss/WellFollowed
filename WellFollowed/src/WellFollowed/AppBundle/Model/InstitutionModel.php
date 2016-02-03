@@ -4,7 +4,7 @@ namespace WellFollowed\AppBundle\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 use WellFollowed\AppBundle\Entity\Institution;
-use WellFollowed\AppBundle\Model\InstitutionType\InstitutionTypeModel;
+use WellFollowed\AppBundle\Model\InstitutionTypeModel;
 
 class InstitutionModel
 {

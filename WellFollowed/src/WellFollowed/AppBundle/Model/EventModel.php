@@ -5,6 +5,12 @@ namespace WellFollowed\AppBundle\Model;
 use WellFollowed\AppBundle\Entity\Event;
 use WellFollowed\AppBundle\Model\UserModel;
 
+/**
+ * Class EventModel
+ * @package WellFollowed\AppBundle\Model
+ *
+ * Represents the events displayed on the calendar.
+ */
 class EventModel {
     /** @var int */
     private $id;
