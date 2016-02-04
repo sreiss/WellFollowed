@@ -3,9 +3,9 @@
  * @author Taiseer Joudeh
  * @url http://www.codeproject.com/Articles/784106/AngularJS-Token-Authentication-using-ASP-NET-Web-A
  */
-angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStorageService, wfAuthSettings, $state) {
-    var serviceBase = wfAuthSettings.apiUrl + '/';
-    var _baseUrl = wfAuthSettings.apiUrl + '/api/user';
+angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStorageService, wfAuthSettings, $wfUrl, $state) {
+    var serviceBase = $wfUrl.getApiUrl() + '/';
+    var _baseUrl = $wfUrl.getApiUrl() + '/api/user';
     var authServiceFactory = {};
 
     var _authentication = {

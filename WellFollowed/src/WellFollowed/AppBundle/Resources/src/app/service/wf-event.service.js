@@ -1,6 +1,6 @@
-angular.module('wellFollowed').factory('$wfEvent', function($http, wfAuthSettings) {
+angular.module('wellFollowed').factory('$wfEvent', function($http, $wfUrl) {
 
-    var _baseUrl = wfAuthSettings.apiUrl + '/api/event';
+    var _baseUrl = $wfUrl.getApiUrl() + '/api/event';
 
     var _createEvent = function(event) {
         return $http.post(_baseUrl, event);

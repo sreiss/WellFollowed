@@ -1,6 +1,6 @@
-angular.module('wellFollowed').factory('$wfInstitution', function($http, wfAuthSettings) {
+angular.module('wellFollowed').factory('$wfInstitution', function($http, $wfUrl) {
 
-    var _baseUrl = wfAuthSettings.apiUrl + '/api/institution';
+    var _baseUrl = $wfUrl.getApiUrl() + '/api/institution';
 
     var _createInstitution = function(model) {
         return $http.post(_baseUrl, model);

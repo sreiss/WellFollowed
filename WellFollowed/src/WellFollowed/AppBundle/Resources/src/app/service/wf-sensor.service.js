@@ -1,6 +1,6 @@
-angular.module('wellFollowed').factory('$wfSensor', function($http, wfAuthSettings) {
+angular.module('wellFollowed').factory('$wfSensor', function($http, $wfUrl) {
 
-    var _baseUrl = wfAuthSettings.apiUrl + '/api/sensor';
+    var _baseUrl = $wfUrl.getApiUrl() + '/api/sensor';
 
     var _getSensors = function(filter) {
         return $http.get(_baseUrl, {params: filter});

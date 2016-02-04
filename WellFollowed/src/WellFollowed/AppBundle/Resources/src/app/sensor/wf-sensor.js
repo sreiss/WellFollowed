@@ -1,10 +1,10 @@
-angular.module('wellFollowed').directive('wfSensor', function (wfAuthSettings, $wfSensor) {
+angular.module('wellFollowed').directive('wfSensor', function ($wfUrl, $wfSensor) {
     return {
         restrict: 'E',
         templateUrl: 'sensor/wf-sensor.html',
         controller: function ($scope) {
             $scope.hasWsSession = false;
-            var websocket = WS.connect(wfAuthSettings.websocketUrl);
+            var websocket = WS.connect($wfUrl.getWsUrl());
             var wsSession = null;
 
             websocket.on('socket/connect', function (session) {

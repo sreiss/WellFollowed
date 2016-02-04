@@ -1,11 +1,11 @@
-angular.module('wellFollowed').directive('wfDummyRtSimulation', function(wfAuthSettings, $interval) {
+angular.module('wellFollowed').directive('wfDummyRtSimulation', function($wfUrl, $interval) {
     return {
         restrict: 'E',
         scope: {
             sensorName: '@'
         },
         link: function (scope, element, attributes) {
-            var websocket = WS.connect(wfAuthSettings.websocketUrl);
+            var websocket = WS.connect($wfUrl.getWsUrl());
             var wsSession = null;
 
             websocket.on('socket/connect', function (session) {

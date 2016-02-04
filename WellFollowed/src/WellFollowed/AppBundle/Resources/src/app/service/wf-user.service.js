@@ -1,6 +1,6 @@
-angular.module('wellFollowed').factory('$wfUser', function($http, wfAuthSettings) {
+angular.module('wellFollowed').factory('$wfUser', function($http, $wfUrl) {
 
-    var _baseUrl = wfAuthSettings.apiUrl + '/api/user';
+    var _baseUrl = $wfUrl.getApiUrl() + '/api/user';
 
     var _createUser = function(model) {
         return $http.post(_baseUrl, model);
