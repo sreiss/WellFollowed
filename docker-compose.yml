@@ -10,11 +10,11 @@ db:
 engine:
     build: ./docker/engine/
     volumes:
-        - "./WellFollowed:/var/www:rw"
+        - "./WellFollowed:/home/docker:rw"
         - "./docker/engine/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro"
     links:
         - "db:db"
-    working_dir: "/var/www"
+    working_dir: "/home/docker"
 front:
     image: nginx
     ports:
@@ -22,7 +22,7 @@ front:
     links:
         - "engine:engine"
     volumes:
-        - "./WellFollowed:/var/www:ro"
+        - "./WellFollowed:/home/docker:ro"
         - "./docker/front/default.conf:/etc/nginx/conf.d/default.conf:ro"
 
 #application:

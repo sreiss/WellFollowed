@@ -1,5 +1,4 @@
 FROM php:5.6-fpm
-MAINTAINER Baptiste Donaux <bdonaux@wanadev.fr>
 
 RUN apt-get update \
     && apt-get install -y \
@@ -21,5 +20,7 @@ RUN apt-get update \
         zip \
     && php -r "readfile('https://getcomposer.org/installer');" | php -- --install-dir=/usr/local/bin --filename=composer \
     && chmod +x /usr/local/bin/composer
+
+RUN composer update
 
 RUN usermod -u 1000 www-data
