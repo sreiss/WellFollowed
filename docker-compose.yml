@@ -1,68 +1,41 @@
+application:
+    build: docker/code
+    volumes:
+        - ./WellFollowed:/var/www/wellfollowed:rw
+        - ./docker/logs/wellfollowed:/var/www/wellfollowed/app/logs:rw
+    tty: true
 db:
     image: mariadb
     ports:
-        - "3307:3306"
+        - 3306:3306
     environment:
         MYSQL_ROOT_PASSWORD: root
         MYSQL_DATABASE: wellfollowed
         MYSQL_USER: wellfollowed
         MYSQL_PASSWORD: wellfollowed
-engine:
-    build: ./docker/engine/
-    volumes:
-        - "./WellFollowed:/home/docker:rw"
-        - "./docker/engine/php.ini:/usr/local/etc/php/conf.d/custom.ini:ro"
-    links:
-        - "db:db"
-    working_dir: "/home/docker"
-front:
-    image: nginx
+php:
+    build: docker/php-fpm
     ports:
-        - "80:80"
+        - 9000:9000
+    volumes_from:
+        - application
     links:
-        - "engine:engine"
-    volumes:
-        - "./WellFollowed:/home/docker:ro"
-        - "./docker/front/default.conf:/etc/nginx/conf.d/default.conf:ro"
-
-#application:
-#    build: code
-#    volumes:
-#        - ../WellFollowed:/var/www/wellfollowed
-#        - ./logs/wellfollowed:/var/www/wellfollowed/app/logs
-#    tty: true
-#db:
-#    image: mariadb
-#    ports:
-#        - 3306:3306
-#    environment:
-#        MYSQL_ROOT_PASSWORD: root
-#        MYSQL_DATABASE: wellfollowed
-#        MYSQL_USER: wellfollowed
-#        MYSQL_PASSWORD: wellfollowed
-#php:
-#    build: php-fpm
-#    ports:
-#        - 9000:9000
-#    volumes_from:
-#        - application
-#    links:
-#        - db
+        - db
 #xdebug:
 #    build: xdebug
 #    environment:
 #        XDEBUG_CONFIG: remote_host=192.168.1.14
-#nginx:
-#    build: nginx
-#    ports:
-#        - 80:80
-#    links:
-#        - php
-#    volumes_from:
-#        - application
-#    volumes:
-#        - ./logs/nginx/:/var/log/nginx
-#rabbitmq:
-#    image: rabbitmq
-#    ports:
-#        - 8081:15672
+nginx:
+    build: docker/nginx
+    ports:
+        - 80:80
+    links:
+        - php
+    volumes_from:
+        - application
+    volumes:
+        - ./docker/logs/nginx/:/var/log/nginx
+rabbitmq:
+    image: rabbitmq
+    ports:
+        - 8081:15672
