@@ -40,7 +40,7 @@ class ExceptionListener
         if ($exception instanceof WellFollowedException) {
             $statusCode = $exception->getStatusCode();
         } else {
-            $exception = new WellFollowedException(ErrorCode::UNKNOWN_ERROR, $exception);
+            $exception = new WellFollowedException($exception->getMessage(), $exception);
         }
 
         $data = array(
