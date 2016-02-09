@@ -69,7 +69,7 @@ class UserController extends ApiController
     /**
      * @Route(" ", name="create_user")
      * @Method({"POST"})
-     * @JsonContent("WellFollowed\AppBundle\Model\User\UserModel")
+     * @JsonContent("WellFollowed\AppBundle\Model\UserModel")
      * @AllowedScopes({"all"})
      */
     public function createUserAction(Request $request)

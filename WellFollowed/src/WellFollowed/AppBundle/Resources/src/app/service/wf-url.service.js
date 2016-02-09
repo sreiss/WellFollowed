@@ -1,7 +1,7 @@
 angular.module('wellFollowed').factory('$wfUrl', function($location) {
 
     var _getApiUrl = function() {
-        return 'http://' + $location.host();
+        return 'http://' + $location.host() + ':8085';
     };
 
     var _getWsUrl = function() {

@@ -12,7 +12,7 @@ use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use WellFollowed\AppBundle\Model\User\UserModel;
+use WellFollowed\AppBundle\Model\UserModel;
 use WellFollowed\OAuth2\ServerBundle\Entity\User;
 
 class Oauth2InstallCommand extends ContainerAwareCommand
