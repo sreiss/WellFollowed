@@ -1,0 +1,30 @@
+application:
+    build: application
+    links:
+        - db
+    volumes:
+        - ./application:/var/www/wellfollowed
+db:
+    image: mariadb
+    ports:
+        - 3006:3006
+    environment:
+        MYSQL_ROOT_PASSWORD: 'wellfollowed'
+        MYSQL_DATABASE: 'wellfollowed'
+        MYSQL_USER: 'wellfollowed'
+        MYSQL_PASSWORD: 'wellfollowed'
+php-fpm:
+    image: php:5.6-fpm
+    volumes_from:
+        - application:rw
+nginx:
+    image: nginx
+    ports:
+        - 80:80
+    volumes_from:
+        - application:rw
+    volumes:
+        - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+        - ./logs/nginx:/var/log/nginx
+    links:
+        - php-fpm
