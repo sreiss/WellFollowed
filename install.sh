@@ -27,18 +27,18 @@ is_package_installed() {
 install_rabbitmq() {
     CURRENT_PACKAGE="rabbitmq-server"
     is_package_installed
-
+    
     if [ $INSTALLED = 0 ]
         then
             sep
             echo "Installing RabbitMQ..."
             sep
-
+            
             local RABBITMQPKG=$(cat /etc/apt/sources.list | grep "deb http://www.rabbitmq.com/debian/ testing main")
             if [ "$RABBITMQPKG" == "" ]
                 then echo "deb http://www.rabbitmq.com/debian/ testing main" >> "/etc/apt/sources.list"
             fi
-
+            
             wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
             apt-key add rabbitmq-signing-key-public.asc
             rm rabbitmq-signing-key-public.asc
@@ -54,13 +54,13 @@ install_rabbitmq() {
 install_mysql() {
     CURRENT_PACKAGE="mysql-server"
     is_package_installed
-
+    
     if [ $INSTALLED = 0 ]
         then
             sep
             echo "Installing MySQL..."
             sep
-
+            
             apt-get install  -q -y mysql-server
             mysql_install_db
             mysql -uroot -e "CREATE USER 'wellfollowed'@'localhost' IDENTIFIED BY 'fpY~Zu5DrJ{}wS={'"
@@ -95,55 +95,55 @@ install_php() {
             sep
             echo "Installing PHP-FPM"
             sep
-
+            
             apt-get -q -y install php5-fpm > /dev/null
         else
             sep
             echo "PHP-FPM is already installed."
             sep
     fi
-
+    
     if [ $INSTALLED = 0 ]
         then
             sep
             echo "Installing PHP-MySQL"
             sep
-
+            
             apt-get -q -y install php5-mysql > /dev/null
         else
             sep
             echo "PHP-MySQL is already installed."
             sep
     fi
-
+    
     sep
     echo "Restarting PHP service..."
     sep
-
+    
     service php5-fpm restart
 }
 
 install_nginx() {
     CURRENT_PACKAGE="nginx"
     is_package_installed
-
+    
     if [ $INSTALLED = 0 ]
         then
             sep
             echo "Installing Nginx"
             sep
-
+    
             apt-get install  -q -y nginx > /dev/null
         else
             sep
             echo "Nginx is already installed."
             sep
     fi
-
+    
     sep
     echo "Configuring Nginx."
     sep
-
+    
     NGINXCONF="server {
     listen 8085;
     set \$root_path /var/www/wellfollowed/web;
@@ -168,8 +168,8 @@ install_nginx() {
 }"
 
     echo "$NGINXCONF" > /etc/nginx/sites-available/wellfollowed
-
-    read -p "Nginx default configuration was found, probably running on port 80, do you wish to turn it off
+    
+    read -p "Nginx default configuration was found, probably running on port 80, do you wish to turn it off 
     (if not, wellfollowed will not be activated, but instructions will be given at the end of the installation)? (Y|n)" -n 1 -r
     echo
     if [[ $REPLY =~ ^[Nn]$ ]]
@@ -188,7 +188,7 @@ install_nginx() {
             rm /etc/nginx/sites-enabled/default
             ln -s /etc/nginx/sites-available/wellfollowed /etc/nginx/sites-enabled/wellfollowed
     fi
-
+    
     sep
     echo "Restarting Nginx..."
     sep
@@ -199,13 +199,13 @@ install_nginx() {
 install_node_npm() {
     CURRENT_PACKAGE="nodejs"
     is_package_installed
-
+    
     if [ $INSTALLED = 0 ]
         then
             sep
             echo "Installing Node and Npm..."
             sep
-
+            
             apt-get install curl > /dev/null
             curl -sL https://deb.nodesource.com/setup_5.x | bash -
             apt-get install --yes nodejs > /dev/null
@@ -214,7 +214,7 @@ install_node_npm() {
             echo "Nodejs is already installed."
             sep
     fi
-
+    
     ln -s /usr/bin/nodejs /usr/bin/node
 }
 
@@ -222,23 +222,23 @@ install_wellfollowed() {
     sep
     echo "Installing WellFollowed..."
     sep
-
+    
     echo "Copying sources..."
     cd /var/www
     mkdir wellfollowed
     cp -R WellFollowed /var/www/wellfollowed
-
+    
     echo "Grantings rights to www-data..."
     chown -R www-data:www-data /var/www/wellfollowed
-
+ 
     echo "Installing gulp and bower..."
     npm install -g gulp > /dev/null
     npm install -g bower > /dev/null
-
-    echo "Installing client dependencies..."
+    
+    echo "Installing client dependencies..."    
     npm install > /dev/null
     sudo -u www-data bower install > /dev/null
-
+    
     echo "Running gulp tasks..."
     gulp bowerAssetic > /dev/null
     gulp assetic > /dev/null
@@ -248,19 +248,19 @@ install_packages() {
     sep
     echo "Installing required dependencies..."
     sep
-
+    
     apt-get update > /dev/null
-
+    
     install_rabbitmq
-
+    
     install_mysql
-
+    
     install_php
-
+    
     install_nginx
-
+    
     install_node_npm
-
+    
     install_wellfollowed
 }
 
@@ -272,7 +272,7 @@ do
     fi
 done
 
-if [ $ISROOT = 0 ]
+if [ $ISROOT = 0 ] 
     then error ${LINENO} "Root privileges required to install WellFollowed. run sudo sh ./install.sh."
 fi
 
