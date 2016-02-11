@@ -103,6 +103,7 @@ install_php() {
             sep
     fi
     
+    CURRENT_PACKAGE="php5-mysql"
     if [ $INSTALLED = 0 ]
         then
             sep
@@ -113,6 +114,20 @@ install_php() {
         else
             sep
             echo "PHP-MySQL is already installed."
+            sep
+    fi
+    
+    CURRENT_PACKAGE="php5-cli"
+    if [ $INSTALLED = 0 ]
+        then
+            sep
+            echo "Installing PHP-MySQL"
+            sep
+            
+            apt-get -q -y install php5-cli > /dev/null
+        else
+            sep
+            echo "PHP-CLI is already installed."
             sep
     fi
     
@@ -218,19 +233,35 @@ install_node_npm() {
     ln -s /usr/bin/nodejs /usr/bin/node
 }
 
+install_composer() {
+    php -r "readfile('https://getcomposer.org/installer');" > composer-setup.php
+    php -r "if (hash('SHA384', file_get_contents('composer-setup.php')) === '781c98992e23d4a5ce559daf0170f8a9b3b91331ddc4a3fa9f7d42b6d981513cdc1411730112495fbf9d59cffbf20fb2') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); }"
+    php composer-setup.php
+    php -r "unlink('composer-setup.php');"
+}
+
 install_wellfollowed() {
     sep
     echo "Installing WellFollowed..."
     sep
     
+    echo "Removing any old file..."
+    rm -r /var/www/wellfollowed
+    
     echo "Copying sources..."
-    cd /var/www/wellfollowed
-    cp -R WellFollowed /var/www/wellfollowed
+    cp -R ./WellFollowed /var/www/wellfollowed
     
     echo "Grantings rights to www-data..."
     chown -R www-data:www-data /var/www/wellfollowed
  
     cd /var/www/wellfollowed
+    
+    echo "Installing composer..."
+    install_composer
+    
+    echo "Running composer..."
+    sudo -u www-data php composer.phar install
+    
     echo "Installing gulp and bower..."
     npm install -g gulp > /dev/null
     npm install -g bower > /dev/null
