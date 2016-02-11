@@ -1,6 +1,9 @@
 ﻿#!/bin/bash
 
 PROGNAME=$(basename $0)
+CURRENT_PACKAGE=""
+INSTALLED=0
+END_MESSAGES=""
 
 sep() {
     echo "========================================"
@@ -13,55 +16,134 @@ error() {
     exit 1
 }
 
-install_packages() {
-    sep
-    echo "Installing required dependencies..."
-    sep
+is_package_installed() {
+    INSTALLED=0
+    local _INSTALLED=$(dpkg-query -W -f '${Status}' "$CURRENT_PACKAGE")
+    if [ "$_INSTALLED" = "install ok installed" ]
+        then INSTALLED=1
+    fi
+}
 
-    apt-get update
+install_rabbitmq() {
+    CURRENT_PACKAGE="rabbitmq-server"
+    is_package_installed
 
-    sep
-    echo "Installing RabbitMQ..."
-    sep
+    if [ $INSTALLED = 0 ]
+        then
+            sep
+            echo "Installing RabbitMQ..."
+            sep
 
-    local RABBITMQPKG=$(cat /etc/apt/sources.list | grep "deb http://www.rabbitmq.com/debian/ testing main")
-    if [ "$RABBITMQPKG" == "" ]
-        then echo "deb http://www.rabbitmq.com/debian/ testing main" >> "/etc/apt/sources.list"
+            local RABBITMQPKG=$(cat /etc/apt/sources.list | grep "deb http://www.rabbitmq.com/debian/ testing main")
+            if [ "$RABBITMQPKG" == "" ]
+                then echo "deb http://www.rabbitmq.com/debian/ testing main" >> "/etc/apt/sources.list"
+            fi
+
+            wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
+            apt-key add rabbitmq-signing-key-public.asc
+            rm rabbitmq-signing-key-public.asc
+            apt-get update
+            apt-get install -q -y rabbitmq-server
+       else
+            sep
+            echo "RabbitMQ is already installed."
+            sep
+    fi
+}
+
+install_mysql() {
+    CURRENT_PACKAGE="mysql-server"
+    is_package_installed
+
+    if [ $INSTALLED = 0 ]
+        then
+            sep
+            echo "Installing MySQL..."
+            sep
+
+            apt-get install  -q -y mysql-server
+            mysql_install_db
+            mysql -uroot -e "CREATE USER 'wellfollowed'@'localhost' IDENTIFIED BY 'fpY~Zu5DrJ{}wS={'"
+            mysql -uroot -e "CREATE DATABASE wellfollowed"
+            mysql -uroot -e "GRANT ALL PRIVILEGES ON wellfollowed.* TO 'wellfollowed'@'localhost'"
+            mysql_secure_installation
+        else
+            sep
+            echo "MySQL is already installed."
+            sep
+            END_MESSAGES="
+    $END_MESSAGES
+    $(sep)
+    MySQL was already installed.
+    Please make sure you created a user 'wellfollowed'@'localhost' and a 'wellfollowed' database.
+    Execute these commands if not so (replace {wellfollowed_password} by a secure password you generated) :
+
+    CREATE USER 'wellfollowed'@'localhost' IDENTIFIED BY '{wellfollowed_password}'
+    CREATE DATABASE wellfollowed
+    GRANT ALL PRIVILEGES ON wellfollowed.* TO 'wellfollowed'@'localhost'
+
+    Then, make sur to put {wellfollowed_password} in /var/www/wellfollowed/app/config/parameters.yml and /var/www/wellfollowed/app/config/parameters.yml.dist, in the field 'database_password'
+    $(sep)
+                "
+    fi
+}
+
+install_php() {
+    CURRENT_PACKAGE="php5-fpm"
+    if [ $INSTALLED = 0 ]
+        then
+            sep
+            echo "Installing PHP-FPM"
+            sep
+
+            apt-get -q -y install php5-fpm > /dev/null
+        else
+            sep
+            echo "PHP-FPM is already installed."
+            sep
     fi
 
-    # RabbitMQ
-    wget https://www.rabbitmq.com/rabbitmq-signing-key-public.asc
-    apt-key add rabbitmq-signing-key-public.asc
-    rm rabbitmq-signing-key-public.asc
-    apt-get update
-    apt-get install -q -y rabbitmq-server
+    if [ $INSTALLED = 0 ]
+        then
+            sep
+            echo "Installing PHP-MySQL"
+            sep
 
-    # MySQL
-    sep
-    echo "Installing MySQL..."
-    sep
+            apt-get -q -y install php5-mysql > /dev/null
+        else
+            sep
+            echo "PHP-MySQL is already installed."
+            sep
+    fi
 
-    apt-get install  -q -y mysql-server
-    #mysql_install_db
-    mysql -uroot -e "CREATE USER 'wellfollowed'@'localhost' IDENTIFIED BY 'fpY~Zu5DrJ{}wS={'"
-    mysql -uroot -e "CREATE DATABASE wellfollowed"
-    mysql -uroot -e "GRANT ALL PRIVILEGES ON wellfollowed.* TO 'wellfollowed'@'localhost'"
-    #mysql_secure_installation
-
-    # PHP
     sep
-    echo "Installing PHP..."
+    echo "Restarting PHP service..."
     sep
 
-    apt-get -q -y install php5-fpm php5-mysql
     service php5-fpm restart
+}
 
-    # Nginx
+install_nginx() {
+    CURRENT_PACKAGE="nginx"
+    is_package_installed
+
+    if [ $INSTALLED = 0 ]
+        then
+            sep
+            echo "Installing Nginx"
+            sep
+
+            apt-get install  -q -y nginx > /dev/null
+        else
+            sep
+            echo "Nginx is already installed."
+            sep
+    fi
+
     sep
-    echo "Installing Nginx..."
+    echo "Configuring Nginx."
     sep
 
-    apt-get install  -q -y nginx
     NGINXCONF="server {
     listen 8085;
     set \$root_path /var/www/wellfollowed/web;
@@ -86,45 +168,100 @@ install_packages() {
 }"
 
     echo "$NGINXCONF" > /etc/nginx/sites-available/wellfollowed
-    rm /etc/nginx/sites-enabled/default
+
+    read -p "Nginx default configuration was found, probably running on port 80, do you wish to turn it off
+    (if not, wellfollowed will not be activated, but instructions will be given at the end of the installation)? (Y|n)" -n 1 -r
+    echo
+    if [[ $REPLY =~ ^[Nn]$ ]]
+        then
+            END_MESSAGES="
+    $END_MESSAGES
+    $(sep)
+    You did not accept to turn off Nginx default configuration.
+    Please, open /etc/nginx/sites-available/wellfollowed and update the 'listen' directive with a free port and
+    create a symlink for the wellfollowed configuration from sites-available to sites-enabled with the following command:
     ln -s /etc/nginx/sites-available/wellfollowed /etc/nginx/sites-enabled/wellfollowed
+    Then run 'sudo service nginx restart'.
+    $(sep)
+    "
+        else
+            rm /etc/nginx/sites-enabled/default
+            ln -s /etc/nginx/sites-available/wellfollowed /etc/nginx/sites-enabled/wellfollowed
+    fi
+
+    sep
+    echo "Restarting Nginx..."
+    sep
     #sed -i.bak "s/user\ www\-data;/user\ $USER;/g" /etc/nginx/nginx.conf
     service nginx restart
+}
 
-    # Composer
-    sep
-    echo "Installing Composer..."
-    sep
+install_node_npm() {
+    CURRENT_PACKAGE="nodejs"
+    is_package_installed
 
-    cp -R WellFollowed /var/www/wellfollowed
-    cd /var/www
-    mkdir wellfollowed
-    cd wellfollowed
-    php -r "readfile('https://getcomposer.org/installer');" | php
-    chown -R www-data:www-data /var/www/wellfollowed
-    php composer.phar install
+    if [ $INSTALLED = 0 ]
+        then
+            sep
+            echo "Installing Node and Npm..."
+            sep
 
-    # Npm
-    sep
-    echo "Installing Npm..."
-    sep
+            apt-get install curl > /dev/null
+            curl -sL https://deb.nodesource.com/setup_5.x | bash -
+            apt-get install --yes nodejs > /dev/null
+        else
+            sep
+            echo "Nodejs is already installed."
+            sep
+    fi
 
-    apt-get install curl
-    curl -sL https://deb.nodesource.com/setup_5.x | bash -
-    apt-get install --yes nodejs
     ln -s /usr/bin/nodejs /usr/bin/node
+}
 
-    # WellFollowed
+install_wellfollowed() {
     sep
     echo "Installing WellFollowed..."
     sep
 
-    npm install -g gulp
-    npm install -g bower
-    npm installe
-    sudo -u www-data bower install
-    gulp bowerAssetic
-    gulp assetic
+    echo "Copying sources..."
+    cd /var/www
+    mkdir wellfollowed
+    cp -R WellFollowed /var/www/wellfollowed
+
+    echo "Grantings rights to www-data..."
+    chown -R www-data:www-data /var/www/wellfollowed
+
+    echo "Installing gulp and bower..."
+    npm install -g gulp > /dev/null
+    npm install -g bower > /dev/null
+
+    echo "Installing client dependencies..."
+    npm install > /dev/null
+    sudo -u www-data bower install > /dev/null
+
+    echo "Running gulp tasks..."
+    gulp bowerAssetic > /dev/null
+    gulp assetic > /dev/null
+}
+
+install_packages() {
+    sep
+    echo "Installing required dependencies..."
+    sep
+
+    apt-get update > /dev/null
+
+    install_rabbitmq
+
+    install_mysql
+
+    install_php
+
+    install_nginx
+
+    install_node_npm
+
+    install_wellfollowed
 }
 
 ISROOT=0
@@ -140,6 +277,8 @@ if [ $ISROOT = 0 ]
 fi
 
 install_packages
+
+echo "$END_MESSAGES"
 
 sep
 echo "WellFollowed was successfully installed."
