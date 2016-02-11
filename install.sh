@@ -224,13 +224,13 @@ install_wellfollowed() {
     sep
     
     echo "Copying sources..."
-    cd /var/www
-    mkdir wellfollowed
+    cd /var/www/wellfollowed
     cp -R WellFollowed /var/www/wellfollowed
     
     echo "Grantings rights to www-data..."
     chown -R www-data:www-data /var/www/wellfollowed
  
+    cd /var/www/wellfollowed
     echo "Installing gulp and bower..."
     npm install -g gulp > /dev/null
     npm install -g bower > /dev/null
