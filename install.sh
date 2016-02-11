@@ -37,6 +37,10 @@ install_packages() {
     apt-get install -q -y rabbitmq-server
 
     # MySQL
+    sep
+    echo "Installing MySQL..."
+    sep
+
     apt-get install  -q -y mysql-server
     #mysql_install_db
     mysql -uroot -e "CREATE USER 'wellfollowed'@'localhost' IDENTIFIED BY 'fpY~Zu5DrJ{}wS={'"
@@ -45,10 +49,18 @@ install_packages() {
     #mysql_secure_installation
 
     # PHP
+    sep
+    echo "Installing PHP..."
+    sep
+
     apt-get -q -y install php5-fpm php5-mysql
     service php5-fpm restart
 
     # Nginx
+    sep
+    echo "Installing Nginx..."
+    sep
+
     apt-get install  -q -y nginx
     NGINXCONF="server {
     listen 8085;
@@ -76,15 +88,43 @@ install_packages() {
     echo "$NGINXCONF" > /etc/nginx/sites-available/wellfollowed
     rm /etc/nginx/sites-enabled/default
     ln -s /etc/nginx/sites-available/wellfollowed /etc/nginx/sites-enabled/wellfollowed
+    #sed -i.bak "s/user\ www\-data;/user\ $USER;/g" /etc/nginx/nginx.conf
     service nginx restart
 
     # Composer
+    sep
+    echo "Installing Composer..."
+    sep
+
     cp -R WellFollowed /var/www/wellfollowed
     cd /var/www
     mkdir wellfollowed
     cd wellfollowed
     php -r "readfile('https://getcomposer.org/installer');" | php
+    chown -R www-data:www-data /var/www/wellfollowed
     php composer.phar install
+
+    # Npm
+    sep
+    echo "Installing Npm..."
+    sep
+
+    apt-get install curl
+    curl -sL https://deb.nodesource.com/setup_5.x | bash -
+    apt-get install --yes nodejs
+    ln -s /usr/bin/nodejs /usr/bin/node
+
+    # WellFollowed
+    sep
+    echo "Installing WellFollowed..."
+    sep
+
+    npm install -g gulp
+    npm install -g bower
+    npm installe
+    sudo -u www-data bower install
+    gulp bowerAssetic
+    gulp assetic
 }
 
 ISROOT=0
