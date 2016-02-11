@@ -1,4 +1,4 @@
-﻿#!/bin/sh
+﻿#!/bin/bash
 
 PROGNAME=$(basename $0)
 CURRENT_PACKAGE=""
