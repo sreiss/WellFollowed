@@ -27,6 +27,10 @@
     "bootswatch": "~3.3.5",
     "angular-ui-router": "~0.2.15"
   },
+  "resolutions": {
+    "angular": "~1.4.7",
+    "fullcalendar": "~2.4.0"
+  },
   "overrides": {
     "angular-ui-bootstrap": {
       "main": [

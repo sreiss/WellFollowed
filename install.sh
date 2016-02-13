@@ -34,7 +34,7 @@ install_rabbitmq() {
             echo "Installing RabbitMQ..."
             sep
             
-            local RABBITMQPKG=$(cat /etc/apt/sources.list | grep "deb http://www.rabbitmq.com/debian/ testing main")
+            local RABBITMQPKG=$(cat /etc/apt/sources.list | grep "deb http\:\/\/www\.rabbitmq\.com\/debian\/ testing main")
             if [ "$RABBITMQPKG" == "" ]
                 then echo "deb http://www.rabbitmq.com/debian/ testing main" >> "/etc/apt/sources.list"
             fi
@@ -252,7 +252,7 @@ install_wellfollowed() {
     cp -R ./WellFollowed /var/www/wellfollowed
     
     echo "Grantings rights to www-data..."
-    chown -R www-data:www-data /var/www/wellfollowed
+    chown -R www-data:www-data /var/www
  
     cd /var/www/wellfollowed
     
