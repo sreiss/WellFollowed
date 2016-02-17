@@ -267,7 +267,7 @@ install_wellfollowed() {
     npm install -g bower > /dev/null
     
     echo "Installing client dependencies..."    
-    npm install > /dev/null
+    sudo -u www-data npm install > /dev/null
     sudo -u www-data bower install > /dev/null
     
     echo "Running gulp tasks..."
