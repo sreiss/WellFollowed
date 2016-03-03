@@ -4,22 +4,17 @@ namespace WellFollowed\AppBundle\Controller\Api;
 
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\AppBundle\Manager\SensorManager;
-use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use WellFollowed\UtilBundle\Annotation\FilterContent;
-use WellFollowed\UtilBundle\Annotation\AllowedScopes;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
  * Class SensorController
  * @package WellFollowed\AppBundle\Controller\Api
  *
- * @Route("/sensor")
- * @AllowedScopes({"access_sensor"})
+ * @Rest\Route("/sensor")
  */
-class SensorController extends ApiController implements JsonControllerInterface
+class SensorController extends ApiController
 {
     /**
      * @var SensorManager
@@ -40,27 +35,21 @@ class SensorController extends ApiController implements JsonControllerInterface
     }
 
     /**
-     * @Route(" ", name="get_sensors")
-     * @Method({"GET"})
-     * @FilterContent("WellFollowed\AppBundle\Manager\Filter\SensorFilter")
+     * @Rest\Get(" ", name="get_sensors")
+     * @Rest\View(serializerGroups={"details"})
      */
-    public function getSensors(Request $request)
+    public function getSensorsAction(Request $request)
     {
-        $sensors = $this->sensorManager
-            ->getSensors($request->attributes->get('filter'));
-
-        return $this->jsonResponse($sensors);
+        return $this->sensorManager
+            ->getSensors();
     }
 
     /**
-     * @Route("/{name}", name="get_sensor", requirements={"name" = "[a-zA-Z0-9]+"})
-     * @Method({"GET"})
+     * @Rest\Get("/{name}", name="get_sensor", requirements={"name" = "[a-zA-Z0-9]+"})
      */
-    public function getSensor(Request $request, $sensorName)
+    public function getSensorAction(Request $request, $sensorName)
     {
-        return $this->jsonResponse(
-            $this->sensorManager
-                ->getSensor($sensorName)
-        );
+        return $this->sensorManager
+                ->getSensor($sensorName);
     }
 }

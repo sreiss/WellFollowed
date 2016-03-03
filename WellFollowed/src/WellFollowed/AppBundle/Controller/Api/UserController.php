@@ -2,25 +2,19 @@
 
 namespace WellFollowed\AppBundle\Controller\Api;
 
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
-use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
-use WellFollowed\UtilBundle\Annotation\JsonContent;
-use WellFollowed\UtilBundle\Annotation\FilterContent;
-use WellFollowed\UtilBundle\Annotation\AllowedScopes;
-
+use FOS\RestBundle\Controller\Annotations as Rest;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Manager\UserManager;
+use WellFollowed\AppBundle\Model\UserModel;
 
 /**
  * Class UserController
  * @package WellFollowed\AppBundle\Controller\Api
  *
- * @AllowedScopes({"access_user"})
- * @Route("/user")
+ * @Rest\Route("/user")
  */
 class UserController extends ApiController
 {
@@ -41,62 +35,46 @@ class UserController extends ApiController
     }
 
     /**
-     * @Route(" ", name="get_users")
-     * @Method({"GET"})
-     * @FilterContent("WellFollowed\AppBundle\Manager\Filter\UserFilter")
+     * @Rest\Get(" ")
+     * @Rest\View(serializerGroups={"list"})
      */
     public function getUsersAction(Request $request)
     {
         $models = $this->userManager
-            ->getUsers($request->attributes->get('filter'));
+            ->getUsers();
 
-        return $this->jsonResponse($models);
+        return $models;
+        //return $this->jsonResponse($models);
     }
 
     /**
-     * @Route("/{username}", name="get_user", requirements={"username" = "[a-zA-Z][a-zA-Z0-9]+"})
-     * @Method({"GET"})
-     * @AllowedScopes({"access_current_user"})
+     * @Rest\Get("/{username}", name="get_user", requirements={"username" = "[a-zA-Z][a-zA-Z0-9]+"})
      */
     public function getUserAction(Request $request, $username)
     {
         $user = $this->userManager
             ->getUser($username);
 
-        return $this->jsonResponse($user);
+        return $user;
     }
 
     /**
-     * @Route(" ", name="create_user")
-     * @Method({"POST"})
-     * @JsonContent("WellFollowed\AppBundle\Model\UserModel")
-     * @AllowedScopes({"all"})
+     * @Rest\Post(" ", name="create_user")
+     * @ParamConverter("model", options={"deserializationContext"={"groups"={"update", "details"}}})
      */
-    public function createUserAction(Request $request)
+    public function createUserAction(UserModel $model)
     {
-        $model = $this->userManager
-            ->createUser($request->attributes->get('json'));
-
-        return $this->jsonResponse($model);
-        /*
-        $user = $this->getDoctrine()
-            ->getRepository('WellFollowed\AppBundle:User')
-            ->createUser($this->jsonRequest($request, 'WellFollowed\AppBundle\Entity\User'));
-
-        return $this->jsonResponse($user);
-        */
+        return $this->userManager
+            ->createUser($model);
     }
 
     /**
-     * @Route("/{username}", name="delete_user", requirements={"username" = "[a-zA-Z][a-zA-Z0-9]+"})
-     * @Method({"DELETE"})
+     * @Rest\Delete("/{username}", name="delete_user", requirements={"username" = "[a-zA-Z][a-zA-Z0-9]+"})
      */
     public function deleteUser(Request $request, $username)
     {
-        $this->userManager
+        return $this->userManager
             ->deleteUser($username);
-
-        return $this->jsonResponse(null);
     }
 
 }

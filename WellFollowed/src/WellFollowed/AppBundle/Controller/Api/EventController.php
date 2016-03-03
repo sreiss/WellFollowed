@@ -2,25 +2,25 @@
 
 namespace WellFollowed\AppBundle\Controller\Api;
 
+use FOS\RestBundle\Request\ParamFetcher;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\DateTime;
 use WellFollowed\AppBundle\Manager\EventManager;
-use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use JMS\DiExtraBundle\Annotation as DI;
+use FOS\RestBundle\Controller\Annotations as Rest;
 use WellFollowed\AppBundle\Manager\Filter\EventFilter;
-use WellFollowed\UtilBundle\Annotation\JsonContent;
-use WellFollowed\UtilBundle\Annotation\FilterContent;
+use WellFollowed\AppBundle\Model\EventModel;
+use WellFollowed\AppBundle\Model\UserModel;
 
 /**
  * Class EventController
  * @package WellFollowed\AppBundle\Controller\Api
  *
- * @Route("/event")
+ * @Rest\Route("/event")
  */
-class EventController extends ApiController implements JsonControllerInterface
+class EventController extends ApiController
 {
     private $eventManager;
 
@@ -34,40 +34,33 @@ class EventController extends ApiController implements JsonControllerInterface
     }
 
     /**
-     * @Route(" ", name="get_events")
-     * @Method({"GET"})
-     * @JsonContent("WellFollowed\AppBundle\Entity\Event")
-     * @FilterContent("WellFollowed\AppBundle\Manager\Filter\EventFilter")
+     * @Rest\Get(" ", name="get_events")
+     * @Rest\View(serializerGroups={"list"})
+     * @Rest\QueryParam(name="start", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)
+     * @Rest\QueryParam(name="end", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)
      */
-    public function getEvents(Request $request)
+    public function getEventsAction(ParamFetcher $filter)
     {
-        $events = $this->eventManager
-            ->getEvents($request->attributes->get('filter'));
-
-        return $this->jsonResponse($events);
+        return $this->eventManager
+            ->getEvents($filter);
     }
 
     /**
-     * @Route(" ", name="post_event")
-     * @Method({"POST"})
-     * @JsonContent("WellFollowed\AppBundle\Entity\Event")
+     * @Rest\Post(" ", name="post_event")
+     * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
      */
-    public function createEvent(Request $request)
+    public function createEventAction(EventModel $model)
     {
-        $event = $this->eventManager
-            ->createEvent($request->attributes->get('json'));
-
-        return $this->jsonResponse($event);
+        $model->setUser(new UserModel($this->getUser()));
+        return $this->eventManager
+            ->createEvent($model);
     }
 
     /**
-     * @Route("/{id}", name="delete_event", requirements={"id" = "\d+"}))
-     * @Method({"DELETE"})
+     * @Rest\Delete("/{id}", name="delete_event", requirements={"id" = "\d+"}))
      */
-    public function deleteEvent(Request $request, $id) {
-        $this->eventManager
+    public function deleteEventAction(Request $request, $id) {
+        return $this->eventManager
             ->deleteEvent($id);
-
-        return $this->jsonResponse($id);
     }
 }

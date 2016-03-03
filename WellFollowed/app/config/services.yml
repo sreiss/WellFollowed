@@ -28,26 +28,26 @@ parameters:
 
 services:
     # Util
-    util.cache:
-        class: "%util.cache.class%"
-
-    util.metadata.controller_annotation_driver:
-        class: "%util.metadata.controller_annotation_driver.class%"
-        arguments: ["@annotation_reader"]
-
-    util.metadata_factory:
-        class: "%util.metadata_factory.class%"
-        arguments: ["@util.metadata.controller_annotation_driver"]
-
-    util.processor.controller_annotation_processor:
-        class: "%util.processor.controller_annotation_processor.class%"
-        arguments: ["@util.metadata_factory", "@jms_serializer"]
-
-    util.event_listener.controller_listener:
-        class: "%util.event_listener.controller_listener.class%"
-        arguments: ["@util.processor.controller_annotation_processor"]
-        tags:
-            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
+#    util.cache:
+#        class: "%util.cache.class%"
+#
+#    util.metadata.controller_annotation_driver:
+#        class: "%util.metadata.controller_annotation_driver.class%"
+#        arguments: ["@annotation_reader"]
+#
+#    util.metadata_factory:
+#        class: "%util.metadata_factory.class%"
+#        arguments: ["@util.metadata.controller_annotation_driver"]
+#
+#    util.processor.controller_annotation_processor:
+#        class: "%util.processor.controller_annotation_processor.class%"
+#        arguments: ["@util.metadata_factory", "@jms_serializer"]
+#
+#    util.event_listener.controller_listener:
+#        class: "%util.event_listener.controller_listener.class%"
+#        arguments: ["@util.processor.controller_annotation_processor"]
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.controller, method: onKernelController }
 #            - { name: kernel.event_listener, event: kernel.response, method: onKernelResponse }
 
 #    service_name:

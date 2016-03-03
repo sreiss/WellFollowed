@@ -8,13 +8,10 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Symfony\Component\HttpFoundation\Response;
-use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\AppBundle\Entity\InstitutionType;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Manager\InstitutionTypeManager;
-use WellFollowed\UtilBundle\Annotation\FilterContent;
-use WellFollowed\UtilBundle\Annotation\JsonContent;
 
 /**
  * Class InstitutionTypeController
@@ -22,7 +19,7 @@ use WellFollowed\UtilBundle\Annotation\JsonContent;
  *
  * @Route("/institution-type")
  */
-class InstitutionTypeController extends ApiController implements JsonControllerInterface
+class InstitutionTypeController extends ApiController
 {
     private $institutionTypeManager;
 
@@ -44,7 +41,6 @@ class InstitutionTypeController extends ApiController implements JsonControllerI
     /**
      * @Route(" ", name="get_institution_types")
      * @Method({"GET"})
-     * @FilterContent("WellFollowed\AppBundle\Manager\Filter\InstitutionTypeFilter")
      */
     public function getInstitutionTypesAction(Request $request)
     {
@@ -69,7 +65,6 @@ class InstitutionTypeController extends ApiController implements JsonControllerI
     /**
      * @Route(" ", name="create_institution_type")
      * @Method({"POST"})
-     * @JsonContent("WellFollowed\AppBundle\Model\InstitutionType\InstitutionTypeModel")
      */
     public function createInstitutionTypeAction(Request $request)
     {
@@ -82,7 +77,6 @@ class InstitutionTypeController extends ApiController implements JsonControllerI
     /**
      * @Route(" ", name="update_institution_type")
      * @Method({"PUT"})
-     * @JsonContent("WellFollowed\AppBundle\Model\InstitutionType\InstitutionTypeModel")
      */
     public function updateInstitutionTypeAction(Request $request)
     {

@@ -8,7 +8,9 @@ well_followed_web:
     type: annotation
     prefix: /
 
-oauth2_server:
-    resource: "@OAuth2ServerBundle/Controller/"
-    type:     annotation
-    prefix:   /
+NelmioApiDocBundle:
+    resource: "@NelmioApiDocBundle/Resources/config/routing.yml"
+    prefix:   /api/doc
+
+fos_oauth_server_token:
+    resource: "@FOSOAuthServerBundle/Resources/config/routing/token.xml"

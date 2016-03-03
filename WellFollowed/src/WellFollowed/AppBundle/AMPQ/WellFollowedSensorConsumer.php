@@ -42,7 +42,7 @@ class WellFollowedSensorConsumer implements ConsumerInterface
 //        try {
             $sensorMessage = $message->body;
 
-            $model = $this->serializer->deserialize($sensorMessage, 'WellFollowed\AppBundle\Model\AMPQSensorMessageModel', 'json');
+            $model = $this->serializer->deserialize($sensorMessage, 'WellFollowed\AppBundle\Model\SensorMessageModel', 'json');
 
             return $this->sensorManager->enqueue($model);
 //        } catch (\Exception $e) {

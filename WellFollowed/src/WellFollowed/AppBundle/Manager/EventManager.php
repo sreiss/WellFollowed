@@ -3,6 +3,7 @@
 namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use FOS\RestBundle\Request\ParamFetcher;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\ResponseFormat;
 use WellFollowed\AppBundle\Base\WellFollowedException;
@@ -31,7 +32,7 @@ class EventManager
      * @param array|null $filter
      * @return \WellFollowed\AppBundle\Entity\Event[]
      */
-    public function getEvents(EventFilter $filter = null)
+    public function getEvents(ParamFetcher $filter = null)
     {
         $qb = $this->entityManager
             ->getRepository('WellFollowedAppBundle:Event')
@@ -41,47 +42,42 @@ class EventManager
         {
             // We take into account the end of the first event matched and the end of the last one
             // in order to be consistent.
-            if ($filter->getStart() !== null)
+            if ($filter->get('start') !== null)
                 $qb->andWhere('e.end > :start')
-                    ->setParameter('start', $filter->getStart());
-            if ($filter->getEnd() !== null)
+                    ->setParameter('start', $filter->get('start'));
+            if ($filter->get('end') !== null)
                 $qb->andWhere('e.end < :end')
-                    ->setParameter('end', $filter->getEnd());
+                    ->setParameter('end', $filter->get('end'));
         }
 
         $models = array();
-        //if ($filter !== null && $filter->getFormat() !== null && $filter->getFormat() == ResponseFormat::FULL_FORMAT)
-        //{
-            $events = $qb->getQuery()
+        $events = $qb->getQuery()
 //                    ->join('e.User', 'u', 'WITH', 'u.id = ?1', 'e.user_id')
-                ->getResult();
+            ->getResult();
 
-            foreach ($events as $event)
-            {
-                $userModel = null;
-                if ($user = $event->getUser() != null)
-                    $userModel = new UserModel($userModel);
-                $models[] = new EventModel($event, $userModel);
-            }
+        foreach ($events as $event)
+        {
+            $userModel = null;
+            if ($user = $event->getUser() != null)
+                $userModel = new UserModel($user);
+            $models[] = new EventModel($event, $userModel);
+        }
 
-            return $models;
-        //}
-
-        //return null;
+        return $models;
     }
 
-    public function createEvent(Event $event)
+    public function createEvent(EventModel $model)
     {
-//        $event = new Event();
-//        $event->setTitle($model->getTitle());
-//        $event->setStart($model->getStart());
-//        $event->setEnd($model->getEnd());
-//        $event->setDescription($model->getDescription());
+        $event = new Event();
+        $event->setTitle($model->getTitle());
+        $event->setStart($model->getStart());
+        $event->setEnd($model->getEnd());
+        $event->setDescription($model->getDescription());
 
         $this->entityManager->persist($event);
         $this->entityManager->flush();
 
-        return $event;
+        return $model;
     }
 
     public function deleteEvent($id)
@@ -102,20 +98,10 @@ class EventManager
 
             if ($deletedCount == 0)
                 throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
+
+            return true;
         }
 
         throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
     }
-//    public function getEvents($filter) {
-//        $events = $this->eventRepository->findEvents($filter);
-//        $models = array();
-//        foreach ($events as $event) {
-//            $model = new EventModel();
-//            $model->setId($event->getId());
-//            $model->setDescription($event->getDescription());
-//            $model->setEnd($event->getEnd());
-//            $model->setStart($event->getStart());
-//            $model->setUser(new UserModel($event->getUser()));
-//        }
-//    }
 }

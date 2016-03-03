@@ -31,6 +31,11 @@ framework:
     fragments:       ~
     http_method_override: true
 
+sensio_framework_extra:
+    view:   { annotations: false }
+    router: { annotations: true }
+    request: { converters: true }
+
 # Twig Configuration
 twig:
     debug:            "%kernel.debug%"
@@ -99,6 +104,56 @@ jms_di_extra:
 #    handlers:
 #        datetime:
 #            default_format: "yyyy-MM-ddTHH:mm:ss.SSSZ"
+
+
+nelmio_api_doc: ~
+
+# FOS Rest Bundle
+
+fos_rest:
+    param_fetcher_listener: true
+    body_listener: true
+    body_converter:
+        enabled: true
+    format_listener:
+        rules:
+            fallback_format: json
+            prefer_extension: false
+            priorities: [json, html]
+    view:
+        view_response_listener: 'force'
+        formats:
+            json : true
+        templating_formats:
+            html: true
+        force_redirects:
+            html: true
+        failed_validation: HTTP_BAD_REQUEST
+        default_engine: twig
+    routing_loader:
+        default_format: json                            # All responses should be JSON formated
+        include_format: false                           # We do not include format in request, so that all responses
+                                                        # will eventually be JSON formated
+
+# FOS User Bundle
+
+fos_user:
+    db_driver: orm
+    firewall_name: api                                  # Seems to be used when registering user/reseting password,
+                                                        # but since there is no "login", as so it seems to be useless in
+                                                        # our particular context, but still required by "FOSUserBundle"
+    user_class: WellFollowed\AppBundle\Entity\User
+
+# FOS Oauth Bundle
+
+fos_oauth_server:
+    db_driver:           orm
+    client_class:        WellFollowed\AppBundle\Entity\Client
+    access_token_class:  WellFollowed\AppBundle\Entity\AccessToken
+    refresh_token_class: WellFollowed\AppBundle\Entity\RefreshToken
+    auth_code_class:     WellFollowed\AppBundle\Entity\AuthCode
+    service:
+        user_provider: fos_user.user_manager             # This property will be used when valid credentials are given to load the user upon access token creation
 
 # RabbitMQ
 

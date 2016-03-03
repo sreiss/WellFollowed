@@ -19,12 +19,13 @@ class AppKernel extends Kernel
             new Gos\Bundle\WebSocketBundle\GosWebSocketBundle(),
             new Gos\Bundle\PubSubRouterBundle\GosPubSubRouterBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
-            new OAuth2\ServerBundle\OAuth2ServerBundle(),
             new JMS\DiExtraBundle\JMSDiExtraBundle($this),
             new JMS\AopBundle\JMSAopBundle(),
             new OldSound\RabbitMqBundle\OldSoundRabbitMqBundle(),
-            new WellFollowed\OAuth2\ServerBundle\WellFollowedOAuth2ServerBundle(),
-            new WellFollowed\UtilBundle\WellFollowedUtilBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new FOS\UserBundle\FOSUserBundle(),
+            new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
+            new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
             new WellFollowed\AppBundle\WellFollowedAppBundle(),
         );
 
@@ -33,6 +34,7 @@ class AppKernel extends Kernel
             $bundles[] = new Symfony\Bundle\WebProfilerBundle\WebProfilerBundle();
             $bundles[] = new Sensio\Bundle\DistributionBundle\SensioDistributionBundle();
             $bundles[] = new Sensio\Bundle\GeneratorBundle\SensioGeneratorBundle();
+            $bundles[] = new Doctrine\Bundle\FixturesBundle\DoctrineFixturesBundle();
         }
 
         return $bundles;

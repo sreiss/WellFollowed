@@ -9,7 +9,8 @@ use WellFollowed\AppBundle\Base\WellFollowedException;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Entity\SensorValue;
 use WellFollowed\AppBundle\Manager\Filter\SensorFilter;
-use WellFollowed\AppBundle\Model\AMPQSensorMessageModel;
+use WellFollowed\AppBundle\Model\SensorMessageModel;
+use WellFollowed\AppBundle\Model\SensorModel;
 use WellFollowed\AppBundle\Topic\SensorTopic;
 
 /**
@@ -52,7 +53,7 @@ class SensorManager
         $this->sensorTopic = $sensorTopic;
     }
 
-    public function enqueue(AMPQSensorMessageModel $model)
+    public function enqueue(SensorMessageModel $model)
     {
         if (!isset($this->sensorQueues[$model->getSensorName()]))
             $this->sensorQueues[$model->getSensorName()] = [];
@@ -114,7 +115,7 @@ class SensorManager
      * @param $filter
      * @return array
      */
-    public function getSensors(SensorFilter $filter)
+    public function getSensors(SensorFilter $filter = null)
     {
         $qb = $this->entityManager
             ->getRepository('WellFollowedAppBundle:Sensor')
@@ -124,13 +125,23 @@ class SensorManager
 
         }
 
-        return $qb->getQuery()
+        $sensors = $qb->getQuery()
             ->getResult();
+
+        $models = [];
+
+        foreach($sensors as $sensor) {
+            $models[] = new SensorModel($sensor);
+        }
+
+        return $models;
     }
 
     public function getSensor($sensorName)
     {
-        return $this->entityManager->getRepository('WellFollowedAppBundle:Sensor')
+        $sensor = $this->entityManager->getRepository('WellFollowedAppBundle:Sensor')
             ->find($sensorName);
+
+        return new SensorModel($sensor);
     }
 }

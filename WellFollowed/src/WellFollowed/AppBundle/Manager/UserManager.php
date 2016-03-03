@@ -4,15 +4,11 @@ namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\ORM\EntityManager;
+use FOS\UserBundle\Model\UserManagerInterface;
 use Symfony\Component\Security\Acl\Exception\Exception;
 use WellFollowed\AppBundle\Base\ResponseFormat;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
-use WellFollowed\AppBundle\Model\UserListModel;
 use WellFollowed\AppBundle\Model\UserModel;
-use WellFollowed\OAuth2\ServerBundle\Entity\User;
-use OAuth2\ServerBundle\Manager\ScopeManager;
-use WellFollowed\OAuth2\ServerBundle\Manager\ClientManager;
-use WellFollowed\OAuth2\ServerBundle\User\OAuth2UserProvider;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -24,37 +20,25 @@ use JMS\DiExtraBundle\Annotation as DI;
  */
 class UserManager
 {
-    private $userProvider;
+    private $userManager;
     private $entityManager;
-    private $clientManager;
-    private $userCredentialsGrantType;
-    private $scopeManager;
 
     /**
-     * @param OAuth2UserProvider $userProvider
+     * @param UserManagerInterface $userManager
      * @param EntityManager $entityManager
-     * @param ClientManager $clientManager
-     * @param $userCredentialsGrantType
-     * @param ScopeManager $scopeManager
      *
      * @DI\InjectParams({
-     *      "userProvider" = @DI\Inject("oauth2.user_provider"),
-     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *      "clientManager" = @DI\Inject("oauth2.client_manager"),
-     *      "userCredentialsGrantType" = @DI\Inject("oauth2.grant_type.user_credentials"),
-     *      "scopeManager" = @DI\Inject("oauth2.scope_manager")
+     *      "userManager" = @DI\Inject("fos_user.user_manager"),
+     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
      * })
      */
-    public function __construct(OAuth2UserProvider $userProvider, EntityManager $entityManager, ClientManager $clientManager, $userCredentialsGrantType, ScopeManager $scopeManager)
+    public function __construct(UserManagerInterface $userManager, EntityManager $entityManager)
     {
-        $this->userProvider = $userProvider;
+        $this->userManager = $userManager;
         $this->entityManager = $entityManager;
-        $this->clientManager = $clientManager;
-        $this->userCredentialsGrantType = $userCredentialsGrantType;
-        $this->scopeManager = $scopeManager;
     }
 
-    public function getUsers(UserFilter $filter)
+    public function getUsers(UserFilter $filter = null)
     {
         $models = [];
         $qb = null;
@@ -63,16 +47,11 @@ class UserManager
             // TODO: handle filter
         }
 
-        if ($qb === null) {
-            $qb = $this->entityManager
-                ->createQuery('SELECT partial u.{username,lastName,firstName} FROM WellFollowedOAuth2ServerBundle:User u');
+        $users = $this->userManager->findUsers();
 
-            $users = $qb->getResult();
-
-            foreach ($users as $user) {
-                $model = new UserListModel($user);
-                $models[] = $model;
-            }
+        foreach ($users as $user) {
+            $model = new UserModel($user);
+            $models[] = $model;
         }
 
         return $models;
@@ -80,8 +59,8 @@ class UserManager
 
     public function getUser($username)
     {
-        $user = $this->userProvider
-            ->loadUserByUsername($username);
+        $user = $this->userManager
+            ->findUserByUsername($username);
 
         if ($user === null)
             throw new WellFollowedException(ErrorCode::NOT_FOUND);
@@ -94,51 +73,29 @@ class UserManager
         if ($model === null)
             throw new WellFollowedException(ErrorCode::NO_MODEL_PROVIDED);
 
-        try {
-            $model->setScopes(['access_home', 'access_current_user']);
-            $user = $this->userProvider
-                ->createUser(
-                    $model->getUsername(),
-                    $model->getPassword(),
-                    $model->getFirstName(),
-                    $model->getLastName(),
-                    new \DateTime(),
-                    ($model->getRoles() !== null) ?$model->getRoles(): array(),
-                    ($model->getScopes() !== null) ?$model->getScopes(): array()
-                );
-
-//            $this->entityManager->persist($user);
-//            $this->entityManager->flush();
-        } catch (\Exception $e) {
-            if ($e instanceof UniqueConstraintViolationException) {
-                throw new WellFollowedException(ErrorCode::USER_EXISTS);
-            }
-            throw $e;
-        }
+        $user = $this->userManager->createUser();
+        $user->setEmail($model->getEmail());
+        $user->setUsername($model->getUsername());
+        $user->setPlainPassword($model->getPassword());
+        $user->setLastName($model->getLastName());
+        $user->setFirstName($model->getFirstName());
+        $user->setSubscriptionDate(new \DateTime());
+        $user->setEnabled(true);
+        $this->userManager->updateUser($user);
 
         return new UserModel($user);
     }
 
     public function deleteUser($username)
     {
-        if ($username !== null) {
-            $qb = $this->entityManager
-                ->getRepository('WellFollowedOAuth2ServerBundle:User')
-                ->createQueryBuilder('u');
+        $user = $this->userManager->findUserByUsername($username);
 
-            $qb->delete('WellFollowed\OAuth2\ServerBundle\Entity\User', 'u')
-                ->where('u.username = :username')
-                ->setParameter('username', $username);
-
-            $deletedCount = $qb->getQuery()
-                ->execute();
-
-            if ($deletedCount == 0)
-                throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
-
-            return $deletedCount;
+        if ($user === null) {
+            throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
         }
 
-        throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
+        $this->userManager->deleteUser($username);
+
+        return true;
     }
 }

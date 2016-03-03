@@ -5,9 +5,7 @@ namespace WellFollowed\AppBundle\Controller\Api;
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use WellFollowed\UtilBundle\Annotation\JsonContent;
 use Symfony\Component\HttpFoundation\Request;
-use WellFollowed\UtilBundle\Contract\Controller\JsonControllerInterface;
 use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\AppBundle\Manager\InstitutionManager;
 
@@ -17,7 +15,7 @@ use WellFollowed\AppBundle\Manager\InstitutionManager;
  *
  * @Route("/institution")
  */
-class InstitutionController extends ApiController implements JsonControllerInterface
+class InstitutionController extends ApiController
 {
     private $institutionManager;
 
@@ -63,7 +61,6 @@ class InstitutionController extends ApiController implements JsonControllerInter
     /**
      * @Route(" ", name="create_institution")
      * @Method({"POST"})
-     * @JsonContent("WellFollowed\AppBundle\Model\Institution\InstitutionModel")
      */
     public function createInstitutionAction(Request $request)
     {
@@ -76,7 +73,6 @@ class InstitutionController extends ApiController implements JsonControllerInter
     /**
      * @Route(" ", name="update_institution")
      * @Method({"PUT"})
-     * @JsonContent("WellFollowed\AppBundle\Model\Institution\InstitutionModel")
      */
     public function updateInstitutionAction(Request $request)
     {

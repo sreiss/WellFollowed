@@ -4,30 +4,69 @@ namespace WellFollowed\AppBundle\Model;
 
 use WellFollowed\AppBundle\Entity\Event;
 use WellFollowed\AppBundle\Model\UserModel;
+use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class EventModel
  * @package WellFollowed\AppBundle\Model
  *
  * Represents the events displayed on the calendar.
+ *
+ * @Serializer\ExclusionPolicy("all")
  */
 class EventModel {
-    /** @var int */
+    /**
+     * @var int
+     *
+     * @Serializer\Type("integer")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
+     */
     private $id;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
+     */
     private $title;
 
-    /** @var \DateTime */
+    /**
+     * @var \DateTime
+     *
+     * @Serializer\Type("DateTime")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
+     */
     private $start;
 
-    /** @var \DateTime */
+    /**
+     * @var \DateTime
+     *
+     * @Serializer\Type("DateTime")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
+     */
     private $end;
 
-    /** @var string */
+    /**
+     * @var string
+     *
+     * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"details"})
+     */
     private $description;
 
-    /** @var \WellFollowed\AppBundle\Model\UserModel */
+    /**
+     * @var \WellFollowed\AppBundle\Model\UserModel
+     *
+     * @Serializer\Type("WellFollowed\AppBundle\Model\UserModel")
+     * @Serializer\Expose
+     * @Serializer\Groups({"details"})
+     */
     private $user;
 
     public function __construct(Event $event, UserModel $user = null)

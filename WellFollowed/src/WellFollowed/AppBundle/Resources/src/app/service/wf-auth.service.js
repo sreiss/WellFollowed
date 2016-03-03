@@ -31,21 +31,17 @@ angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStor
             'client_id=' + wfAuthSettings.clientId + '&' +
             'client_secret=' + wfAuthSettings.clientSecret;
 
-        return $http.post(serviceBase + 'token', data, {
+        return $http.post(serviceBase + 'oauth/v2/token', data, {
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
         }).then(function (response) {
 
-            var scopes = response.data.scope.split(' ');
-
             localStorageService.set('authorizationData', {
                 token: response.data.access_token,
-                username: loginData.username,
-                scopes: scopes
+                username: loginData.username
             });
 
             _authentication.isAuth = true;
             _authentication.username = loginData.username;
-            _authentication.scopes = scopes;
 
             return loginData.username;
         }, function (response) {
@@ -67,7 +63,6 @@ angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStor
 
         _authentication.isAuth = false;
         _authentication.username = "";
-        _authentication.scopes = [];
 
         $state.go('home');
     };
@@ -78,7 +73,6 @@ angular.module('wellFollowed').factory('$wfAuth', function ($http, $q, localStor
         if (authData) {
             _authentication.isAuth = true;
             _authentication.username = authData.username;
-            _authentication.scopes = authData.scopes;
         }
     };
 

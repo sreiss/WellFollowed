@@ -29,10 +29,10 @@ class Experience
     private $name;
 
     /**
-     * @var \WellFollowed\OAuth2\ServerBundle\Entity\User
+     * @var \WellFollowed\AppBundle\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="WellFollowed\OAuth2\ServerBundle\Entity\User", cascade={"persist"})
-     * @ORM\JoinColumn(name="initiator_username", referencedColumnName="username")
+     * @ORM\OneToOne(targetEntity="WellFollowed\AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\JoinColumn(name="initiator_id", referencedColumnName="id")
      */
     private $initiator;
 
@@ -45,12 +45,12 @@ class Experience
     private $event;
 
     /**
-     * @var \WellFollowed\OAuth2\ServerBundle\Entity\User[]
+     * @var \WellFollowed\AppBundle\Entity\User[]
      *
-     * @ORM\ManyToMany(targetEntity="WellFollowed\OAuth2\ServerBundle\Entity\User", inversedBy="experiences", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="WellFollowed\AppBundle\Entity\User", inversedBy="experiences", cascade={"persist"})
      * @ORM\JoinTable(name="experice_allowed_users",
      *      joinColumns={@ORM\JoinColumn(name="experience_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="username", referencedColumnName="username")}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
      *      )
      */
     private $allowedUsers;

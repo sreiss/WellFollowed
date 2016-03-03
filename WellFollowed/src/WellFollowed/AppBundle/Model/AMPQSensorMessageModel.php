@@ -5,10 +5,10 @@ namespace WellFollowed\AppBundle\Model;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
- * Class AMPQSensorMessageModel
+ * Class SensorMessageModel
  * @package WellFollowed\AppBundle\Model
  */
-class AMPQSensorMessageModel
+class SensorMessageModel
 {
     /** @var string */
     private $sensorName;

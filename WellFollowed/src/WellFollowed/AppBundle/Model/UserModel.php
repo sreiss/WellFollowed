@@ -2,15 +2,23 @@
 
 namespace WellFollowed\AppBundle\Model;
 
-use WellFollowed\OAuth2\ServerBundle\Entity\User;
+use WellFollowed\AppBundle\Entity\User;
 use JMS\Serializer\Annotation as Serializer;
 
+/**
+ * Class UserModel
+ * @package WellFollowed\AppBundle\Model
+ *
+ * @Serializer\ExclusionPolicy("all")
+ */
 class UserModel
 {
     /**
      * @var string
      *
      * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
      */
     private $username;
 
@@ -18,6 +26,17 @@ class UserModel
      * @var string
      *
      * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
+     */
+    private $email;
+
+    /**
+     * @var string
+     *
+     * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"update"})
      */
     private $password;
 
@@ -26,6 +45,8 @@ class UserModel
      *
      * @Serializer\Type("string")
      * @Serializer\SerializedName("firstName")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
      */
     private $firstName;
 
@@ -34,6 +55,8 @@ class UserModel
      *
      * @Serializer\Type("string")
      * @Serializer\SerializedName("lastName")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
      */
     private $lastName;
 
@@ -42,6 +65,8 @@ class UserModel
      *
      * @Serializer\Type("DateTime")
      * @Serializer\SerializedName("subscriptionDate")
+     * @Serializer\Expose
+     * @Serializer\Groups({"details"})
      */
     private $subscriptionDate;
 
@@ -49,24 +74,19 @@ class UserModel
      * @var array
      *
      * @Serializer\Type("array")
+     * @Serializer\Expose
+     * @Serializer\Groups({"details"})
      */
     private $roles;
-
-    /**
-     * @var array
-     *
-     * @Serializer\Type("array")
-     */
-    private $scopes;
 
     public function __construct(User $user)
     {
         $this->username = $user->getUsername();
+        $this->email = $user->getEmail();
         $this->firstName = $user->getFirstName();
         $this->lastName = $user->getLastName();
-        $this->subscriptionDate = $user->getSubscriptionDate();
         $this->roles = $user->getRoles();
-        $this->scopes = $user->getScopes();
+        $this->subscriptionDate = $user->getSubscriptionDate();
     }
 
     /**
@@ -83,6 +103,22 @@ class UserModel
     public function setUsername($username)
     {
         $this->username = $username;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+    /**
+     * @param string $email
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
     }
 
     /**
@@ -163,21 +199,5 @@ class UserModel
     public function setRoles($roles)
     {
         $this->roles = $roles;
-    }
-
-    /**
-     * @return array
-     */
-    public function getScopes()
-    {
-        return $this->scopes;
-    }
-
-    /**
-     * @param array $scopes
-     */
-    public function setScopes($scopes)
-    {
-        $this->scopes = $scopes;
     }
 }

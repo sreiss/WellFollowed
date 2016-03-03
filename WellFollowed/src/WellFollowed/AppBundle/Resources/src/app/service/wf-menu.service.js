@@ -18,16 +18,19 @@ angular.module('wellFollowed').factory('$wfMenu', function($wfAuth) {
     };
 
     var _getMenu = function(id) {
-        if (id != 'noauth') {
-            for (var i = 0; i < _menus[id].length; i++) {
-                var right = _menus[id][i].right;
-                if (!!right && $wfAuth.authentication.scopes.indexOf(right) < 0) {
-                    _menus[id].splice(i, 1);
-                }
-            }
-
-        }
-        return _menus[id] || [];
+        var menu = _menus[id];
+        //if (id != 'noauth') {
+        //    for (var i = 0; i < _menus[id].length; i++) {
+        //        var right = _menus[id][i].right;
+        //        if ((!!right && $wfAuth.authentication.scopes.indexOf(right) > 0) || !right) {
+        //            menu.push(_menus[id][i]);
+        //        }
+        //    }
+        //
+        //} else {
+        //    menu = _menus[id];
+        //}
+        return menu || [];
     };
 
     return {

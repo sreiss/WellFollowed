@@ -16,7 +16,6 @@ use WellFollowed\AppBundle\Base\WellFollowedException;
  */
 class SensorClientManager
 {
-    private $cache = null;
     private $clientCacheKey = 'wellFollowedSensorClient';
     private $sessionIdCacheKey = 'wellFollowedSensorSessionId';
     private $client = null;
@@ -26,25 +25,23 @@ class SensorClientManager
      * SensorClientManager constructor.
      *
      * @DI\InjectParams({
-     *      "cache" = @DI\Inject("util.cache"),
      *      "webSocketPort" = @DI\Inject("%gos_web_socket_port%"),
      *      "webSocketHost" = @DI\Inject("%gos_web_socket_host%")
      * })
      */
-    public function __construct(ApcCache $cache, $webSocketPort, $webSocketHost)
+    public function __construct($webSocketPort, $webSocketHost)
     {
-        $this->cache = $cache;
         //$this->cache->delete($this->clientCacheKey);
         //$this->cache->delete($this->sessionIdCacheKey);
-        if ($client = $this->cache->fetch($this->clientCacheKey) && $sessionId = $this->cache->fetch($this->sessionIdCacheKey)) {
-            $this->client = $client;
-            $this->sessionId = $sessionId;
-        } else {
+//        if ($client = $this->cache->fetch($this->clientCacheKey) && $sessionId = $this->cache->fetch($this->sessionIdCacheKey)) {
+//            $this->client = $client;
+//            $this->sessionId = $sessionId;
+//        } else {
             $this->client = new Client($webSocketHost, $webSocketPort);
             $this->sessionId = $this->client->connect();
-            $this->cache->save($this->clientCacheKey, $this->client, null);
-            $this->cache->save($this->sessionIdCacheKey, $this->sessionId, null);
-        }
+            //$this->cache->save($this->clientCacheKey, $this->client, null);
+//            $this->cache->save($this->sessionIdCacheKey, $this->sessionId, null);
+//        }
     }
 
     public function publish($topic, $payload)

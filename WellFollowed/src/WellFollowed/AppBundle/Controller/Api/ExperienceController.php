@@ -40,7 +40,6 @@ class ExperienceController extends ApiController
      *
      * @Route(" ", name="get_experiences")
      * @Method({"GET"})
-     * @FilterContent("WellFollowed\AppBundle\Manager\Filter\ExperienceFilter")
      */
     public function getExperiencesAction(Request $request)
     {
