@@ -3,13 +3,13 @@
 namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
+use FOS\RestBundle\Request\ParamFetcher;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\ResponseFormat;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 use WellFollowed\AppBundle\Entity\InstitutionType;
 use WellFollowed\AppBundle\Manager\Filter\InstitutionTypeFilter;
-use WellFollowed\AppBundle\Model\ListModel;
 use WellFollowed\AppBundle\Model\InstitutionTypeModel;
 
 /** @DI\Service("well_followed.institution_type_manager") */
@@ -42,9 +42,7 @@ class InstitutionTypeManager
             ->getResult();
 
         foreach ($institutionTypes as $institutionType) {
-            $model = new ListModel();
-            $model->setTag($institutionType->getTag());
-            $model->setId($institutionType->getId());
+            $model = new InstitutionTypeModel($institutionType);
             $models[] = $model;
         }
 

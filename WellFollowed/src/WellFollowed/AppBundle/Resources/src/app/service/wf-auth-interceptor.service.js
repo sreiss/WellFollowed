@@ -3,7 +3,7 @@
  * @author Taiseer Joudeh
  * @url http://www.codeproject.com/Articles/784106/AngularJS-Token-Authentication-using-ASP-NET-Web-A
  */
-angular.module('wellFollowed').factory('$wfAuthInterceptor', function ($q, $location, localStorageService) {
+angular.module('wellFollowed').factory('$wfAuthInterceptor', function ($q, $location, localStorageService, $rootScope) {
 
     var _request = function (config) {
 
@@ -19,6 +19,8 @@ angular.module('wellFollowed').factory('$wfAuthInterceptor', function ($q, $loca
 
     var _responseError = function (rejection) {
         if (rejection.status === 401 || rejection.status === 403) {
+            localStorageService.remove('authorizationData');
+            $rootScope.$broadcast('refreshMenu');
             $location.path('/connexion');
         }
         return $q.reject(rejection);

@@ -32,7 +32,7 @@ class EventManager
      * @param array|null $filter
      * @return \WellFollowed\AppBundle\Entity\Event[]
      */
-    public function getEvents(ParamFetcher $filter = null)
+    public function getEvents(EventFilter $filter = null)
     {
         $qb = $this->entityManager
             ->getRepository('WellFollowedAppBundle:Event')
@@ -42,12 +42,12 @@ class EventManager
         {
             // We take into account the end of the first event matched and the end of the last one
             // in order to be consistent.
-            if ($filter->get('start') !== null)
+            if ($filter->getStart() !== null)
                 $qb->andWhere('e.end > :start')
-                    ->setParameter('start', $filter->get('start'));
-            if ($filter->get('end') !== null)
+                    ->setParameter('start', $filter->getStart());
+            if ($filter->getEnd() !== null)
                 $qb->andWhere('e.end < :end')
-                    ->setParameter('end', $filter->get('end'));
+                    ->setParameter('end', $filter->getEnd());
         }
 
         $models = array();

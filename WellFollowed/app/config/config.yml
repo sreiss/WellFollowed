@@ -153,7 +153,7 @@ fos_oauth_server:
     refresh_token_class: WellFollowed\AppBundle\Entity\RefreshToken
     auth_code_class:     WellFollowed\AppBundle\Entity\AuthCode
     service:
-        user_provider: fos_user.user_manager             # This property will be used when valid credentials are given to load the user upon access token creation
+        user_provider: well_followed.user_manager             # This property will be used when valid credentials are given to load the user upon access token creation
 
 # RabbitMQ
 

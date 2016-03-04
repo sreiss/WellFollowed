@@ -2,11 +2,13 @@
 
 namespace WellFollowed\AppBundle\Controller\Api;
 
+use FOS\RestBundle\Request\ParamFetcher;
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\AppBundle\Base\ApiController;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\DiExtraBundle\Annotation as DI;
+use WellFollowed\AppBundle\Manager\Filter\UserFilter;
 use WellFollowed\AppBundle\Manager\UserManager;
 use WellFollowed\AppBundle\Model\UserModel;
 
@@ -37,20 +39,23 @@ class UserController extends ApiController
     /**
      * @Rest\Get(" ")
      * @Rest\View(serializerGroups={"list"})
+     * @Rest\QueryParam(array=true, name="usernames", requirements="[a-zA-Z0-9]+", strict=true, default=null, nullable=true)
      */
-    public function getUsersAction(Request $request)
+    public function getUsersAction(ParamFetcher $fetcher)
     {
+        $filter = new UserFilter();
+        $filter->setUsernames($fetcher->get('usernames'));
+
         $models = $this->userManager
-            ->getUsers();
+            ->getUsers($filter);
 
         return $models;
-        //return $this->jsonResponse($models);
     }
 
     /**
      * @Rest\Get("/{username}", name="get_user", requirements={"username" = "[a-zA-Z][a-zA-Z0-9]+"})
      */
-    public function getUserAction(Request $request, $username)
+    public function getUserAction($username)
     {
         $user = $this->userManager
             ->getUser($username);

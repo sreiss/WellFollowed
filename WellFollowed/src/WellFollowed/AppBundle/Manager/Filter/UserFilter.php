@@ -3,11 +3,15 @@
 namespace WellFollowed\AppBundle\Manager\Filter;
 
 use WellFollowed\AppBundle\Base\ResponseFormat;
-use WellFollowed\UtilBundle\Contract\Manager\Filter\FilterInterface;
 
-class UserFilter implements FilterInterface
+class UserFilter
 {
     private $format = ResponseFormat::LIST_FORMAT;
+
+    /**
+     * @var string[]
+     */
+    private $usernames;
 
     /**
      * @return mixed
@@ -23,5 +27,21 @@ class UserFilter implements FilterInterface
     public function setFormat($format)
     {
         $this->format = $format;
+    }
+
+    /**
+     * @return \string[]
+     */
+    public function getUsernames()
+    {
+        return $this->usernames;
+    }
+
+    /**
+     * @param \string[] $usernames
+     */
+    public function setUsernames($usernames)
+    {
+        $this->usernames = $usernames;
     }
 }

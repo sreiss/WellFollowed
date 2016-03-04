@@ -6,20 +6,32 @@ use JMS\Serializer\Annotation as Serializer;
 use WellFollowed\AppBundle\Entity\Institution;
 use WellFollowed\AppBundle\Model\InstitutionTypeModel;
 
+/**
+ * Class InstitutionModel
+ * @package WellFollowed\AppBundle\Model
+ *
+ * @Serializer\ExclusionPolicy("all")
+ */
 class InstitutionModel
 {
     /**
      * @Serializer\Type("integer")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
      */
     private $id;
 
     /**
      * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
      */
     private $tag;
 
     /**
      * @Serializer\Type("WellFollowed\AppBundle\Model\InstitutionType\InstitutionTypeModel")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
      */
     private $type;
 

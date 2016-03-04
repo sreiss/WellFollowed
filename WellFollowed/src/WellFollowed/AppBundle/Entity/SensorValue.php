@@ -62,10 +62,10 @@ class SensorValue
     private $experienceId;
 
     /**
-     * @var \WellFollowed\AppBundle\Entity\Experience
+     * @var \WellFollowed\AppBundle\Entity\Experiment
      *
-     * @ORM\OneToOne(targetEntity="WellFollowed\AppBundle\Entity\Experience", cascade={"persist"})
-     * @ORM\JoinColumn(name="experience_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="WellFollowed\AppBundle\Entity\Experiment", cascade={"persist"})
+     * @ORM\JoinColumn(name="experiment_id", referencedColumnName="id")
      */
     private $experience;
 

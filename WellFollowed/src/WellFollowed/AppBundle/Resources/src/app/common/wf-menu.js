@@ -18,6 +18,10 @@ angular.module('wellFollowed').directive('wfMenu', function($wfMenu, $wfAuth) {
                 _menuItems(scope);
             });
 
+            scope.$on('refreshMenu', function() {
+                _menuItems(scope);
+            });
+
             var unregister = scope.$watch(function() {
                 return $wfAuth.getCurrentUser();
             }, function(user) {

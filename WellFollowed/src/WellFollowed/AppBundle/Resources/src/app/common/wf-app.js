@@ -28,6 +28,10 @@ angular.module('wellFollowed').directive('wfApp', function($wfAuth, wfAlertTypes
                 return $scope.previousState;
            };
 
+           this.refreshMenu = function() {
+                $scope.$broadcast('refreshMenu');
+           };
+
            $scope.$on('$stateChangeSuccess', function(event, to, toParams, previous, previousParams) {
                $scope.showErrors = true;
                $scope.previousState = previous;

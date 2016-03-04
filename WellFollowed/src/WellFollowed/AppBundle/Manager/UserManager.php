@@ -2,52 +2,59 @@
 
 namespace WellFollowed\AppBundle\Manager;
 
-use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
-use Doctrine\ORM\EntityManager;
-use FOS\UserBundle\Model\UserManagerInterface;
-use Symfony\Component\Security\Acl\Exception\Exception;
-use WellFollowed\AppBundle\Base\ResponseFormat;
+use Doctrine\Common\Persistence\ObjectManager;
+use FOS\UserBundle\Util\CanonicalizerInterface;
+use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
 use WellFollowed\AppBundle\Model\UserModel;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 use JMS\DiExtraBundle\Annotation as DI;
+use FOS\UserBundle\Doctrine\UserManager as FOSUserManager;
 
 /**
  * Class UserManager
  * @package WellFollowed\AppBundle\Service
+ *
  * @DI\Service("well_followed.user_manager")
  */
-class UserManager
+class UserManager extends FOSUserManager
 {
-    private $userManager;
-    private $entityManager;
-
     /**
-     * @param UserManagerInterface $userManager
-     * @param EntityManager $entityManager
+     * UserManager constructor.
+     * @param EncoderFactoryInterface $encoderFactory
+     * @param CanonicalizerInterface $usernameCanonicalizer
+     * @param CanonicalizerInterface $emailCanonicalizer
+     * @param ObjectManager $om
+     * @param string $class
      *
      * @DI\InjectParams({
-     *      "userManager" = @DI\Inject("fos_user.user_manager"),
-     *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager")
+     *     "encoderFactory" = @DI\Inject("security.encoder_factory"),
+     *     "usernameCanonicalizer" = @DI\Inject("fos_user.util.username_canonicalizer"),
+     *     "emailCanonicalizer" = @DI\Inject("fos_user.util.email_canonicalizer"),
+     *     "om" = @DI\Inject("fos_user.entity_manager"),
+     *     "class" = @DI\Inject("%fos_user.model.user.class%")
      * })
      */
-    public function __construct(UserManagerInterface $userManager, EntityManager $entityManager)
+    public function __construct(EncoderFactoryInterface $encoderFactory, CanonicalizerInterface $usernameCanonicalizer, CanonicalizerInterface $emailCanonicalizer, ObjectManager $om, $class)
     {
-        $this->userManager = $userManager;
-        $this->entityManager = $entityManager;
+        parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $om, $class);
     }
 
     public function getUsers(UserFilter $filter = null)
     {
         $models = [];
-        $qb = null;
+        $qb = $this->repository
+            ->createQueryBuilder('u');
 
         if ($filter !== null) {
-            // TODO: handle filter
+            if (!empty($filter->getUsernames())) {
+                $qb->where($qb->expr()->in('u.username', $filter->getUsernames()));
+            }
         }
 
-        $users = $this->userManager->findUsers();
+        $users = $qb->getQuery()
+            ->getResult();
 
         foreach ($users as $user) {
             $model = new UserModel($user);
@@ -59,8 +66,7 @@ class UserManager
 
     public function getUser($username)
     {
-        $user = $this->userManager
-            ->findUserByUsername($username);
+        $user = $this->findUserByUsername($username);
 
         if ($user === null)
             throw new WellFollowedException(ErrorCode::NOT_FOUND);
@@ -68,12 +74,12 @@ class UserManager
         return new UserModel($user);
     }
 
-    public function createUser(UserModel $model)
+    public function createWfUser(UserModel $model)
     {
         if ($model === null)
             throw new WellFollowedException(ErrorCode::NO_MODEL_PROVIDED);
 
-        $user = $this->userManager->createUser();
+        $user = $this->createUser();
         $user->setEmail($model->getEmail());
         $user->setUsername($model->getUsername());
         $user->setPlainPassword($model->getPassword());
@@ -81,21 +87,8 @@ class UserManager
         $user->setFirstName($model->getFirstName());
         $user->setSubscriptionDate(new \DateTime());
         $user->setEnabled(true);
-        $this->userManager->updateUser($user);
+        $this->updateUser($user);
 
         return new UserModel($user);
-    }
-
-    public function deleteUser($username)
-    {
-        $user = $this->userManager->findUserByUsername($username);
-
-        if ($user === null) {
-            throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
-        }
-
-        $this->userManager->deleteUser($username);
-
-        return true;
     }
 }

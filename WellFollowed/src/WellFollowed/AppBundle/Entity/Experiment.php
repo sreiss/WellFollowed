@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Experience
+class Experiment
 {
     /**
      * @var integer
@@ -80,7 +80,7 @@ class Experience
     }
 
     /**
-     * @return \WellFollowed\OAuth2\ServerBundle\Entity\User
+     * @return \WellFollowed\AppBundle\Entity\User
      */
     public function getInitiator()
     {
@@ -88,7 +88,7 @@ class Experience
     }
 
     /**
-     * @param \WellFollowed\OAuth2\ServerBundle\Entity\User $initiator
+     * @param \WellFollowed\AppBundle\Entity\User
      */
     public function setInitiator($initiator)
     {
@@ -96,7 +96,7 @@ class Experience
     }
 
     /**
-     * @return \WellFollowed\OAuth2\ServerBundle\Entity\User[]
+     * @return \WellFollowed\AppBundle\Entity\User[]
      */
     public function getAllowedUsers()
     {
@@ -104,7 +104,7 @@ class Experience
     }
 
     /**
-     * @param \WellFollowed\OAuth2\ServerBundle\Entity\User[] $allowedUsers
+     * @param \WellFollowed\AppBundle\Entity\User[] $allowedUsers
      */
     public function setAllowedUsers($allowedUsers)
     {

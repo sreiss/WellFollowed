@@ -39,8 +39,12 @@ class EventController extends ApiController
      * @Rest\QueryParam(name="start", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)
      * @Rest\QueryParam(name="end", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)
      */
-    public function getEventsAction(ParamFetcher $filter)
+    public function getEventsAction(ParamFetcher $fetcher)
     {
+        $filter = new EventFilter();
+        $filter->setStart($fetcher->get('start'));
+        $filter->setEnd($fetcher->get('end'));
+
         return $this->eventManager
             ->getEvents($filter);
     }

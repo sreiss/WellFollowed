@@ -3,9 +3,6 @@
 namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
-use OldSound\RabbitMqBundle\RabbitMq\Producer;
-use WellFollowed\AppBundle\Base\ErrorCode;
-use WellFollowed\AppBundle\Base\WellFollowedException;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Entity\SensorValue;
 use WellFollowed\AppBundle\Manager\Filter\SensorFilter;
@@ -26,7 +23,7 @@ class SensorManager
      */
     private $entityManager = null;
 
-    private $experienceManager = null;
+    private $experimentManager = null;
 
     private $sensorQueues = [];
 
@@ -40,15 +37,15 @@ class SensorManager
      *
      * @DI\InjectParams({
      *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
-     *      "experienceManager" = @DI\Inject("well_followed.experience_manager"),
+     *      "experimentManager" = @DI\Inject("well_followed.experiment_manager"),
      *      "sensorClientManager" = @DI\Inject("well_followed.sensor_client_manager"),
      *      "sensorTopic" = @DI\Inject("well_followed.sensor_topic")
      * })
      */
-    public function __construct(EntityManager $entityManager, ExperienceManager $experienceManager, SensorClientManager $sensorClientManager, SensorTopic $sensorTopic)
+    public function __construct(EntityManager $entityManager, ExperimentManager $experimentManager, SensorClientManager $sensorClientManager, SensorTopic $sensorTopic)
     {
         $this->entityManager = $entityManager;
-        $this->experienceManager = $experienceManager;
+        $this->experimentManager = $experimentManager;
         $this->sensorClientManager = $sensorClientManager;
         $this->sensorTopic = $sensorTopic;
     }
@@ -62,7 +59,7 @@ class SensorManager
         $value->setDate($model->getDate());
         $value->setValue($value);
         $value->setSensorName($model->getSensorName());
-        $value->setExperienceId($this->experienceManager->getCurrentExperienceId());
+        $value->setExperienceId($this->experimentManager->getCurrentExperimentId());
         $this->createSensorValue($value);
 
         $this->sensorClientManager->publish('sensor/data/sensor1', [

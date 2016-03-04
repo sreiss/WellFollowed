@@ -2,22 +2,20 @@
 
 namespace WellFollowed\AppBundle\Controller\Api;
 
+use FOS\RestBundle\Request\ParamFetcher;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
-use Symfony\Component\HttpFoundation\Response;
 use WellFollowed\AppBundle\Base\ApiController;
-use WellFollowed\AppBundle\Entity\InstitutionType;
-use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Manager\InstitutionTypeManager;
+use WellFollowed\AppBundle\Model\InstitutionTypeModel;
+use JMS\DiExtraBundle\Annotation as DI;
+use FOS\RestBundle\Controller\Annotations as Rest;
 
 /**
  * Class InstitutionTypeController
  * @package WellFollowed\AppBundle\Controller\Api
  *
- * @Route("/institution-type")
+ * @Rest\Route("/institution-type")
  */
 class InstitutionTypeController extends ApiController
 {
@@ -33,68 +31,53 @@ class InstitutionTypeController extends ApiController
         $this->institutionTypeManager = $institutionTypeManager;
     }
 
-    public function getAllowedScopes()
-    {
-        return ['access_institution_type'];
-    }
-
     /**
-     * @Route(" ", name="get_institution_types")
-     * @Method({"GET"})
+     * @Rest\Get(" ", name="get_institution_types")
+     * @Rest\View(serializerGroups={"list"})
      */
-    public function getInstitutionTypesAction(Request $request)
+    public function getInstitutionTypesAction(ParamFetcher $filter)
     {
         $models = $this->institutionTypeManager
-            ->getInstitutionTypes($request->attributes->get('filter'));
+            ->getInstitutionTypes($filter);
 
-        return $this->jsonResponse($models);
+        return $models;
     }
 
     /**
-     * @Route("/{id}", name="get_institution_type", requirements={"id" = "\d+"})
-     * @Method({"GET"})
+     * @Rest\Get("/{id}", name="get_institution_type", requirements={"id" = "\d+"})
      */
     public function getInstitutionTypeAction(Request $request, $id)
     {
-        $model = $this->institutionTypeManager
+        return $this->institutionTypeManager
             ->getInstitutionType($id);
-
-        return $this->jsonResponse($model);
     }
 
     /**
-     * @Route(" ", name="create_institution_type")
-     * @Method({"POST"})
+     * @Rest\Post(" ", name="create_institution_type")
+     * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
      */
-    public function createInstitutionTypeAction(Request $request)
+    public function createInstitutionTypeAction(InstitutionTypeModel $model)
     {
-        $model = $this->institutionTypeManager
-            ->createInstitutionType($request->attributes->get('json'));
-
-        return $this->jsonResponse($model);
+        return $this->institutionTypeManager
+            ->createInstitutionType($model);
     }
 
     /**
-     * @Route(" ", name="update_institution_type")
-     * @Method({"PUT"})
+     * @Rest\Put(" ", name="update_institution_type")
+     * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
      */
-    public function updateInstitutionTypeAction(Request $request)
+    public function updateInstitutionTypeAction(InstitutionTypeModel $model)
     {
-        $model = $this->institutionTypeManager
-            ->updateInstitutionType($request->attributes->get('json'));
-
-        return $this->jsonResponse($model);
+        return $this->institutionTypeManager
+            ->updateInstitutionType($model);
     }
 
     /**
-     * @Route("/{id}", name="delete_institution_type", requirements={"id" = "\d+"})
-     * @Method({"DELETE"})
+     * @Rest\Delete("/{id}", name="delete_institution_type", requirements={"id" = "\d+"})
      */
     public function deleteInstitutionTypeAction(Request $request, $id)
     {
-        $this->institutionTypeManager
+        return $this->institutionTypeManager
             ->deleteInstitutionType($id);
-
-        return $this->jsonResponse(null);
     }
 }

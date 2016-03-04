@@ -9,19 +9,25 @@ use JMS\Serializer\Annotation as Serializer;
  * Class InstitutionTypeModel
  * @package WellFollowed\AppBundle\Model\InstitutionType
  *
- * @Serializer\AccessType("public_method")
+ * @Serializer\ExclusionPolicy("all")
  */
 class InstitutionTypeModel
 {
     /**
      * @var int
+     *
      * @Serializer\Type("integer")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
      */
     private $id;
 
     /**
      * @var string
+     *
      * @Serializer\Type("string")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
      */
     private $tag;
 

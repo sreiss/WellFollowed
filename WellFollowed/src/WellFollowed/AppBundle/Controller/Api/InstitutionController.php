@@ -3,17 +3,18 @@
 namespace WellFollowed\AppBundle\Controller\Api;
 
 use JMS\DiExtraBundle\Annotation as DI;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\AppBundle\Manager\InstitutionManager;
+use FOS\RestBundle\Controller\Annotations as Rest;
+use WellFollowed\AppBundle\Model\InstitutionModel;
 
 /**
  * Class InstitutionController
  * @package WellFollowed\AppBundle\Controller\Api
  *
- * @Route("/institution")
+ * @Rest\Route("/institution")
  */
 class InstitutionController extends ApiController
 {
@@ -29,68 +30,50 @@ class InstitutionController extends ApiController
         $this->institutionManager = $institutionManager;
     }
 
-    public function getAllowedScopes()
-    {
-        return ['access_institution'];
-    }
-
     /**
-     * @Route(" ", name="get_institutions")
-     * @Method({"GET"})
+     * @Rest\Get(" ", name="get_institutions")
      */
     public function getInstitutionsAction(Request $request)
     {
-        $model = $this->institutionManager
-            ->getInstitutions($request->attributes->get('filter'));
-
-        return $this->jsonResponse($model);
+        return $this->institutionManager
+            ->getInstitutions();
     }
 
     /**
-     * @Route("/{id}", name="get_institution", requirements={"id" = "\d+"})
-     * @Method({"GET"})
+     * @Rest\Get("/{id}", name="get_institution", requirements={"id" = "\d+"})
      */
     public function getInstitutionAction(Request $request, $id)
     {
-        $model = $this->institutionManager
+        return $this->institutionManager
             ->getInstitution($id);
-
-        return $this->jsonResponse($model);
     }
 
     /**
-     * @Route(" ", name="create_institution")
-     * @Method({"POST"})
+     * @Rest\Post(" ", name="create_institution")
+     * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
      */
-    public function createInstitutionAction(Request $request)
+    public function createInstitutionAction(InstitutionModel $model)
     {
-        $model = $this->institutionManager
-            ->createInstitution($request->attributes->get('json'));
-
-        return $this->jsonResponse($model);
+        return $this->institutionManager
+            ->createInstitution($model);
     }
 
     /**
-     * @Route(" ", name="update_institution")
-     * @Method({"PUT"})
+     * @Rest\Put(" ", name="update_institution")
+     * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
      */
-    public function updateInstitutionAction(Request $request)
+    public function updateInstitutionAction(InstitutionModel $model)
     {
-        $model = $this->institutionManager
-            ->updateInstitution($request->attributes->get('json'));
-
-        return $this->jsonResponse($model);
+        return $this->institutionManager
+            ->updateInstitution($model);
     }
 
     /**
-     * @Route("/{id}", name="delete_institution", requirements={"id" = "\d+"})
-     * @Method({"DELETE"})
+     * @Rest\Delete("/{id}", name="delete_institution", requirements={"id" = "\d+"})
      */
     public function deleteInstitutionAction(Request $request, $id)
     {
-        $this->institutionManager
+        return $this->institutionManager
             ->deleteInstitution($id);
-
-        return $this->jsonResponse(null);
     }
 }
