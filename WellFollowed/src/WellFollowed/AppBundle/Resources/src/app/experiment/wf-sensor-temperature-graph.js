@@ -1,13 +1,13 @@
 angular.module('wellFollowed').directive('wfSensorTemperatureGraph', function() {
    return {
        restrict: 'E',
-       templateUrl: 'sensor/wf-sensor-temperature-graph.html',
-       require: '^wfSensor',
-       link: function(scope, element, attributes, wfSensor) {
+       templateUrl: 'experiment/wf-sensor-temperature-graph.html',
+       require: '^wfExperiment',
+       link: function(scope, element, attributes, wfExperiment) {
 
            var margin = {top: 20, right: 20, bottom: 30, left: 50},
                width = element.width() - margin.left - margin.right,
-               height = 500 - margin.top - margin.bottom;
+               height = 300 - margin.top - margin.bottom;
 
            var formatDate = d3.time.format("%d-%b-%y");
 
@@ -35,7 +35,7 @@ angular.module('wellFollowed').directive('wfSensorTemperatureGraph', function() 
                .append("g")
                .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-           var session = wfSensor.getWsSession();
+           var session = wfExperiment.getWsSession();
            var data = [];
 
            x.domain(d3.extent(data, function(d) { return d.date; }));

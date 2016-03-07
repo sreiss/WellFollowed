@@ -29,6 +29,9 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
     public function load(ObjectManager $manager)
     {
         $userManager = $this->container->get('fos_user.user_manager');
+        $groupManager = $this->container->get('fos_user.group_manager');
+
+        //$adminGroup = $groupManager->getGroup('');
         $user = $userManager->createUser();
 
         $user->setUsername('administrator');
@@ -38,6 +41,7 @@ class LoadUserData implements FixtureInterface, ContainerAwareInterface
         $user->setLastName('Istrator');
         $user->setSubscriptionDate(new \DateTime());
         $user->setEnabled(true);
+        //$user->addGroup();
         $userManager->updateUser($user);
     }
 }

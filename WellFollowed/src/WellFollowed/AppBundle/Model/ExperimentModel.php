@@ -51,7 +51,7 @@ class ExperimentModel
     private $event;
 
     /**
-     * @var \WellFollowed\AppBundle\Model\UserModel
+     * @var \WellFollowed\AppBundle\Model\UserModel[]
      *
      * @Serializer\Type("array<WellFollowed\AppBundle\Model\UserModel>")
      * @Serializer\Expose
@@ -62,13 +62,17 @@ class ExperimentModel
     /**
      * ExperienceModel constructor.
      */
-    public function __construct(Experience $experience)
+    public function __construct(Experiment $experiment)
     {
-        $this->id = $experience->getId();
-        $this->name = $experience->getName();
-        $this->initiator = $experience->getInitiator();
-        $this->event = $experience->getEvent();
-        $this->allowedUsers = $experience->getAllowedUsers();
+        $this->id = $experiment->getId();
+        $this->name = $experiment->getName();
+        $this->initiator = new UserModel($experiment->getInitiator());
+        $this->event = new EventModel($experiment->getEvent());
+        if (!empty($experiment->getAllowedUsers()->getValues())) {
+            $this->allowedUsers = array_map(function ($user) {
+                return new UserModel($user);
+            }, $experiment->getAllowedUsers());
+        }
     }
 
     /**
@@ -136,7 +140,7 @@ class ExperimentModel
     }
 
     /**
-     * @return UserModel
+     * @return UserModel[]
      */
     public function getAllowedUsers()
     {
@@ -144,7 +148,7 @@ class ExperimentModel
     }
 
     /**
-     * @param UserModel $allowedUsers
+     * @param UserModel[] $allowedUsers
      */
     public function setAllowedUsers($allowedUsers)
     {

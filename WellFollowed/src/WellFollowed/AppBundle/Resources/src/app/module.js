@@ -1,4 +1,17 @@
-angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLibTemplates', 'ui.calendar', 'LocalStorageModule', 'ui.bootstrap.modal', 'ui.bootstrap.alert', 'angular-loading-bar']).config(function($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
+angular.module('wellFollowed', [
+    'ui.router',
+    'ngMessages',
+    'wfTemplates',
+    'wfLibTemplates',
+    'ui.calendar',
+    'LocalStorageModule',
+    'ui.bootstrap.modal',
+    'ui.bootstrap.alert',
+    'ui.bootstrap.popover',
+    'ui.bootstrap.tooltip',
+    'ui.bootstrap.position',
+    'angular-loading-bar'
+]).config(function($stateProvider, $urlRouterProvider, $httpProvider, cfpLoadingBarProvider) {
 
     var formatDate = function(data) {
         if (!!data) {
@@ -44,10 +57,6 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
             url: '/',
             template: '<wf-home></wf-home>'
         })
-        .state('sensor', {
-            url: '/capteurs',
-            template: '<wf-sensor></wf-sensor>'
-        })
         .state('calendar', {
             url: '/calendrier',
             template: '<wf-planning></wf-planning>'
@@ -59,6 +68,10 @@ angular.module('wellFollowed', ['ui.router', 'ngMessages', 'wfTemplates', 'wfLib
         .state('subscription', {
             url: '/compte/inscription',
             template: '<wf-account-create></wf-account-create>'
+        })
+        .state('experiment', {
+            url: '/experience',
+            template: '<wf-experiment></wf-experiment>'
         })
         .state('rtSimulation', {
             url: '/dummy/rtSimulation/:sensorName',

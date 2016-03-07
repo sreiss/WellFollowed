@@ -1,7 +1,7 @@
-angular.module('wellFollowed').directive('wfSensor', function ($wfUrl, $wfSensor) {
+angular.module('wellFollowed').directive('wfExperiment', function ($wfUrl, $wfSensor) {
     return {
         restrict: 'E',
-        templateUrl: 'sensor/wf-sensor.html',
+        templateUrl: 'experiment/wf-experiment.html',
         controller: function ($scope) {
             $scope.hasWsSession = false;
             var websocket = WS.connect($wfUrl.getWsUrl());
@@ -27,6 +27,10 @@ angular.module('wellFollowed').directive('wfSensor', function ($wfUrl, $wfSensor
             $wfSensor.getSensors().success(function(result) {
                 scope.sensors = result;
             });
+
+            scope.toggleSensor = function(sensor) {
+                sensor.displayed = !sensor.displayed;
+            }
         }
     };
 });

@@ -1,9 +1,9 @@
 application:
-    build: application
+    build: WellFollowed
     links:
         - db
     volumes:
-        - ./application:/var/www/wellfollowed
+        - ./WellFollowed:/var/www/wellfollowed:rw
 db:
     image: mariadb
     ports:

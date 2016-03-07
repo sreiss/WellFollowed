@@ -4,6 +4,7 @@ namespace WellFollowed\AppBundle\Controller\Api;
 
 use FOS\RestBundle\Request\ParamFetcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Validator\Constraints\DateTime;
 use WellFollowed\AppBundle\Manager\EventManager;
@@ -38,6 +39,7 @@ class EventController extends ApiController
      * @Rest\View(serializerGroups={"list"})
      * @Rest\QueryParam(name="start", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)
      * @Rest\QueryParam(name="end", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)
+     * @Security("has_role('CAN_RETRIEVE_EVENT_LIST')")
      */
     public function getEventsAction(ParamFetcher $fetcher)
     {

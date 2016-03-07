@@ -44,17 +44,7 @@ class UserManager extends FOSUserManager
     public function getUsers(UserFilter $filter = null)
     {
         $models = [];
-        $qb = $this->repository
-            ->createQueryBuilder('u');
-
-        if ($filter !== null) {
-            if (!empty($filter->getUsernames())) {
-                $qb->where($qb->expr()->in('u.username', $filter->getUsernames()));
-            }
-        }
-
-        $users = $qb->getQuery()
-            ->getResult();
+        $users = $this->getUsersAsEntity($filter);
 
         foreach ($users as $user) {
             $model = new UserModel($user);
@@ -64,14 +54,44 @@ class UserManager extends FOSUserManager
         return $models;
     }
 
+    public function getUsersAsEntity(UserFilter $filter = null)
+    {
+        $qb = $this->repository
+            ->createQueryBuilder('u');
+
+        if ($filter !== null) {
+            if (!empty($filter->getUsernames())) {
+                $qb->where($qb->expr()->in('u.username', $filter->getUsernames()));
+            }
+        }
+
+        return $qb->getQuery()
+            ->getResult();
+    }
+
+    /**
+     * @param $username
+     * @return UserModel
+     */
     public function getUser($username)
+    {
+        $user = $this->getUserAsEntity($username);
+
+        return new UserModel($user);
+    }
+
+    /**
+     * @param $username
+     * @return \WellFollowed\AppBundle\Entity\User
+     */
+    public function getUserAsEntity($username)
     {
         $user = $this->findUserByUsername($username);
 
         if ($user === null)
             throw new WellFollowedException(ErrorCode::NOT_FOUND);
 
-        return new UserModel($user);
+        return $user;
     }
 
     public function createWfUser(UserModel $model)

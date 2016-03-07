@@ -17,13 +17,34 @@ class LoadSensorData implements FixtureInterface
      */
     public function load(ObjectManager $manager)
     {
-        $sensor = new Sensor();
+        $sensors = [
+            [
+                'name' => 'sensor1',
+                'tag' => 'Capteur supérieur',
+                'description' => 'Capteur supérieur.'
+            ],
+            [
+                'name' => 'sensor2',
+                'tag' => 'Capteur central',
+                'description' => 'Capteur central'
+            ],
+            [
+                'name' => 'sensor3',
+                'tag' => 'Capteur inférieur',
+                'description' => 'Capteur inférieur'
+            ]
+        ];
 
-        $sensor->setName('sensor1');
-        $sensor->setTag('Capteur 1');
-        $sensor->setDescription('Capteur supérieur.');
+        foreach ($sensors as $sensorData) {
+            $sensor = new Sensor();
 
-        $manager->persist($sensor);
+            $sensor->setName($sensorData['name']);
+            $sensor->setTag($sensorData['tag']);
+            $sensor->setDescription($sensorData['description']);
+
+            $manager->persist($sensor);
+        }
+
         $manager->flush();
     }
 }

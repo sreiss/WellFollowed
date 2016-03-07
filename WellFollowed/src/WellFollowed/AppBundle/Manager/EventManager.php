@@ -3,9 +3,7 @@
 namespace WellFollowed\AppBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
-use FOS\RestBundle\Request\ParamFetcher;
 use WellFollowed\AppBundle\Base\ErrorCode;
-use WellFollowed\AppBundle\Base\ResponseFormat;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 use WellFollowed\AppBundle\Entity\Event;
 use WellFollowed\AppBundle\Manager\Filter\EventFilter;
@@ -26,6 +24,28 @@ class EventManager
      */
     public function __construct(EntityManager $entityManager) {
         $this->entityManager = $entityManager;
+    }
+
+    /**
+     * @param $id
+     * @return EventModel
+     */
+    public function getEvent($id)
+    {
+        $event = $this->getEventAsEntity($id);
+
+        return new EventModel($event);
+    }
+
+    /**
+     * @param $id
+     * @return Event
+     */
+    public function getEventAsEntity($id)
+    {
+        return $this->entityManager
+            ->getRepository('WellFollowedAppBundle:Event')
+            ->find($id);
     }
 
     /**

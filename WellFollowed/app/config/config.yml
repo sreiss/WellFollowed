@@ -143,6 +143,8 @@ fos_user:
                                                         # but since there is no "login", as so it seems to be useless in
                                                         # our particular context, but still required by "FOSUserBundle"
     user_class: WellFollowed\AppBundle\Entity\User
+    group:
+        group_class: WellFollowed\AppBundle\Entity\UserGroup
 
 # FOS Oauth Bundle
 

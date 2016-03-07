@@ -44,6 +44,15 @@ class User extends FOSUser
     private $subscriptionDate;
 
     /**
+     * @ORM\ManyToMany(targetEntity="WellFollowed\AppBundle\Entity\UserGroup")
+     * @ORM\JoinTable(name="user_user_group",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}
+     * )
+     */
+    protected $groups;
+
+    /**
      * Get id
      *
      * @return integer

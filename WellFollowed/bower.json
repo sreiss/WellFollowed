@@ -36,6 +36,9 @@
       "main": [
         "src/modal/modal.js",
         "src/alert/alert.js",
+        "src/popover/popover.js",
+        "src/tooltip/tooltip.js",
+        "src/position/position.js",
         "src/stackedMap/stackedMap.js"
       ]
     },

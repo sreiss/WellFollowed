@@ -31,4 +31,7 @@ abstract class ErrorCode
     const NO_DATE_SPECIFIED = "Aucune date spécifiée.";
     const NO_VALUE_SPECIFIED = "Aucune valeur spécifiée.";
     const NO_CLIENT = "Aucun client spécifié.";
+
+    // Experiment
+    const NO_EXPERIMENT_EVENT_SPECIFIED = "Aucun évènement spécifié pour l'expérience.";
 }

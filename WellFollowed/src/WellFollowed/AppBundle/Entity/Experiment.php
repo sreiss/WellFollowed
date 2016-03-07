@@ -31,7 +31,7 @@ class Experiment
     /**
      * @var \WellFollowed\AppBundle\Entity\User
      *
-     * @ORM\OneToOne(targetEntity="WellFollowed\AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="WellFollowed\AppBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(name="initiator_id", referencedColumnName="id")
      */
     private $initiator;
@@ -90,7 +90,7 @@ class Experiment
     /**
      * @param \WellFollowed\AppBundle\Entity\User
      */
-    public function setInitiator($initiator)
+    public function setInitiator(User $initiator)
     {
         $this->initiator = $initiator;
     }
@@ -122,7 +122,7 @@ class Experiment
     /**
      * @param Event $event
      */
-    public function setEvent($event)
+    public function setEvent(Event $event)
     {
         $this->event = $event;
     }

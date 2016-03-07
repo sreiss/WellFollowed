@@ -1,7 +1,7 @@
 angular.module('wellFollowed').factory('$wfMenu', function($wfAuth) {
     var _menus = {
         'main': [
-            { name: 'Capteurs', state: 'sensor', right: 'access_sensor' },
+            { name: 'Expérience', state: 'experiment', right: 'access_experiment' },
             { name: 'Calendrier', state: 'calendar', right: 'access_calendar' },
             { name: 'Administration', right: 'access_admin', items:
                 [

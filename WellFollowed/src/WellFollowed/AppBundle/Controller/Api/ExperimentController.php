@@ -54,11 +54,12 @@ class ExperimentController extends ApiController
      * @param ExperimentModel $model
      *
      * @Rest\Post(" ", name="create_experiment")
+     * @Rest\View(serializerGroups={"details"})
      * @ParamConverter("model")
      */
-    public function createExperiment(ExperimentModel $model)
+    public function createExperimentAction(ExperimentModel $model)
     {
         return $this->experimentManager
-            ->createExperience($model);
+            ->createExperiment($model);
     }
 }
