@@ -105,6 +105,15 @@ angular.module('wellFollowed', [
         .state('admin.institution', {
             url: '/etablissement/:id',
             template: function(params) { return '<wf-admin-institution institution-id="' + params.id + '"></wf-admin-institution>'; }
+        })
+        .state('error', {
+            url: '/erreur',
+            abstract: true,
+            template: '<wf-error></wf-error>'
+        })
+        .state('error.accessDenied', {
+            url: '/acces-refuse',
+            template: '<wf-error-access-denied></wf-error-access-denied>'
         });
 
     $urlRouterProvider.otherwise('/');

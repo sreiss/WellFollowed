@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 
@@ -36,13 +37,6 @@ class ExceptionListener
     {
         $exception = $event->getException();
 
-        $statusCode = 500;
-        if ($exception instanceof WellFollowedException) {
-            $statusCode = $exception->getStatusCode();
-        } else {
-            $exception = new WellFollowedException($exception->getMessage(), $exception);
-        }
-
         $data = array(
             'message' => $exception->getMessage()
         );
@@ -52,8 +46,15 @@ class ExceptionListener
         }
 
         $response = new Response($this->jmsSerializer->serialize($data,'json'));
+
+        if ($exception instanceof HttpExceptionInterface) {
+            $response->setStatusCode($exception->getStatusCode());
+            $response->headers->replace($exception->getHeaders());
+        } else {
+            $response->setStatusCode(Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
+
         $response->headers->set('Content-Type', 'application/json');
-        $response->setStatusCode($statusCode);
 
         $event->setResponse($response);
     }

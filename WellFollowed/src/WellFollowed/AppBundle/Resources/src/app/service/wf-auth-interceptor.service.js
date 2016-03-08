@@ -18,10 +18,12 @@ angular.module('wellFollowed').factory('$wfAuthInterceptor', function ($q, $loca
     };
 
     var _responseError = function (rejection) {
-        if (rejection.status === 401 || rejection.status === 403) {
+        if (rejection.status === 401) {
             localStorageService.remove('authorizationData');
             $rootScope.$broadcast('refreshMenu');
             $location.path('/connexion');
+        } else if (rejection.status === 403) {
+            $location.path('/erreur/acces-refuse');
         }
         return $q.reject(rejection);
     };

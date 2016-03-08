@@ -35,10 +35,10 @@ class InstitutionTypeController extends ApiController
      * @Rest\Get(" ", name="get_institution_types")
      * @Rest\View(serializerGroups={"list"})
      */
-    public function getInstitutionTypesAction(ParamFetcher $filter)
+    public function getInstitutionTypesAction(ParamFetcher $fetcher)
     {
         $models = $this->institutionTypeManager
-            ->getInstitutionTypes($filter);
+            ->getInstitutionTypes();
 
         return $models;
     }
