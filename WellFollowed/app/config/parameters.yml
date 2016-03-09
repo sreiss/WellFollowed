@@ -11,8 +11,8 @@ parameters:
     mailer_password: null
     secret: fcf24d0feef063b2795ac8a7191c84d8cc013c4b
     gos_web_socket_port: 8080
-    gos_web_socket_host: vm-27.iutrs.unistra.fr
+    gos_web_socket_host: localhost
     old_sound_rabbit_mq_port: 5672
-    old_sound_rabbit_mq_host: vm-27.iutrs.unistra.fr
+    old_sound_rabbit_mq_host: localhost
     old_sound_rabbit_mq_user: wellfollowed
     old_sound_rabbit_mq_password: wellfollowed
