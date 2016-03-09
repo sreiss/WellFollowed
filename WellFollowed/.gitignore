@@ -18,3 +18,5 @@ start.sh
 stop.sh
 kill.sh
 go.sh
+app/config/parameters.yml
+app/config/parameters.yml.dist
