@@ -5,11 +5,13 @@ namespace WellFollowed\AppBundle\DataFixtures\ORM;
 
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
+use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use WellFollowed\AppBundle\Entity\UserGroup;
 
-class LoadUserGroupData implements FixtureInterface, ContainerAwareInterface
+class LoadUserGroupData implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {
     /**
      * @var ContainerInterface
@@ -35,32 +37,53 @@ class LoadUserGroupData implements FixtureInterface, ContainerAwareInterface
     {
         $groups = [
             [
-                'name' => 'Administrateurs',
+                'name' => 'admins',
+                'tag' => 'Administrateurs',
                 'roles' => [
                     'READ_EVENT',
                     'READ_EXPERIMENT',
                     'READ_INSTITUTION',
                     'READ_USER',
-                    'CONTROL_EVENT',
-                    'CONTROL_EXPERIMENT',
-                    'CONTROL_INSTITUTION',
-                    'CONTROL_USER'
+                    'CREATE_EVENT',
+                    'CREATE_EXPERIMENT',
+                    'CREATE_INSTITUTION',
+                    'CREATE_USER',
+                    'UPDATE_EVENT',
+                    'UPDATE_EXPERIMENT',
+                    'UPDATE_INSTITUTION',
+                    'UPDATE_USER',
+                    'DELETE_EVENT',
+                    'DELETE_EXPERIMENT',
+                    'DELETE_INSTITUTION',
+                    'DELETE_USER'
                 ]
             ],
             [
-                'name' => 'Utilisateurs',
+                'name' => 'users',
+                'tag' => 'Utilisateurs',
                 'roles' => [
-                    'READ_EVENT',
                     'READ_EXPERIMENT'
                 ]
             ]
         ];
-        $groupManager = $this->container->get('fos_user.group_manager');
+        //$groupManager = $this->container->get('fos_user.group_manager');
 
         foreach($groups as $groupData) {
-            $group = $groupManager->createGroup($groupData['name']);
+            $group = new UserGroup($groupData['name']);
             $group->setRoles($groupData['roles']);
-            $groupManager->updateGroup($group);
+            $group->setTag($groupData['tag']);
+            $manager->persist($group);
         }
+        $manager->flush();
+    }
+
+    /**
+     * Get the order of this fixture
+     *
+     * @return integer
+     */
+    public function getOrder()
+    {
+        return 1;
     }
 }

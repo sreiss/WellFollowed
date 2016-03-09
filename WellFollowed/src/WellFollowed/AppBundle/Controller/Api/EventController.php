@@ -39,7 +39,7 @@ class EventController extends ApiController
      * @Rest\View(serializerGroups={"list"})
      * @Rest\QueryParam(name="start", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)
      * @Rest\QueryParam(name="end", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)
-     * @Security("has_role('CAN_RETRIEVE_EVENT_LIST')")
+     * @Security("has_role('READ_EVENT')")
      */
     public function getEventsAction(ParamFetcher $fetcher)
     {
@@ -54,6 +54,7 @@ class EventController extends ApiController
     /**
      * @Rest\Post(" ", name="post_event")
      * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
+     * @Security("has_role('CREATE_EVENT')")
      */
     public function createEventAction(EventModel $model)
     {
@@ -64,6 +65,7 @@ class EventController extends ApiController
 
     /**
      * @Rest\Delete("/{id}", name="delete_event", requirements={"id" = "\d+"}))
+     * @Security("has_role('DELETE_EVENT')")
      */
     public function deleteEventAction(Request $request, $id) {
         return $this->eventManager

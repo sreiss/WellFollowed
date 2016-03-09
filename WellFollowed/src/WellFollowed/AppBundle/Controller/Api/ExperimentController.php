@@ -4,6 +4,7 @@ namespace WellFollowed\AppBundle\Controller\Api;
 
 use FOS\RestBundle\Request\ParamFetcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\AppBundle\Base\ApiController;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -43,6 +44,7 @@ class ExperimentController extends ApiController
      *
      * @Rest\Get(" ", name="get_experiments")
      * @Rest\View(serializerGroups={"list"})
+     * @Security("has_role('READ_EXPERIMENT')")
      */
     public function getExperimentsAction(ParamFetcher $filter)
     {
@@ -56,6 +58,7 @@ class ExperimentController extends ApiController
      * @Rest\Post(" ", name="create_experiment")
      * @Rest\View(serializerGroups={"details"})
      * @ParamConverter("model")
+     * @Security("has_role('CREATE_EXPERIMENT')")
      */
     public function createExperimentAction(ExperimentModel $model)
     {

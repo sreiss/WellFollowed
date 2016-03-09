@@ -3,12 +3,12 @@
 namespace WellFollowed\AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use FOS\UserBundle\Model\Group as FOSGroup;
+use FOS\UserBundle\Entity\Group as FOSGroup;
 
 /**
  * UserGroup
  *
- * @ORM\Table()
+ * @ORM\Table("user_group")
  * @ORM\Entity
  */
 class UserGroup extends FOSGroup
@@ -22,15 +22,27 @@ class UserGroup extends FOSGroup
      */
     protected $id;
 
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="tag", type="string")
+     */
+    private $tag;
 
     /**
-     * Get id
-     *
-     * @return integer
+     * @return string
      */
-    public function getId()
+    public function getTag()
     {
-        return $this->id;
+        return $this->tag;
+    }
+
+    /**
+     * @param string $tag
+     */
+    public function setTag($tag)
+    {
+        $this->tag = $tag;
     }
 }
 

@@ -4,6 +4,7 @@ namespace WellFollowed\AppBundle\Controller\Api;
 
 use JMS\DiExtraBundle\Annotation as DI;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\AppBundle\Manager\InstitutionManager;
@@ -32,6 +33,7 @@ class InstitutionController extends ApiController
 
     /**
      * @Rest\Get(" ", name="get_institutions")
+     * @Security("has_role('READ_INSTITUTION')")
      */
     public function getInstitutionsAction(Request $request)
     {
@@ -41,6 +43,7 @@ class InstitutionController extends ApiController
 
     /**
      * @Rest\Get("/{id}", name="get_institution", requirements={"id" = "\d+"})
+     * @Security("has_role('READ_INSTITUTION')")
      */
     public function getInstitutionAction(Request $request, $id)
     {
@@ -51,6 +54,7 @@ class InstitutionController extends ApiController
     /**
      * @Rest\Post(" ", name="create_institution")
      * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
+     * @Security("has_role('CREATE_INSTITUTION')")
      */
     public function createInstitutionAction(InstitutionModel $model)
     {
@@ -61,6 +65,7 @@ class InstitutionController extends ApiController
     /**
      * @Rest\Put(" ", name="update_institution")
      * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
+     * @Security("has_role('UPDATE_INSTITUTION')")
      */
     public function updateInstitutionAction(InstitutionModel $model)
     {
@@ -70,6 +75,7 @@ class InstitutionController extends ApiController
 
     /**
      * @Rest\Delete("/{id}", name="delete_institution", requirements={"id" = "\d+"})
+     * @Security("has_role('DELETE_INSTITUTION')")
      */
     public function deleteInstitutionAction(Request $request, $id)
     {

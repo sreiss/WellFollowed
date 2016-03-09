@@ -5,6 +5,7 @@ namespace WellFollowed\AppBundle\Manager;
 use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
+use WellFollowed\AppBundle\Entity\User;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
 use WellFollowed\AppBundle\Model\UserModel;
 use WellFollowed\AppBundle\Base\ErrorCode;
@@ -41,6 +42,10 @@ class UserManager extends FOSUserManager
         parent::__construct($encoderFactory, $usernameCanonicalizer, $emailCanonicalizer, $om, $class);
     }
 
+    /**
+     * @param UserFilter|null $filter
+     * @return array
+     */
     public function getUsers(UserFilter $filter = null)
     {
         $models = [];
@@ -54,6 +59,10 @@ class UserManager extends FOSUserManager
         return $models;
     }
 
+    /**
+     * @param UserFilter|null $filter
+     * @return mixed
+     */
     public function getUsersAsEntity(UserFilter $filter = null)
     {
         $qb = $this->repository
@@ -94,6 +103,19 @@ class UserManager extends FOSUserManager
         return $user;
     }
 
+    /**
+     * @param User $user
+     * @return UserModel
+     */
+    public function getModelAsEntity(User $user)
+    {
+        return new UserModel($user);
+    }
+
+    /**
+     * @param UserModel $model
+     * @return UserModel
+     */
     public function createWfUser(UserModel $model)
     {
         if ($model === null)

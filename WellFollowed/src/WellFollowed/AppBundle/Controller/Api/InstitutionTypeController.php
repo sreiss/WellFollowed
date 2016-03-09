@@ -4,6 +4,7 @@ namespace WellFollowed\AppBundle\Controller\Api;
 
 use FOS\RestBundle\Request\ParamFetcher;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\AppBundle\Base\ApiController;
 use WellFollowed\AppBundle\Manager\InstitutionTypeManager;
@@ -34,6 +35,7 @@ class InstitutionTypeController extends ApiController
     /**
      * @Rest\Get(" ", name="get_institution_types")
      * @Rest\View(serializerGroups={"list"})
+     * @Security("has_role('READ_INSTITUTION')")
      */
     public function getInstitutionTypesAction(ParamFetcher $fetcher)
     {
@@ -45,6 +47,7 @@ class InstitutionTypeController extends ApiController
 
     /**
      * @Rest\Get("/{id}", name="get_institution_type", requirements={"id" = "\d+"})
+     * @Security("has_role('READ_INSTITUTION')")
      */
     public function getInstitutionTypeAction(Request $request, $id)
     {
@@ -55,6 +58,7 @@ class InstitutionTypeController extends ApiController
     /**
      * @Rest\Post(" ", name="create_institution_type")
      * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
+     * @Security("has_role('CREATE_INSTITUTION')")
      */
     public function createInstitutionTypeAction(InstitutionTypeModel $model)
     {
@@ -65,6 +69,7 @@ class InstitutionTypeController extends ApiController
     /**
      * @Rest\Put(" ", name="update_institution_type")
      * @ParamConverter("model", options={"deserializationContext"={"groups"={"details"}}})
+     * @Security("has_role('UPDATE_INSTITUTION')")
      */
     public function updateInstitutionTypeAction(InstitutionTypeModel $model)
     {
@@ -74,6 +79,7 @@ class InstitutionTypeController extends ApiController
 
     /**
      * @Rest\Delete("/{id}", name="delete_institution_type", requirements={"id" = "\d+"})
+     * @Security("has_role('DELETE_INSTITUTION')")
      */
     public function deleteInstitutionTypeAction(Request $request, $id)
     {

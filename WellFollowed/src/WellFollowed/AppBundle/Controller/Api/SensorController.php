@@ -2,6 +2,7 @@
 
 namespace WellFollowed\AppBundle\Controller\Api;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\AppBundle\Manager\SensorManager;
 use WellFollowed\AppBundle\Base\ApiController;
@@ -37,6 +38,7 @@ class SensorController extends ApiController
     /**
      * @Rest\Get(" ", name="get_sensors")
      * @Rest\View(serializerGroups={"details"})
+     * @Security("has_role('READ_EXPERIMENT')")
      */
     public function getSensorsAction(Request $request)
     {
@@ -46,6 +48,7 @@ class SensorController extends ApiController
 
     /**
      * @Rest\Get("/{name}", name="get_sensor", requirements={"name" = "[a-zA-Z0-9]+"})
+     * @Security("has_role('READ_EXPERIMENT')")
      */
     public function getSensorAction(Request $request, $sensorName)
     {
