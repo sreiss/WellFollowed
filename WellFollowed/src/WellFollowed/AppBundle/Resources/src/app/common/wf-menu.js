@@ -20,6 +20,9 @@ angular.module('wellFollowed').directive('wfMenu', function($wfMenu, $wfAuth) {
 
             scope.$on('refreshMenu', function() {
                 _menuItems(scope);
+                var currentUser = $wfAuth.getCurrentUser();
+                if (!!currentUser)
+                    scope.user = currentUser;
             });
 
             var unregister = scope.$watch(function() {

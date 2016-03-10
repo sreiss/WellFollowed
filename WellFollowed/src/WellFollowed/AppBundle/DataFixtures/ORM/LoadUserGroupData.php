@@ -40,6 +40,7 @@ class LoadUserGroupData implements FixtureInterface, ContainerAwareInterface, Or
                 'name' => 'admins',
                 'tag' => 'Administrateurs',
                 'roles' => [
+                    'READ_ADMIN',
                     'READ_EVENT',
                     'READ_EXPERIMENT',
                     'READ_INSTITUTION',

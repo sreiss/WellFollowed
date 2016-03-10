@@ -1,13 +1,13 @@
 angular.module('wellFollowed').factory('$wfMenu', function($wfAuth) {
     var _menus = {
         'main': [
-            { name: 'Expérience', state: 'experiment', right: 'access_experiment' },
-            { name: 'Calendrier', state: 'calendar', right: 'access_calendar' },
-            { name: 'Administration', right: 'access_admin', items:
+            { name: 'Expérience', state: 'experiment', role: 'READ_EXPERIMENT' },
+            { name: 'Calendrier', state: 'calendar', role: 'READ_EVENT' },
+            { name: 'Administration', role: 'READ_ADMIN', items:
                 [
-                    { name: "Établissements", state: 'admin.institutions', right: 'access_institution' },
-                    { name: "Types d'établissement", state: 'admin.institutionTypes', right: 'access_institution_type'},
-                    { name: "Utilisateurs", state: 'admin.users', right: 'access_user' }
+                    { name: "Établissements", state: 'admin.institutions', role: 'READ_INSTITUTION' },
+                    { name: "Types d'établissement", state: 'admin.institutionTypes', role: 'READ_INSTITUTION'},
+                    { name: "Utilisateurs", state: 'admin.users', role: 'READ_USER' }
                 ]
             }
         ],
@@ -18,7 +18,16 @@ angular.module('wellFollowed').factory('$wfMenu', function($wfAuth) {
     };
 
     var _getMenu = function(id) {
-        var menu = _menus[id];
+        var menu = [];
+        var currentUser = $wfAuth.getCurrentUser();
+        if (!!currentUser) {
+            for (var i = 0; i < _menus[id].length; i++) {
+                if (currentUser.roles.indexOf(_menus[id][i].role) > -1)
+                    menu.push(_menus[id][i]);
+            }
+        } else {
+            menu = _menus['noauth'];
+        }
         //if (id != 'noauth') {
         //    for (var i = 0; i < _menus[id].length; i++) {
         //        var right = _menus[id][i].right;
@@ -30,7 +39,7 @@ angular.module('wellFollowed').factory('$wfMenu', function($wfAuth) {
         //} else {
         //    menu = _menus[id];
         //}
-        return menu || [];
+        return menu;
     };
 
     return {
