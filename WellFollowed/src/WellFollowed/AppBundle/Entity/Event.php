@@ -60,6 +60,13 @@ class Event
     private $user;
 
     /**
+     * @var boolean
+     *
+     * @ORM\Column(name="cancelled", type="boolean")
+     */
+    private $cancelled;
+
+    /**
      * Get id
      *
      * @return integer
@@ -179,6 +186,22 @@ class Event
     public function setUser($user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCancelled()
+    {
+        return $this->cancelled;
+    }
+
+    /**
+     * @param boolean $cancelled
+     */
+    public function setCancelled($cancelled)
+    {
+        $this->cancelled = $cancelled;
     }
 }
 

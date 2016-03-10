@@ -35,6 +35,17 @@ class EventController extends ApiController
     }
 
     /**
+     * @Rest\Get("/{id}", name="get_event", requirements={"id" = "\d+"})
+     * @Rest\View(serializerGroups={"details"})
+     * @Security("has_role('READ_EVENT')")
+     */
+    public function getEventAction($id)
+    {
+        return $this->eventManager
+            ->getEvent($id);
+    }
+
+    /**
      * @Rest\Get(" ", name="get_events")
      * @Rest\View(serializerGroups={"list"})
      * @Rest\QueryParam(name="start", requirements="[0-9]{4}\-[0-1][0-9]-[0-3][0-9]\T[0-9]{2}\:[0-9]{2}\:[0-9]{2}\.[0-9]{3}[Z]?", default=null, nullable=true)

@@ -6,6 +6,10 @@ angular.module('wellFollowed').factory('$wfEvent', function($http, $wfUrl) {
         return $http.post(_baseUrl, event);
     };
 
+    var _getEvent = function(id) {
+        return $http.get(_baseUrl + '/' + id);
+    };
+
     var _getEvents = function(filter) {
         return $http.get(_baseUrl, { params: filter });
     };
@@ -16,6 +20,7 @@ angular.module('wellFollowed').factory('$wfEvent', function($http, $wfUrl) {
 
     return {
         getEvents: _getEvents,
+        getEvent: _getEvent,
         createEvent: _createEvent,
         deleteEvent: _deleteEvent
     };

@@ -4,7 +4,14 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
         templateUrl: 'planning/wf-planning-calendar.html',
         controller: function($scope) {
 
-            $scope.events = [];
+            $scope.events = {
+                events: []
+            };
+            $scope.cancelledEvents = {
+                color: '#eee',
+                textColor: '#999',
+                events: []
+            };
 
             $scope.eventsF = function (start, end, timezone, callback) {
                 var filter = {
@@ -15,7 +22,13 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
 
                 $wfEvent.getEvents(filter)
                     .success(function (result) {
-                        angular.merge($scope.events, result);
+                        result.map(function(event) {
+                            if (event.cancelled) {
+                                $scope.cancelledEvents.events.push(event);
+                            } else {
+                                $scope.events.events.push(event);
+                            }
+                        });
                         uiCalendarConfig.calendars
                             .eventsCalendar
                             .fullCalendar('refresh');
@@ -49,7 +62,7 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
                                 }
                             }))
                             .then(function(event) {
-                                $scope.events.push(event);
+                                $scope.events.events.push(event);
                             });
                     },
                     eventClick: function(event, jsEvent, view) {
@@ -68,7 +81,8 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
                                 }
                             }))
                             .then(function(event) {
-                                $scope.events.splice($scope.events.indexOf(event), 1);
+                                $scope.events.events.splice($scope.events.events.indexOf(event), 1);
+                                $scope.cancelledEvents.events.push(event);
                                 uiCalendarConfig.calendars
                                     .eventsCalendar
                                     .fullCalendar('refresh');
@@ -77,7 +91,7 @@ angular.module('wellFollowed').directive('wfPlanningCalendar', function($wfEvent
                 }
             };
 
-            $scope.eventSources = [$scope.eventsF, $scope.events];
+            $scope.eventSources = [$scope.eventsF, $scope.events, $scope.cancelledEvents];
         }
     };
 });

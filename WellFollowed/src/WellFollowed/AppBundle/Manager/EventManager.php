@@ -93,9 +93,12 @@ class EventManager
         $event->setStart($model->getStart());
         $event->setEnd($model->getEnd());
         $event->setDescription($model->getDescription());
+        $event->setCancelled(false);
 
         $this->entityManager->persist($event);
         $this->entityManager->flush();
+
+        $model->setId($event->getId());
 
         return $model;
     }
@@ -105,19 +108,17 @@ class EventManager
         $id = (int) $id;
 
         if ($id > 0) {
-            $qb = $this->entityManager
+            $event = $this->entityManager
                 ->getRepository('WellFollowedAppBundle:Event')
-                ->createQueryBuilder('e');
+                ->find($id);
 
-            $qb->delete('WellFollowed\AppBundle\Entity\Event', 'e')
-                ->where('e.id = :id')
-                ->setParameter('id', $id);
-
-            $deletedCount = $qb->getQuery()
-                ->execute();
-
-            if ($deletedCount == 0)
+            if ($event === null)
                 throw new WellFollowedException(ErrorCode::NOT_FOUND, null, 404);
+
+            $event->setCancelled(true);
+
+            $this->entityManager->persist($event);
+            $this->entityManager->flush();
 
             return true;
         }

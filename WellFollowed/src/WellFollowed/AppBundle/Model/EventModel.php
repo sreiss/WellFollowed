@@ -69,6 +69,15 @@ class EventModel {
      */
     private $user;
 
+    /**
+     * @var boolean
+     *
+     * @Serializer\Type("boolean")
+     * @Serializer\Expose
+     * @Serializer\Groups({"list", "details"})
+     */
+    private $cancelled;
+
     public function __construct(Event $event, UserModel $user = null)
     {
         $this->id = $event->getId();
@@ -77,6 +86,7 @@ class EventModel {
         $this->end = $event->getEnd();
         $this->description = $event->getDescription();
         $this->user = $user;
+        $this->cancelled = $event->isCancelled();
     }
 
     /**
@@ -173,5 +183,21 @@ class EventModel {
     public function setUser(UserModel $user)
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isCancelled()
+    {
+        return $this->cancelled;
+    }
+
+    /**
+     * @param boolean $cancelled
+     */
+    public function setCancelled($cancelled)
+    {
+        $this->cancelled = $cancelled;
     }
 }

@@ -9,7 +9,16 @@ angular.module('wellFollowed').directive('wfPlanningEventModal', function($wfEve
         },
         link: function(scope, element, attributes) {
 
-            scope.event = scope.data.event || {};
+            scope.event = null;
+
+            if (scope.data.type === scope.$parent.wfCrudTypes.create) {
+                scope.event = scope.data.event;
+            } else {
+                $wfEvent.getEvent(scope.data.event.id)
+                    .then(function (result) {
+                        scope.event = result.data;
+                    });
+            }
 
             scope.createEvent = function() {
                 $wfEvent.createEvent(scope.event).then(function(result) {
