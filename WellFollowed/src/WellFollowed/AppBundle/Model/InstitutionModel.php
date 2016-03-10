@@ -4,7 +4,6 @@ namespace WellFollowed\AppBundle\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 use WellFollowed\AppBundle\Entity\Institution;
-use WellFollowed\AppBundle\Model\InstitutionTypeModel;
 
 /**
  * Class InstitutionModel
@@ -29,7 +28,7 @@ class InstitutionModel
     private $tag;
 
     /**
-     * @Serializer\Type("WellFollowed\AppBundle\Model\InstitutionType\InstitutionTypeModel")
+     * @Serializer\Type("WellFollowed\AppBundle\Model\InstitutionTypeModel")
      * @Serializer\Expose
      * @Serializer\Groups({"list", "details"})
      */

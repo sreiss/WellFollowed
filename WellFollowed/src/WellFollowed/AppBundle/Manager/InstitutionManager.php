@@ -41,10 +41,7 @@ class InstitutionManager
             ->getResult();
 
         foreach ($institutions as $institution) {
-            $model = new InstitutionModel();
-            $model->setTag($institution->getTag());
-            $model->setId($institution->getId());
-            $model->setType(new InstitutionTypeModel($institution->getType()));
+            $model = new InstitutionModel($institution);
             $models[] = $model;
         }
 

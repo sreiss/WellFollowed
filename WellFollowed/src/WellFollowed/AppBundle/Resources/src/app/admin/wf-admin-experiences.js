@@ -1,7 +1,7 @@
-angular.module('wellFollowed').directive('wfAdminInstitutionType', function($wfInstitutionType, $state) {
+angular.module('wellFollowed').directive('wfAdminExperiences', function($wfInstitutionType, $state) {
     return {
         restrict: 'E',
-        templateUrl: 'admin/wf-admin-institution-type.html',
+        templateUrl: 'admin/wf-admin-experiences.html',
         scope: {
             institutionTypeId: '@'
         },
