@@ -62,7 +62,7 @@ class SensorManager
         $value->setExperienceId($this->experimentManager->getCurrentExperimentId());
         $this->createSensorValue($value);
 
-        $this->sensorClientManager->publish('sensor/data/sensor1', [
+        $this->sensorClientManager->publish('sensor/data/' . $model->getSensorName(), [
             'date' => $model->getDate(),
             'value' => $model->getValue()
         ]);

@@ -6,7 +6,7 @@ angular.module('wellFollowed').directive('wfSensorTemperatureGraph', function() 
        link: function(scope, element, attributes, wfExperiment) {
 
            var margin = {top: 20, right: 20, bottom: 30, left: 50},
-               width = element.width() - margin.left - margin.right,
+               width = angular.element(element.children()[0]).width() - margin.left - margin.right,
                height = 300 - margin.top - margin.bottom;
 
            var formatDate = d3.time.format("%d-%b-%y");
@@ -29,7 +29,7 @@ angular.module('wellFollowed').directive('wfSensorTemperatureGraph', function() 
                .x(function(d) { return x(d.date); })
                .y(function(d) { return y(d.close); });
 
-           var svg = d3.select(element[0]).append("svg")
+           var svg = d3.select(element.children()[0]).append("svg")
                .attr("width", width + margin.left + margin.right)
                .attr("height", height + margin.top + margin.bottom)
                .append("g")

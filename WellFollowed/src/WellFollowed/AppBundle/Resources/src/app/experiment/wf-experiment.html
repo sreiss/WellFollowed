@@ -14,10 +14,8 @@
                 </button>
             </div>
         </div>
-        <div class="row">
-            <div class="col-md-{{12 / sensors.length}}" ng-repeat="sensor in sensors" ng-show="sensor.displayed">
-                <wf-sensor-temperature sensor="sensor" style="display: block"></wf-sensor-temperature>
-            </div>
+        <div class="row" ng-repeat="sensor in sensors" ng-if="sensor.displayed">
+            <wf-sensor-temperature sensor="sensor" style="display: block"></wf-sensor-temperature>
         </div>
     </div>
 </div>
