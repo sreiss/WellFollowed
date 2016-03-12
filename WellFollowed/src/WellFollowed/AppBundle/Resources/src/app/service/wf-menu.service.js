@@ -1,9 +1,9 @@
 angular.module('wellFollowed').factory('$wfMenu', function($wfAuth) {
     var _menus = {
         'main': [
-            { name: 'Expérience', state: 'experiment', role: 'READ_EXPERIMENT' },
-            { name: 'Calendrier', state: 'calendar', role: 'READ_EVENT' },
-            { name: 'Administration', role: 'READ_ADMIN', items:
+            { name: 'Expérience', state: 'experiment', role: 'READ_EXPERIMENT', iconClass: "glyphicon glyphicon-tasks" },
+            { name: 'Calendrier', state: 'calendar', role: 'READ_EVENT', iconClass: "glyphicon glyphicon-calendar" },
+            { name: 'Administration', role: 'READ_ADMIN', iconClass: "glyphicon glyphicon-cog", items:
                 [
                     { name: "Établissements", state: 'admin.institutions', role: 'READ_INSTITUTION' },
                     { name: "Types d'établissement", state: 'admin.institutionTypes', role: 'READ_INSTITUTION'},

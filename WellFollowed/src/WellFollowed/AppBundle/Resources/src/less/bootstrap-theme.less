@@ -1,21 +1,47 @@
 @import './variables.less';
 
+body {
+  background-color: @bg;
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: @primary;
 }
 
 .navbar-default {
-  background-color: @bg;
+  background-color: @navbar-bg;
+  border-color: @navbar-border;
 }
 
 .navbar-default .navbar-brand {
-  color: @primary;
-  -webkit-transition: color 0.2s;
-  transition: color 0.2s;
+  color: @light;
+  background: @brand-bg;
+  border-right: 2px solid @primary;
+  -webkit-transition: color 0.2s, background-color 0.4s;
+  transition: color 0.2s, background-color 0.4s;
 }
 
 .navbar-default .navbar-brand:hover {
-  color: @secondary;
+  color: @light;
+  background: @primary;
+}
+
+.navbar-default .navbar-nav>li>a,
+.navbar-default .navbar-text {
+  color: @light;
+}
+
+
+.navbar-default .navbar-nav>li>a:focus,
+.navbar-default .navbar-nav>li>a:hover {
+  color: darken(@light, 10%);
+}
+
+.navbar-default .navbar-nav>.open>a,
+.navbar-default .navbar-nav>.open>a:focus,
+.navbar-default .navbar-nav>.open>a:hover {
+  background-color: @navbar-border;
+  color: @light;
 }
 
 .navbar-nav>li>a {
@@ -27,17 +53,26 @@ h1, h2, h3, h4, h5, h6 {
 
 .navbar-default .navbar-nav>li>a:focus,
 .navbar-default .navbar-nav>li>a:hover {
-  border-color: @primary;
-  background-color: transparent;
+  border-color: @navbar-border;
+  background-color: @navbar-border;
+}
+
+.panel-heading {
+  border-radius: 0;
+}
+
+.panel-default {
+  border-color: @navbar-bg;
 }
 
 .panel-default>.panel-heading {
-  color: @primary;
-  background-color: @bg;
+  color: @light;
+  background-color: @navbar-bg;
 }
 
 .panel {
   min-height: 132px;
+  border-radius: 0;
 }
 
 .btn-link.btn-link-danger {
