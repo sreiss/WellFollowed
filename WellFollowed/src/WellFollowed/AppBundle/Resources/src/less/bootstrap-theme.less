@@ -57,6 +57,36 @@ h1, h2, h3, h4, h5, h6 {
   background-color: @navbar-border;
 }
 
+.navbar-default .navbar-collapse,
+.navbar-default .navbar-form {
+  border-color: @navbar-border;
+}
+
+.navbar-default .navbar-toggle {
+  border-color: @primary;
+}
+
+.navbar-default .navbar-toggle:focus,
+.navbar-default .navbar-toggle:hover {
+  color: @light;
+  background-color: @primary;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+  background-color: @light;
+}
+
+@media (max-width: 767px) {
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    color: @light;
+  }
+
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:focus,
+  .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover {
+    color: darken(@light, 10%);
+  }
+}
+
 .panel-heading {
   border-radius: 0;
 }
