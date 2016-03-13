@@ -10,7 +10,11 @@ use JMS\Serializer\Annotation as Serializer;
  */
 class SensorMessageModel
 {
-    /** @var string */
+    /**
+     * @Serializer\Type("string")
+     * @Serializer\SerializedName("sensorName")
+     * @var string
+     */
     private $sensorName;
 
     /**
