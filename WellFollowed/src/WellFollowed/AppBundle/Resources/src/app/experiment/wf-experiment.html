@@ -3,19 +3,10 @@
         <div class="text-center">
             <h1>Experience</h1>
         </div>
-        <div class="btn-group btn-group-justified">
-            <div class="btn-group" ng-repeat="sensor in sensors">
-                <button class="btn btn-default" uib-popover="{{sensor.description}}"
-                        ng-class="{'active': sensor.displayed}"
-                        popover-trigger="mouseenter"
-                        popover-placement="bottom"
-                        ng-click="toggleSensor(sensor)">
-                    {{sensor.tag}}
-                </button>
+        <div class="row">
+            <div class="col-md-6" ng-repeat="sensor in sensors">
+                <wf-sensor-temperature sensor="sensor" style="display: block"></wf-sensor-temperature>
             </div>
-        </div>
-        <div class="row" ng-repeat="sensor in sensors" ng-if="sensor.displayed">
-            <wf-sensor-temperature sensor="sensor" style="display: block"></wf-sensor-temperature>
         </div>
     </div>
 </div>

@@ -68,12 +68,12 @@ angular.module('wellFollowed').directive('wfSensorTemperatureGraph', function() 
                //path.transition()
                //    .attr("transform", "translate(" + x(now - (n - 1) * duration) + ")");
                // update the domains
-               now = new Date(payload.msg.date);
+               now = new Date(payload.msg.date.date);
                x.domain([now - (n - 2) * duration, now - duration]);
                y.domain([0, d3.max(data)]);
 
                // push the accumulated count onto the back, and reset the count
-               data.push(payload.msg.val);
+               data.push(payload.msg.value);
                //count = 0;
 
                // redraw the line
