@@ -64,8 +64,6 @@ class SensorManager
 
         echo $model === null;
 
-        print_r($model);
-
         $this->sensorClientManager->publish('sensor/data/' . $model->getSensorName(), [
             'date' => $model->getDate(),
             'value' => $model->getValue()
