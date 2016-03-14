@@ -42,8 +42,6 @@ class WellFollowedSensorConsumer implements ConsumerInterface
 //        try {
             $sensorMessage = $message->body;
 
-        print_r($sensorMessage);
-
             $model = $this->serializer->deserialize($sensorMessage, 'WellFollowed\RecordingBundle\Model\NumericRecordModel', 'json', DeserializationContext::create()->setGroups(['sensor-server']));
 
             return $this->sensorManager->enqueue($model);
