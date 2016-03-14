@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Entity;
+namespace WellFollowed\RecordingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 

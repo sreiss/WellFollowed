@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Manager;
+namespace WellFollowed\RecordingBundle\Manager;
 
 use Doctrine\Common\Cache\ApcCache;
 use Gos\Component\WebSocketClient\Wamp\Client;
@@ -10,9 +10,9 @@ use WellFollowed\AppBundle\Base\WellFollowedException;
 
 /**
  * Class SensorClientManager
- * @package WellFollowed\AppBundle\Manager
+ * @package WellFollowed\RecordingBundle\Manager
  *
- * @DI\Service("well_followed.sensor_client_manager")
+ * @DI\Service("well_followed.recording.sensor_client_manager")
  */
 class SensorClientManager
 {

@@ -1,9 +1,9 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model;
+namespace WellFollowed\RecordingBundle\Model;
 
 use JMS\Serializer\Annotation as Serializer;
-use WellFollowed\AppBundle\Entity\Sensor;
+use WellFollowed\RecordingBundle\Entity\Sensor;
 
 /**
  * Class SensorModel
@@ -42,9 +42,7 @@ class SensorModel
 
     /**
      * SensorModel constructor.
-     * @param string $id
-     * @param string $tag
-     * @param string $description
+     * @param Sensor $sensor
      */
     public function __construct(Sensor $sensor)
     {

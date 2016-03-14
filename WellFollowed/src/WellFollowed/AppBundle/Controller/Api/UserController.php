@@ -11,8 +11,8 @@ use FOS\RestBundle\Controller\Annotations as Rest;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use JMS\DiExtraBundle\Annotation as DI;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
-use WellFollowed\AppBundle\Manager\UserManager;
-use WellFollowed\AppBundle\Model\UserModel;
+use WellFollowed\SecurityBundle\Manager\UserManager;
+use WellFollowed\SecurityBundle\Model\UserModel;
 
 /**
  * Class UserController
@@ -74,7 +74,6 @@ class UserController extends ApiController
     /**
      * @Rest\Post(" ", name="create_user")
      * @ParamConverter("model", options={"deserializationContext"={"groups"={"update", "details"}}})
-     * @Security("has_role('CREATE_USER')")
      */
     public function createUserAction(UserModel $model)
     {

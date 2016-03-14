@@ -4,10 +4,10 @@ namespace WellFollowed\AppBundle\Controller\Api;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Component\HttpFoundation\Request;
-use WellFollowed\AppBundle\Manager\SensorManager;
 use WellFollowed\AppBundle\Base\ApiController;
 use JMS\DiExtraBundle\Annotation as DI;
 use FOS\RestBundle\Controller\Annotations as Rest;
+use WellFollowed\RecordingBundle\Manager\SensorManager;
 
 /**
  * Class SensorController
@@ -27,7 +27,7 @@ class SensorController extends ApiController
      * @param SensorManager $sensorManager
      *
      * @DI\InjectParams({
-     *      "sensorManager" = @DI\Inject("well_followed.sensor_manager")
+     *      "sensorManager" = @DI\Inject("well_followed.recording.sensor_manager")
      * })
      */
     public function __construct(SensorManager $sensorManager)

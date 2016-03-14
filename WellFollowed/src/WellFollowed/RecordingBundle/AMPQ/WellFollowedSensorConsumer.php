@@ -1,20 +1,20 @@
 <?php
 
-namespace WellFollowed\AppBundle\AMPQ;
+namespace WellFollowed\RecordingBundle\AMPQ;
 
+use JMS\Serializer\DeserializationContext;
 use JMS\Serializer\Serializer;
 use OldSound\RabbitMqBundle\RabbitMq\ConsumerInterface;
 use PhpAmqpLib\Message\AMQPMessage;
 use JMS\DiExtraBundle\Annotation as DI;
-use Symfony\Component\Config\Definition\Exception\Exception;
-use WellFollowed\AppBundle\Manager\SensorManager;
+use WellFollowed\RecordingBundle\Manager\SensorManager;
 
 /**
  * Class WellFollowedSensorConsumer
- * @package WellFollowed\AppBundle\AMPQ
+ * @package WellFollowed\RecordingBundle\AMPQ
  * {@inheritdoc}
  *
- * @DI\Service("well_followed.sensor_consumer")
+ * @DI\Service("well_followed.recording.sensor_consumer")
  */
 class WellFollowedSensorConsumer implements ConsumerInterface
 {
@@ -23,7 +23,7 @@ class WellFollowedSensorConsumer implements ConsumerInterface
 
     /**
      * @DI\InjectParams({
-     *     "sensorManager" = @DI\Inject("well_followed.sensor_manager"),
+     *     "sensorManager" = @DI\Inject("well_followed.recording.sensor_manager"),
      *     "serializer" = @DI\Inject("jms_serializer")
      * })
      */
@@ -42,7 +42,9 @@ class WellFollowedSensorConsumer implements ConsumerInterface
 //        try {
             $sensorMessage = $message->body;
 
-            $model = $this->serializer->deserialize($sensorMessage, 'WellFollowed\AppBundle\Model\SensorMessageModel', 'json');
+        print_r($sensorMessage);
+
+            $model = $this->serializer->deserialize($sensorMessage, 'WellFollowed\RecordingBundle\Model\NumericRecordModel', 'json', DeserializationContext::create()->setGroups(['sensor-server']));
 
             return $this->sensorManager->enqueue($model);
 //        } catch (\Exception $e) {

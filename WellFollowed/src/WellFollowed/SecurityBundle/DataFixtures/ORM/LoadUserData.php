@@ -1,14 +1,13 @@
 <?php
 
-
-namespace WellFollowed\AppBundle\DataFixtures;
+namespace WellFollowed\SecurityBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use WellFollowed\AppBundle\Entity\User;
+use WellFollowed\SecurityBundle\Entity\User;
 
 class LoadUserData implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {

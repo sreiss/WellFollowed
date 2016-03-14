@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model;
+namespace WellFollowed\RecordingBundle\Model;
 
 use JMS\Serializer\Annotation as Serializer;
 

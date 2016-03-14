@@ -59,13 +59,16 @@ assetic:
 # Doctrine Configuration
 doctrine:
     dbal:
-        driver:   pdo_mysql
-        host:     "%database_host%"
-        port:     "%database_port%"
-        dbname:   "%database_name%"
-        user:     "%database_user%"
-        password: "%database_password%"
-        charset:  UTF8
+        default_connection: default
+        connections:
+            default:
+                driver:   pdo_mysql
+                host:     "%database_host%"
+                port:     "%database_port%"
+                dbname:   "%database_name%"
+                user:     "%database_user%"
+                password: "%database_password%"
+                charset:  UTF8
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
         #     e.g. database_path: "%kernel.root_dir%/data/data.db3"
@@ -142,18 +145,18 @@ fos_user:
     firewall_name: api                                  # Seems to be used when registering user/reseting password,
                                                         # but since there is no "login", as so it seems to be useless in
                                                         # our particular context, but still required by "FOSUserBundle"
-    user_class: WellFollowed\AppBundle\Entity\User
+    user_class: WellFollowed\SecurityBundle\Entity\User
     group:
-        group_class: WellFollowed\AppBundle\Entity\UserGroup
+        group_class: WellFollowed\SecurityBundle\Entity\UserGroup
 
 # FOS Oauth Bundle
 
 fos_oauth_server:
     db_driver:           orm
-    client_class:        WellFollowed\AppBundle\Entity\Client
-    access_token_class:  WellFollowed\AppBundle\Entity\AccessToken
-    refresh_token_class: WellFollowed\AppBundle\Entity\RefreshToken
-    auth_code_class:     WellFollowed\AppBundle\Entity\AuthCode
+    client_class:        WellFollowed\SecurityBundle\Entity\Client
+    access_token_class:  WellFollowed\SecurityBundle\Entity\AccessToken
+    refresh_token_class: WellFollowed\SecurityBundle\Entity\RefreshToken
+    auth_code_class:     WellFollowed\SecurityBundle\Entity\AuthCode
     service:
         user_provider: well_followed.user_manager             # This property will be used when valid credentials are given to load the user upon access token creation
 
@@ -185,4 +188,4 @@ old_sound_rabbit_mq:
             connection:       default
             exchange_options: {name: 'well_followed_sensor', type: direct}
             queue_options:    {name: 'well_followed_sensor'}
-            callback:         well_followed.sensor_consumer
+            callback:         well_followed.recording.sensor_consumer

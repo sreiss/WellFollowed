@@ -1,16 +1,15 @@
 <?php
 
+namespace WellFollowed\SecurityBundle\Entity;
 
-namespace WellFollowed\AppBundle\Entity;
-
-use FOS\OAuthServerBundle\Entity\AccessToken as OAuthAccessToken;
+use FOS\OAuthServerBundle\Entity\AuthCode as OAuthAuthCode;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table("oauth2_access_token")
+ * @ORM\Table("auth_code")
  * @ORM\Entity
  */
-class AccessToken extends OAuthAccessToken
+class AuthCode extends OAuthAuthCode
 {
     /**
      * @ORM\Id

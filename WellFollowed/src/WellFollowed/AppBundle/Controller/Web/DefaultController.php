@@ -6,7 +6,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use WellFollowed\AppBundle\Base\BaseController;
-use WellFollowed\AppBundle\Entity\User;
+use WellFollowed\SecurityBundle\Entity\User;
 
 class DefaultController extends Controller
 {

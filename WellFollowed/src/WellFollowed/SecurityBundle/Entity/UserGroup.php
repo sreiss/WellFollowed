@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Entity;
+namespace WellFollowed\SecurityBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use FOS\UserBundle\Entity\Group as FOSGroup;

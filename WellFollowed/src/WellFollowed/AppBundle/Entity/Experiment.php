@@ -29,9 +29,9 @@ class Experiment
     private $name;
 
     /**
-     * @var \WellFollowed\AppBundle\Entity\User
+     * @var \WellFollowed\SecurityBundle\Entity\User
      *
-     * @ORM\ManyToOne(targetEntity="WellFollowed\AppBundle\Entity\User", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="WellFollowed\SecurityBundle\Entity\User", cascade={"persist"})
      * @ORM\JoinColumn(name="initiator_id", referencedColumnName="id")
      */
     private $initiator;
@@ -45,9 +45,9 @@ class Experiment
     private $event;
 
     /**
-     * @var \WellFollowed\AppBundle\Entity\User[]
+     * @var \WellFollowed\SecurityBundle\Entity\User[]
      *
-     * @ORM\ManyToMany(targetEntity="WellFollowed\AppBundle\Entity\User", inversedBy="experiences", cascade={"persist"})
+     * @ORM\ManyToMany(targetEntity="WellFollowed\SecurityBundle\Entity\User", inversedBy="experiences", cascade={"persist"})
      * @ORM\JoinTable(name="experice_allowed_users",
      *      joinColumns={@ORM\JoinColumn(name="experience_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")}
@@ -80,7 +80,7 @@ class Experiment
     }
 
     /**
-     * @return \WellFollowed\AppBundle\Entity\User
+     * @return \WellFollowed\SecurityBundle\Entity\User
      */
     public function getInitiator()
     {
@@ -88,7 +88,7 @@ class Experiment
     }
 
     /**
-     * @param \WellFollowed\AppBundle\Entity\User
+     * @param \WellFollowed\SecurityBundle\Entity\User
      */
     public function setInitiator(User $initiator)
     {
@@ -96,7 +96,7 @@ class Experiment
     }
 
     /**
-     * @return \WellFollowed\AppBundle\Entity\User[]
+     * @return \WellFollowed\SecurityBundle\Entity\User[]
      */
     public function getAllowedUsers()
     {
@@ -104,7 +104,7 @@ class Experiment
     }
 
     /**
-     * @param \WellFollowed\AppBundle\Entity\User[] $allowedUsers
+     * @param \WellFollowed\SecurityBundle\Entity\User[] $allowedUsers
      */
     public function setAllowedUsers($allowedUsers)
     {

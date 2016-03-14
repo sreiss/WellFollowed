@@ -1,22 +1,16 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: sreiss
- * Date: 04/01/2016
- * Time: 22:24
- */
 
-namespace WellFollowed\AppBundle\Entity;
+namespace WellFollowed\RecordingBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * SensorValue
+ * RecordingValue
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class SensorValue
+class RecordingValue
 {
     /**
      * @var integer
@@ -48,26 +42,12 @@ class SensorValue
     private $sensorName;
 
     /**
-     * @var \WellFollowed\AppBundle\Entity\Sensor
+     * @var \WellFollowed\RecordingBundle\Entity\Sensor
      *
-     * @ORM\OneToOne(targetEntity="WellFollowed\AppBundle\Entity\Sensor", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="WellFollowed\RecordingBundle\Entity\Sensor", cascade={"persist"})
      * @ORM\JoinColumn(name="sensor_name", referencedColumnName="name")
      */
     private $sensor;
-
-    /**
-     * @var int
-     * @ORM\Column(name="experience_id", type="integer")
-     */
-    private $experienceId;
-
-    /**
-     * @var \WellFollowed\AppBundle\Entity\Experiment
-     *
-     * @ORM\OneToOne(targetEntity="WellFollowed\AppBundle\Entity\Experiment", cascade={"persist"})
-     * @ORM\JoinColumn(name="experiment_id", referencedColumnName="id")
-     */
-    private $experience;
 
     /**
      * @return mixed
@@ -126,22 +106,6 @@ class SensorValue
     }
 
     /**
-     * @return Experience
-     */
-    public function getExperience()
-    {
-        return $this->experience;
-    }
-
-    /**
-     * @param Experience $experience
-     */
-    public function setExperience($experience)
-    {
-        $this->experience = $experience;
-    }
-
-    /**
      * @return string
      */
     public function getSensorName()
@@ -155,21 +119,5 @@ class SensorValue
     public function setSensorName($sensorName)
     {
         $this->sensorName = $sensorName;
-    }
-
-    /**
-     * @return int
-     */
-    public function getExperienceId()
-    {
-        return $this->experienceId;
-    }
-
-    /**
-     * @param int $experienceId
-     */
-    public function setExperienceId($experienceId)
-    {
-        $this->experienceId = $experienceId;
     }
 }

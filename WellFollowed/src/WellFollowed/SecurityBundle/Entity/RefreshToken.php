@@ -1,15 +1,15 @@
 <?php
 
-namespace WellFollowed\AppBundle\Entity;
+namespace WellFollowed\SecurityBundle\Entity;
 
-use FOS\OAuthServerBundle\Entity\AuthCode as OAuthAuthCode;
+use FOS\OAuthServerBundle\Entity\RefreshToken as BaseRefreshToken;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table("oauth2_auth_code")
+ * @ORM\Table("refresh_token")
  * @ORM\Entity
  */
-class AuthCode extends OAuthAuthCode
+class RefreshToken extends BaseRefreshToken
 {
     /**
      * @ORM\Id

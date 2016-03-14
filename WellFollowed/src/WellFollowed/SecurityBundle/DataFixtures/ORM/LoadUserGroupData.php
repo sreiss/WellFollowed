@@ -1,15 +1,13 @@
 <?php
 
-
-namespace WellFollowed\AppBundle\DataFixtures\ORM;
-
+namespace WellFollowed\SecurityBundle\DataFixtures\ORM;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\DataFixtures\OrderedFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use WellFollowed\AppBundle\Entity\UserGroup;
+use WellFollowed\SecurityBundle\Entity\UserGroup;
 
 class LoadUserGroupData implements FixtureInterface, ContainerAwareInterface, OrderedFixtureInterface
 {

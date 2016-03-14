@@ -26,6 +26,8 @@ class AppKernel extends Kernel
             new FOS\UserBundle\FOSUserBundle(),
             new FOS\OAuthServerBundle\FOSOAuthServerBundle(),
             new Nelmio\ApiDocBundle\NelmioApiDocBundle(),
+            new WellFollowed\SecurityBundle\WellFollowedSecurityBundle(),
+            new WellFollowed\RecordingBundle\WellFollowedRecordingBundle(),
             new WellFollowed\AppBundle\WellFollowedAppBundle(),
         );
 

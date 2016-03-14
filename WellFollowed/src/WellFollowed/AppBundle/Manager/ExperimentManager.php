@@ -10,6 +10,7 @@ use WellFollowed\AppBundle\Base\WellFollowedException;
 use WellFollowed\AppBundle\Entity\Experiment;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
 use WellFollowed\AppBundle\Model\ExperimentModel;
+use WellFollowed\SecurityBundle\Manager\UserManager;
 
 /**
  * Class ExperimentManager

@@ -1,20 +1,21 @@
 <?php
 
-namespace WellFollowed\AppBundle\Manager;
+namespace WellFollowed\RecordingBundle\Manager;
 
 use Doctrine\ORM\EntityManager;
 use JMS\DiExtraBundle\Annotation as DI;
-use WellFollowed\AppBundle\Entity\SensorValue;
+use WellFollowed\AppBundle\Manager\ExperimentManager;
 use WellFollowed\AppBundle\Manager\Filter\SensorFilter;
-use WellFollowed\AppBundle\Model\SensorMessageModel;
-use WellFollowed\AppBundle\Model\SensorModel;
-use WellFollowed\AppBundle\Topic\SensorTopic;
+use WellFollowed\RecordingBundle\Entity\RecordingValue;
+use WellFollowed\RecordingBundle\Model\RecordModel;
+use WellFollowed\RecordingBundle\Model\SensorModel;
+use WellFollowed\RecordingBundle\Topic\SensorTopic;
 
 /**
  * Class SensorManager
- * @package WellFollowed\AppBundle\Manager
+ * @package WellFollowed\RecordingBundle\Manager
  *
- * @DI\Service("well_followed.sensor_manager")
+ * @DI\Service("well_followed.recording.sensor_manager")
  */
 class SensorManager
 {
@@ -38,8 +39,8 @@ class SensorManager
      * @DI\InjectParams({
      *      "entityManager" = @DI\Inject("doctrine.orm.entity_manager"),
      *      "experimentManager" = @DI\Inject("well_followed.experiment_manager"),
-     *      "sensorClientManager" = @DI\Inject("well_followed.sensor_client_manager"),
-     *      "sensorTopic" = @DI\Inject("well_followed.sensor_topic")
+     *      "sensorClientManager" = @DI\Inject("well_followed.recording.sensor_client_manager"),
+     *      "sensorTopic" = @DI\Inject("well_followed.recording.sensor_topic")
      * })
      */
     public function __construct(EntityManager $entityManager, ExperimentManager $experimentManager, SensorClientManager $sensorClientManager, SensorTopic $sensorTopic)
@@ -50,19 +51,20 @@ class SensorManager
         $this->sensorTopic = $sensorTopic;
     }
 
-    public function enqueue(SensorMessageModel $model)
+    public function enqueue(RecordModel $model)
     {
         if (!isset($this->sensorQueues[$model->getSensorName()]))
             $this->sensorQueues[$model->getSensorName()] = [];
 
-        $value = new SensorValue();
+        $value = new RecordingValue();
         $value->setDate($model->getDate());
         $value->setValue($model->getValue());
         $value->setSensorName($model->getSensorName());
-        $value->setExperienceId($this->experimentManager->getCurrentExperimentId());
         $this->createSensorValue($value);
 
         echo $model === null;
+
+        print_r($model);
 
         $this->sensorClientManager->publish('sensor/data/' . $model->getSensorName(), [
             'date' => $model->getDate(),
@@ -72,7 +74,7 @@ class SensorManager
         return true;
     }
 
-    private function createSensorValue(SensorValue $value)
+    private function createSensorValue(RecordingValue $value)
     {
         $this->entityManager->persist($value);
     }
@@ -117,7 +119,7 @@ class SensorManager
     public function getSensors(SensorFilter $filter = null)
     {
         $qb = $this->entityManager
-            ->getRepository('WellFollowedAppBundle:Sensor')
+            ->getRepository('WellFollowedRecordingBundle:Sensor')
             ->createQueryBuilder('s');
 
         if (!is_null($filter)) {
@@ -138,7 +140,7 @@ class SensorManager
 
     public function getSensor($sensorName)
     {
-        $sensor = $this->entityManager->getRepository('WellFollowedAppBundle:Sensor')
+        $sensor = $this->entityManager->getRepository('WellFollowedRecordingBundle:Sensor')
             ->find($sensorName);
 
         return new SensorModel($sensor);

@@ -1,13 +1,12 @@
 <?php
 
-
-namespace WellFollowed\AppBundle\Entity;
+namespace WellFollowed\SecurityBundle\Entity;
 
 use FOS\OAuthServerBundle\Entity\Client as OAuthClient;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table("oauth2_client")
+ * @ORM\Table("client")
  * @ORM\Entity
  */
 class Client extends OAuthClient

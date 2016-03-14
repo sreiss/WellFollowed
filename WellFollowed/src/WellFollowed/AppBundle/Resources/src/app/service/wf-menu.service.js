@@ -25,7 +25,7 @@ angular.module('wellFollowed').factory('$wfMenu', function($wfAuth) {
                 if (currentUser.roles.indexOf(_menus[id][i].role) > -1)
                     menu.push(_menus[id][i]);
             }
-        } else {
+        } else if (id === 'noauth') {
             menu = _menus['noauth'];
         }
         //if (id != 'noauth') {

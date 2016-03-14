@@ -5,7 +5,7 @@ namespace WellFollowed\AppBundle\DataFixtures;
 
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
-use WellFollowed\AppBundle\Entity\Sensor;
+use WellFollowed\RecordingBundle\Entity\Sensor;
 
 class LoadSensorData implements FixtureInterface
 {

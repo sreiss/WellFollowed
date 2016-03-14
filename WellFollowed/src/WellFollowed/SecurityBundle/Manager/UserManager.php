@@ -1,13 +1,13 @@
 <?php
 
-namespace WellFollowed\AppBundle\Manager;
+namespace WellFollowed\SecurityBundle\Manager;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use FOS\UserBundle\Util\CanonicalizerInterface;
 use Symfony\Component\Security\Core\Encoder\EncoderFactoryInterface;
-use WellFollowed\AppBundle\Entity\User;
+use WellFollowed\SecurityBundle\Entity\User;
 use WellFollowed\AppBundle\Manager\Filter\UserFilter;
-use WellFollowed\AppBundle\Model\UserModel;
+use WellFollowed\SecurityBundle\Model\UserModel;
 use WellFollowed\AppBundle\Base\ErrorCode;
 use WellFollowed\AppBundle\Base\WellFollowedException;
 use JMS\DiExtraBundle\Annotation as DI;
@@ -91,7 +91,7 @@ class UserManager extends FOSUserManager
 
     /**
      * @param $username
-     * @return \WellFollowed\AppBundle\Entity\User
+     * @return \WellFollowed\SecurityBundle\Entity\User
      */
     public function getUserAsEntity($username)
     {

@@ -10,7 +10,7 @@ angular.module('wellFollowed').directive('wfSensorTemperatureGraph', function() 
                now = new Date(Date.now() - duration),
                data = d3.range(n).map(function() { return 0; });
 
-           var margin = {top: 6, right: 0, bottom: 20, left: 40},
+           var margin = {top: 6, right: 40, bottom: 20, left: 40},
                width = element.width() - margin.right,
                height = 120 - margin.top - margin.bottom;
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace WellFollowed\AppBundle\Entity;
+namespace WellFollowed\SecurityBundle\Entity;
 
 use FOS\UserBundle\Entity\User as FOSUser;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,7 +44,7 @@ class User extends FOSUser
     private $subscriptionDate;
 
     /**
-     * @ORM\ManyToMany(targetEntity="WellFollowed\AppBundle\Entity\UserGroup")
+     * @ORM\ManyToMany(targetEntity="WellFollowed\SecurityBundle\Entity\UserGroup")
      * @ORM\JoinTable(name="user_user_group",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      *      inverseJoinColumns={@ORM\JoinColumn(name="group_id", referencedColumnName="id")}

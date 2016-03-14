@@ -1,18 +1,17 @@
 <?php
-namespace WellFollowed\AppBundle\Topic;
+namespace WellFollowed\RecordingBundle\Topic;
 
 use Gos\Bundle\WebSocketBundle\Topic\TopicInterface;
 use Ratchet\ConnectionInterface;
 use Ratchet\Wamp\Topic;
 use Gos\Bundle\WebSocketBundle\Router\WampRequest;
 use JMS\DiExtraBundle\Annotation as DI;
-use WellFollowed\AppBundle\Contract\Manager\SensorManagerInterface;
 
 /**
  * Class SensorTopic
- * @package WellFollowed\AppBundle\Topic
+ * @package WellFollowed\RecordingBundle\Topic
  *
- * @DI\Service("well_followed.sensor_topic")
+ * @DI\Service("well_followed.recording.sensor_topic")
  * @DI\Tag("gos_web_socket.topic")
  */
 class SensorTopic implements TopicInterface
@@ -83,6 +82,6 @@ class SensorTopic implements TopicInterface
      */
     public function getName()
     {
-        return 'wellfollowed.sensor';
+        return 'well_followed.recording.sensor';
     }
 }

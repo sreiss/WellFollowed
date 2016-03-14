@@ -1,13 +1,13 @@
 <?php
 
-namespace WellFollowed\AppBundle\Model;
+namespace WellFollowed\SecurityBundle\Model;
 
-use WellFollowed\AppBundle\Entity\User;
+use WellFollowed\SecurityBundle\Entity\User;
 use JMS\Serializer\Annotation as Serializer;
 
 /**
  * Class UserModel
- * @package WellFollowed\AppBundle\Model
+ * @package WellFollowed\SecurityBundle\Model
  *
  * @Serializer\ExclusionPolicy("all")
  */
